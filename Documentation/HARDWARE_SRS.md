@@ -6,7 +6,11 @@
 
 ### 1.2 Target Audience
 
+The target audience of the product is municipalities which have an interest in monitoring waterlevels and risk of floods in certain areas.  
+
 ### 1.3 Intended Use
+
+The product is intended to be partially placed on the rim of a lake such that the pressuresensor is under water and the ultrasound sensor above the surface of the lake. The product will then send data to a backend server which will then serve it to a website.  
 
 ### 1.4 Definitions and Abbreviations
 
