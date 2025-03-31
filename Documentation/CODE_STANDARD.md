@@ -13,13 +13,11 @@ This is the code standard for the hardware portion of the Chas Challange 2025 pr
 Curly-brackets on the next row:
 
 ```cpp
-// Function
 void function()
 {
 
 }
 
-// Method
 void namespace::function()
 {
 
