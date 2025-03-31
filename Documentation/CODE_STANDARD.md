@@ -4,9 +4,9 @@ This is the code standard for the hardware portion of the Chas Challange 2025 pr
 
 ## Naming conventions
 
-**Methods and functions:** camelCase
+**Functions:** camelCase
+**Namespaces:** camelCase
 **Variables:** snake_case
-**Classes:** PascalCase
 
 ## Braces
 
