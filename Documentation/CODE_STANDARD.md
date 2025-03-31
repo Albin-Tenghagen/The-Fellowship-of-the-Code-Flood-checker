@@ -20,7 +20,7 @@ void function()
 }
 
 // Method
-void clazz::function()
+void namespace::function()
 {
 
 }
