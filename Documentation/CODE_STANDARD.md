@@ -6,6 +6,7 @@ This is the code standard for the hardware portion of the Chas Challange 2025 pr
 
 - **Functions:** camelCase
 - **Namespaces:** camelCase
+- **Structs**: PascalCase
 - **Variables:** snake_case
 
 ## Braces
