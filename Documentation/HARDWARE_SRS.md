@@ -35,6 +35,33 @@ The product is intended to be partially placed on the rim of a lake such that th
 ## 2. System Requirements
 
 ### 2.1 Functional Requirements
+The system shall:
+
+- Read the pressure at the bottom of a water mass.
+
+- Read the water level of a water mass.
+
+- Read the soil moisture of a field.
+
+- Read the temperature.
+
+- Read the humidity.
+
+- Calculate the average water level.
+
+- Calculate the average water pressure.
+
+- Calculate the speed of sound from temperature and humidity.
+
+- Calculate the distance from the ultrasonic device to the water level.
+
+- Calculate the water level from the pressure sensor data.
+
+- Send the gathered data to a router for database storage.
+
+- Transmit pressure data from the microcontroller in the water to the microcontroller onshore using LoRa.
+
+- Operate using solar panels and batteries for continuous operation.
 
 ### 2.2 Non-Functional Requirements
 
