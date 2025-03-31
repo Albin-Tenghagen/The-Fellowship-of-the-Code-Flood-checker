@@ -1,55 +1,45 @@
 # Requirement specification
 
-## 1. Introduktion
+## 1. Introduction
 
-### 1.1 Produkts omfång
+### 1.1 Product Scope
 
+### 1.2 Target Audience
 
-### 1.2 Målgrupp
+### 1.3 Intended Use
 
+### 1.4 Definitions and Abbreviations
 
-### 1.3 Avsedd användning
-
-
-### 1.4 Definitioner och Förkortningar
-
-
-### 1.5 Innehållsförteckning
+### 1.5 Table of Contents
 
 - [Requirement specification](#requirement-specification)
-  - [1. Introduktion](#1-introduktion)
-    - [1.1 Produkts omfång](#11-produkts-omfång)
-    - [1.2 Målgrupp](#12-målgrupp)
-    - [1.3 Avsedd användning](#13-avsedd-användning)
-    - [1.4 Definitioner och Förkortningar](#14-definitioner-och-förkortningar)
-    - [1.5 Innehållsförteckning](#15-innehållsförteckning)
-  - [2. Systemkrav](#2-systemkrav)
-    - [2.1 Funktionella krav](#21-funktionella-krav)
-    - [2.2 Icke-funktionella krav](#22-icke-funktionella-krav)
-    - [2.3 Krav på hårdvara](#23-krav-på-hårdvara)
-  - [3. Krav på externt gränssnitt](#3-krav-på-externt-gränssnitt)
-    - [3.1 Användargränssnitt](#31-användargränssnitt)
-    - [3.2 Hårdvarugränssnitt](#32-hårdvarugränssnitt)
-    - [3.3 Mjukvarugränssnitt](#33-mjukvarugränssnitt)
+  - [1. Introduction](#1-introduction)
+    - [1.1 Product Scope](#11-product-scope)
+    - [1.2 Target Audience](#12-target-audience)
+    - [1.3 Intended Use](#13-intended-use)
+    - [1.4 Definitions and Abbreviations](#14-definitions-and-abbreviations)
+    - [1.5 Table of Contents](#15-table-of-contents)
+  - [2. System Requirements](#2-system-requirements)
+    - [2.1 Functional Requirements](#21-functional-requirements)
+    - [2.2 Non-Functional Requirements](#22-non-functional-requirements)
+    - [2.3 Hardware Requirements](#23-hardware-requirements)
+  - [3. External Interface Requirements](#3-external-interface-requirements)
+    - [3.1 User Interface](#31-user-interface)
+    - [3.2 Hardware Interface](#32-hardware-interface)
+    - [3.3 Software Interface](#33-software-interface)
 
+## 2. System Requirements
 
-## 2. Systemkrav 
+### 2.1 Functional Requirements
 
-### 2.1 Funktionella krav
+### 2.2 Non-Functional Requirements
 
+### 2.3 Hardware Requirements
 
-### 2.2 Icke-funktionella krav
+## 3. External Interface Requirements
 
+### 3.1 User Interface
 
-### 2.3 Krav på hårdvara
+### 3.2 Hardware Interface
 
-
-## 3. Krav på externt gränssnitt
-
-### 3.1 Användargränssnitt
-
-
-### 3.2 Hårdvarugränssnitt
-
-
-### 3.3 Mjukvarugränssnitt
+### 3.3 Software Interface
