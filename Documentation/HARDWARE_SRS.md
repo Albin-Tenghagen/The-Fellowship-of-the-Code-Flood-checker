@@ -61,9 +61,18 @@ The system shall:
 
 - Transmit pressure data from the microcontroller in the water to the microcontroller onshore using LoRa.
 
-- Operate using solar panels and batteries for continuous operation.
 
 ### 2.2 Non-Functional Requirements
+
+The system shall: 
+
+-  Use secure, encrypted, communication protocols when communicating to the database
+
+- Use encrypted communication between units.
+
+- be modular (make libraries)
+ 
+- measure values from sensors every 100 millisecond under 5 seconds, and then pause for 30 minutes and then measure again. 
 
 ### 2.3 Hardware Requirements
 
