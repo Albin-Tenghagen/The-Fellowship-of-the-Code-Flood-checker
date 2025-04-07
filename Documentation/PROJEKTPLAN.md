@@ -263,12 +263,11 @@
 
 ## Vad kommer behöva köpas in?
 
-1. Vattentryckssensor, Pris 229kr Länk: https://amzn.eu/d/aZBImTk
-2. Transistorer, Pris 117kr Länk: https://amzn.eu/d/8aY95bV
-3. Regulatorblock, Pris 83kr Länk: https://amzn.eu/d/83tTiUT
-4. Batteri x2, Pris 184kr Länk: https://amzn.eu/d/cvTPiAc
-5. Mikrokontroller x2, Pris 262kr Länk: https://amzn.eu/d/dmU1WWF
-6. Solcellspanel, Pris 252kr Länk: https://amzn.eu/d/ipTiQ3W
-   Total kostnad: ca 1600kr
+1. Water level sensor, Price 399kr Link: https://amzn.eu/d/7HDqABt 
+2. Transistors, Price 118kr Link: https://amzn.eu/d/8aY95bV
+3. Boost converters,  Price 77 kr Link: https://amzn.eu/d/8Bssg6y 
+4. Microcontroller 2x, Price 262kr each Link: https://amzn.eu/d/dmU1WWF
+5. Breadboards kit 3x (Can choose quantity 3 in store), Price 159 kr Link: https://amzn.eu/d/f1X8pQU 
+   Total kostnad: ca 1300kr
 
-- Nuvarande budget lämnar en buffert på 400kr som lämnades avsiktligt för att ha råd för inköp som kan behövas senare. Som tillexempel nånting att hålla komponenterna i, sensorer eller dylikt som saknas för att slutföra projektet.
+- Nuvarande budget lämnar en buffert på 700kr som lämnades avsiktligt för att ha råd för inköp som kan behövas senare. Som tillexempel nånting att hålla komponenterna i, sensorer eller dylikt som saknas för att slutföra projektet.
