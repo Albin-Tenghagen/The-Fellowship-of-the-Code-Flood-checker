@@ -61,6 +61,10 @@ The system shall:
 
 - Transmit pressure data from the microcontroller in the water to the microcontroller onshore using LoRa.
 
+- One unit shall communicate with the router while the other router sends data to the first unit.
+
+- If one unit goes down the data shall be sent from the sensor which is still alive.
+
 
 ### 2.2 Non-Functional Requirements
 
