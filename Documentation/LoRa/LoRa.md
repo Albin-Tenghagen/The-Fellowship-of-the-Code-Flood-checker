@@ -8,7 +8,7 @@ This directory is aimed at documenting different sources, required materials, ne
 - [What is LoRa & LoRaWan?](https://www.mokosmart.com/lora-technology/)
 - [Datasheet](https://cdn.sparkfun.com/assets/7/7/3/2/2/SX1276_Datasheet.pdf)
 - [Library which could be used](https://github.com/sandeepmistry/arduino-LoRa)
-
+- [Guide to Heltek board](https://github.com/HelTecAutomation/Heltec_ESP32)
 
 ## Research
 
