@@ -65,6 +65,8 @@ The system shall:
 
 - If one unit goes down the data shall be sent from the sensor which is still alive.
 
+- The units shall use the 433.05 MHz band to communicate.
+
 
 ### 2.2 Non-Functional Requirements
 
