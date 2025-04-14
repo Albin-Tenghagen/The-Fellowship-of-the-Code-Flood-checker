@@ -10,6 +10,11 @@ This directory is aimed at documenting different sources, required materials, ne
 - [Library which could be used](https://github.com/sandeepmistry/arduino-LoRa)
 - [Guide to Heltek board](https://github.com/HelTecAutomation/Heltec_ESP32)
 
+## Laws
+
+- https://fbradio.se/info/vad-sager-lagen-om-komradio-och-radiokommunikation/
+- [LPD scannersverige](https://scannersverige.se/frekvenser-lpd-433-mhz/)
+- [LPD Wikipedia](https://en.wikipedia.org/wiki/LPD433)
 ## Research
 
 The code can not really be tested without hardware and there are a lack of LoRa simulators (no SPICE).
