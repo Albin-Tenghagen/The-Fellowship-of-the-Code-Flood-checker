@@ -20,3 +20,6 @@ I have started to look up how to use a soilmoisture sensor and how it works. I a
 
 #### 2025-04-14 ####
 Today I started to make a small sketch in tinkercad over how you wire the soilmoisture sensor toghter with a microcontroller. I also made the function that translate the gathered value to precentages so it is easier to understand what the value actually means. I found out that the microcontroller we will use isn't supported in tinkercad, so the group started to look up if we can use something else, and we ended on Fritzing.  
+
+#### 2025-04-28 ####
+Today I have started to write code for the Soil Moisture sensor. I have built the circuit and tried the sensor as well, it works fine. I had to build it with the Arduino Uno R4 microcontroller though, but it works. When we run it on the right microcontroller I will have to change some things. I will also fix a calibration sample of soil to the next time we will work with this so I can get accurate readings. 

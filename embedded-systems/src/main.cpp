@@ -1,18 +1,42 @@
 #include <Arduino.h>
 
-// put function declarations here:
-int myFunction(int, int);
+uint16_t SoilSensor = A0;
+uint16_t SoilReadingValue = 0;;
+uint8_t SoilReadingValueInPrecentage;
 
-void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+unsigned long previousReading = 0;
+unsigned long intervalReading = 10000;
+
+void setup() 
+{
+  pinMode(SoilSensor,INPUT); 
+  Serial.begin(9600);
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
+void loop() 
+{
+  if(millis() - previousReading >= intervalReading) 
+  {
+    previousReading = millis();
+    readSoilMoistureSensor();
+    turnSoilMoistureToPrecentage(); 
+    printSoilMoistureSensorValues();
+  }
+ 
 }
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+void readSoilMoistureSensor()
+{
+  SoilReadingValue = analogRead(SoilSensor);
+}
+
+void printSoilMoistureSensorValues()
+{
+  Serial.println(SoilReadingValue);
+  Serial.println(SoilReadingValueInPrecentage);
+}
+
+void turnSoilMoistureToPrecentage()
+{
+  SoilReadingValueInPrecentage = map(SoilReadingValue, 340, 1023, 100, 0);
 }
