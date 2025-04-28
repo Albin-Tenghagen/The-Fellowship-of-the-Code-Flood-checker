@@ -16,13 +16,12 @@ void _setup() {
     Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disable*/, true /*Serial Enable*/);
     Heltec.display->setFont(ArialMT_Plain_10);
 
-    Heltec.display->clear();
+    Heltec.display->clear(); // Clear buffer
 
-    drawCircleDemo();
-    Heltec.display->display();
+    drawCircleDemo(); // Draws image
+    Heltec.display->display(); // Load image onto screen
 }
 
 void _loop() {
-    Heltec.display->clear();
 
 }
