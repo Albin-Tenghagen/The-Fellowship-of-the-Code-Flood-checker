@@ -18,6 +18,16 @@ This directory is aimed at documenting different sources, required materials, ne
 - [CEPT](https://cept.org/cept/cept-country-codes)
 - [Excel, Post- och telestyrelsen](https://pts.se/radio/spektrumforvaltning/inriktningsplan-for-spektrumhantering-excel/)
 - [Frekvensplanen](https://frekvensplanen.pts.se/)
+
+## OLED
+
+- [Examples](https://github.com/HelTecAutomation/Heltec_ESP32/blob/master/examples/OLED/)
+- [Simple demo](https://github.com/HelTecAutomation/Heltec_ESP32/blob/master/examples/OLED/SimpleDemo/SimpleDemo.ino)
+
+## LoRa
+
+- [Ping Pong](https://github.com/HelTecAutomation/Heltec_ESP32/blob/master/examples/LoRaBasic/pingpong/pingpong.ino)
+
 ## Research
 
 The code can not really be tested without hardware and there are a lack of LoRa simulators (no SPICE).
@@ -31,3 +41,7 @@ One thing that I noticed during research is that there is a lack of easily acces
 This session I have researched laws and frequencies we will be able to use without needing a licens. According to Wikipedia we should be able to use the LPD433 band (433.05 MHz). This band is used for Low Power Devices which fits our description and use-case. This band is license free in countries which are part of CEPT, which in this case includes Sweden.
 
 Other frequenzies that could be utilized are 863-868 MHz. Which according to PTS (Post- och Telestyrelsen, swedish post and telecommittee) does not require a licens to utilize. We will, however stick to using 433.05 MHz since it has longer distance than the 868 MHz band.
+
+### 2025-04-28
+
+The problem today has been that LoRa does not initialize. I have tried to use different solutions but when using `Heltec.LoRa.begin()` the program freezes and when using `Heltec.begin()` the OLED states that LoRa failed to initialize. I have not figured out why this happens. 
