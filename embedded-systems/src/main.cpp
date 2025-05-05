@@ -1,7 +1,9 @@
 #include <Arduino.h>
 #include "SoilSensor.h"
 
-using namespace Soil;
+unsigned long previous_reading = 0;
+unsigned long interval_reading = 10000;
+
 void setup() 
 {
   Soil::InitiateSoilSensor();
@@ -9,5 +11,8 @@ void setup()
 
 void loop() 
 {
-  Soil::updateSoilSensorValue();
+  if(millis() - previous_reading >= interval_reading) 
+    {
+      Soil::updateSoilSensorValue();
+    }
 }

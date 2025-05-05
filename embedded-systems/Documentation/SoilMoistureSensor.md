@@ -23,3 +23,6 @@ Today I started to make a small sketch in tinkercad over how you wire the soilmo
 
 #### 2025-04-28 ####
 Today I have started to write code for the Soil Moisture sensor. I have built the circuit and tried the sensor as well, it works fine. I had to build it with the Arduino Uno R4 microcontroller though, but it works. When we run it on the right microcontroller I will have to change some things. I will also fix a calibration sample of soil to the next time we will work with this so I can get accurate readings. 
+
+#### 2025-05-05 ####
+Today I have continued to write the code for the soil Sensor. I got some problems with the module for the SoilSensor, so we had to build our own module. Thanks to a friend in the group we got it up and running with our own module. So now the Soil Moisture sensor reads soil moisture with accurate values, and I have fixed a calibration sample of Soil as well, so the sensor is calibrated with maximum moisture and minimum moisture. Thanks to this the converter to precentage works like it should. I have also changed some names according to the code standard we agreed on. The soil Moisture sensors code is also gathered in a own namespace to make it simplier to merged my code with the other in the groups code. For the real program we need to delete/comment out some debugging code as well.

@@ -9,10 +9,6 @@ namespace Soil
   uint16_t soil_reading_value = 0;
   uint8_t soil_reading_value_in_precentage;
 
-  // Delete these variables for the real program
-  unsigned long previous_reading = 0;
-  unsigned long interval_reading = 10000;
-
   // Function prototypes
   void readSoilMoistureSensor();
   void turnSoilMoistureToPrecentage();
@@ -29,17 +25,10 @@ namespace Soil
 
   void updateSoilSensorValue() 
   {
-    /*Delete millis and if statement for the real program, just run the readSoilMoistureSensor function,
-    digitalWrite, turnSoilMoistureToPrecentage function. No need to run printSoilMoistureSensorValues */
-    if(millis() - previous_reading >= interval_reading) 
-    {
-      previous_reading = millis();
       readSoilMoistureSensor();
       digitalWrite(soil_sensor_power,LOW);
       turnSoilMoistureToPrecentage(); 
-      printSoilMoistureSensorValues();//Comment out/delete this function for the real program
-    }
-  
+      printSoilMoistureSensorValues();//Comment out/delete this function for the real program  
   }
 
   void readSoilMoistureSensor()
