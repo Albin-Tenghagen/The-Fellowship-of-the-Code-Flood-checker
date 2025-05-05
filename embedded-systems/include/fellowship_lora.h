@@ -3,7 +3,7 @@
 
 #include <RadioLib.h>
 
-#include <fellowship_lora_config.h>
+#include "fellowship_lora_config.h"
 
 namespace FellowshipLoRa {
 
