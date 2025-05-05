@@ -27,6 +27,7 @@ This directory is aimed at documenting different sources, required materials, ne
 ## LoRa
 
 - [Ping Pong](https://github.com/HelTecAutomation/Heltec_ESP32/blob/master/examples/LoRaBasic/pingpong/pingpong.ino)
+- [RadioLib](https://github.com/jgromes/RadioLib)
 
 ## Research
 
@@ -45,3 +46,7 @@ Other frequenzies that could be utilized are 863-868 MHz. Which according to PTS
 ### 2025-04-28
 
 The problem today has been that LoRa does not initialize. I have tried to use different solutions but when using `Heltec.LoRa.begin()` the program freezes and when using `Heltec.begin()` the OLED states that LoRa failed to initialize. I have not figured out why this happens. 
+
+### 2025-05-05
+
+I have started using RadioLib and this seems to have solved the problem.
