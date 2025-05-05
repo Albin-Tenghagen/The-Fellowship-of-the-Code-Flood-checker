@@ -10,11 +10,41 @@ bool FellowshipLoRa::init() {
 		errorMsg = "Unable to initialize LoRa device";
 		return false;
 	}
+	
+	#if (!LORA_IS_SERVER)
+		errorFlag = device.startReceive();
+		flags.transmitAsLastOperation = false;
+	#endif
 
 	return flags.wasInit = true;
 }
 
 bool FellowshipLoRa::read(String &buffer)
 {
-	device.readData();
+	if (!wasInit())
+	{
+		errorMsg = "LoRa was not initialized";
+		return false;
+	}
+
+	errorFlag = device.startReceive();
+	flags.transmitAsLastOperation = false;
+
+    if (errorFlag == RADIOLIB_ERR_NONE) {
+		device.readData(buffer);
+		return true;
+	}
+
+	return false;
+}
+
+bool FellowshipLoRa::write(String &msg)
+{
+	if (!wasInit())
+	{
+		errorMsg = "LoRa was not initialized";
+		return false;
+	}
+
+	device.startTransmit(msg);
 }
