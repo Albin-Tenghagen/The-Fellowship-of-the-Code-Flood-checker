@@ -28,7 +28,7 @@ namespace Soil
       readSoilMoistureSensor();
       digitalWrite(soil_sensor_power,LOW);
       turnSoilMoistureToPrecentage(); 
-      printSoilMoistureSensorValues();//Comment out/delete this function for the real program  
+      printSoilMoistureSensorValues();//Comment out/delete this function for the real program, just debugging  
   }
 
   void readSoilMoistureSensor()
