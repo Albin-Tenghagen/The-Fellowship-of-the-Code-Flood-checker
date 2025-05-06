@@ -7,24 +7,25 @@
 
 namespace FellowshipLoRa {
 
-    struct LoRaFlags {
+    static struct LoRaFlags {
         bool transmitFlag = false;
         bool wasInit = false;
+        bool transmitAsLastOperation = true;
         volatile bool shouldRead = false;
     } flags;
 
-    int errorFlag = RADIOLIB_ERR_NONE;
-    String errorMsg;
+    static int errorFlag = RADIOLIB_ERR_NONE;
+    static String errorMsg;
 
-    static SX1262 device;
+    static SX1262 device = new Module{ LORA_NSS, LORA_DIO1, LORA_RST, LORA_BUSY };
 
     bool init();
     bool wasInit();
 
-    void onMsg(void);
+    void setFlag(void);
     
     bool read(String &buffer);
-    bool write(const String &msg);
+    bool write(String &msg);
 };
 
 #endif
