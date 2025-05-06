@@ -1,9 +1,6 @@
 #include "fellowship_lora.h"
 
-
-
 bool FellowshipLoRa::init() {
-	device = new Module{ LORA_NSS, LORA_DIO1, LORA_RST, LORA_BUSY };
 
 	if (!device.begin(LORA_FREQUENCY, LORA_BANDWIDTH))
 	{
@@ -30,7 +27,11 @@ bool FellowshipLoRa::read(String &buffer)
 	errorFlag = device.startReceive();
 	flags.transmitAsLastOperation = false;
 
-    if (errorFlag == RADIOLIB_ERR_NONE) {
+	device.setDio1Action(setFlag);
+
+    while (!flags.shouldRead);
+
+	if (errorFlag == RADIOLIB_ERR_NONE) {
 		device.readData(buffer);
 		return true;
 	}
@@ -47,4 +48,16 @@ bool FellowshipLoRa::write(String &msg)
 	}
 
 	device.startTransmit(msg);
+
+	return true;
+}
+
+void FellowshipLoRa::setFlag()
+{
+	flags.shouldRead = true;
+}
+
+bool FellowshipLoRa::wasInit()
+{
+	return flags.wasInit;
 }
