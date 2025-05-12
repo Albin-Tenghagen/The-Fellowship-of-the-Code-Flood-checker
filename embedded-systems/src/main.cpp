@@ -41,7 +41,7 @@ void setup()
 
     while (!Serial);
 
-    fellowshipWiFi::connectWiFi("HUAWEI-B535-0B48", "2MLRG8FFA58", { 192, 168, 8, 198 }, { 192, 168, 8, 1 }, { 255, 255, 255, 0 });
+    fellowshipWiFi::connectWiFi("SSID", "PASS", { 192, 168, 8, 198 }, { 192, 168, 8, 1 }, { 255, 255, 255, 0 });
     fellowshipWiFi::sendData(GET, {192, 168, 8, 169}, 5000, "/", "");
 
     String data;

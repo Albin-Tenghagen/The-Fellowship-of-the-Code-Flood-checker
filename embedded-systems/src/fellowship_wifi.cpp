@@ -46,24 +46,25 @@ bool fellowshipWiFi::sendData(HTTPMethod method, IPAddress host, uint32_t port, 
     String header[3];
     switch (method)
     {
-    case GET:
-        
-        header[0] = "GET " + endpoint + " HTTP/1.1";
+    case GET:   
+        header[0] = String("GET ") + endpoint + String(" HTTP/1.1");
         break;
     case POST:
-        // header[0] = "POST " + endpoint + " HTTP/1.1";
+        header[0] = String("POST ") + endpoint + String(" HTTP/1.1");
         break;
     default:
         break;
     }
 
-    header[1] = L"Host: " + host;
-    header[2] = L"Connection: close";
+    header[1] = String("Host: ") + host;
+    header[2] = String("Connection: close");
 
-    // for (size_t i = 0; i < 3; i++)
-    // {
-    //     client.println(header[i]);
-    // }
+    for (size_t i = 0; i < 3; i++)
+    {
+        client.println(header[i]);
+    }
+
+    client.println();
 
     Serial.println("Data sent to server");
     return true;
@@ -77,7 +78,7 @@ bool fellowshipWiFi::recieveData(String &buffer)
     {
         if (client.available())
         {
-            // buffer += client.readString();
+            buffer += client.readString();
         }
     }
 
