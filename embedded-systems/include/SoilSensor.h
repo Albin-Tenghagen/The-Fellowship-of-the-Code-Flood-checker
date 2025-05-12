@@ -4,8 +4,8 @@
 
 namespace Soil 
 {
-  uint16_t soil_sensor = A0;
-  uint8_t soil_sensor_power = 4;
+  uint16_t soil_sensor = 7;
+  uint8_t soil_sensor_power = 6;
   uint16_t soil_reading_value = 0;
   uint8_t soil_reading_value_in_precentage;
 
@@ -34,6 +34,7 @@ namespace Soil
   void readSoilMoistureSensor()
   {
     digitalWrite(soil_sensor_power,HIGH);
+    delay(50);
     soil_reading_value = analogRead(soil_sensor);
   }
 
@@ -46,7 +47,7 @@ namespace Soil
 
   void turnSoilMoistureToPrecentage()
   {
-    soil_reading_value_in_precentage = map(soil_reading_value, 270, 1023, 100, 0);
+    soil_reading_value_in_precentage = map(soil_reading_value, 1800, 4095, 100, 0);
   }
 }
 #endif
