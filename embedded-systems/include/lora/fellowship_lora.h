@@ -5,22 +5,22 @@
 
 #include "fellowship_lora_config.h"
 
-namespace FellowshipLoRa {
+namespace fellowshipLoRa {
 
     static struct LoRaFlags {
-        bool transmitFlag = false;
-        bool wasInit = false;
-        bool transmitAsLastOperation = true;
-        volatile bool shouldRead = false;
+        bool transmit_flag = false;
+        bool was_init = false;
+        bool transmit_as_last_operation = true;
+        volatile bool should_read = false;
     } flags;
 
-    static int errorFlag = RADIOLIB_ERR_NONE;
-    static String errorMsg;
+    static int error_flag = RADIOLIB_ERR_NONE;
+    static String error_msg;
 
     static SX1262 device = new Module{ LORA_NSS, LORA_DIO1, LORA_RST, LORA_BUSY };
 
     bool init();
-    bool wasInit();
+    bool was_init();
 
     void setFlag(void);
     
