@@ -17,7 +17,7 @@ void connectToWiFi()
 
     WiFi.setHostname("Heltec Board");
 
-    WiFi.begin("HUAWEI-B535-0B48", "2MLRG8FFA58");
+    WiFi.begin("SSID", "PASSPHRASE");
     uint8_t status = WiFi.waitForConnectResult();
     
 
