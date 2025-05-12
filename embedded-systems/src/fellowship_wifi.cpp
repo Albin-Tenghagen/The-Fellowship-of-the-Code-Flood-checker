@@ -33,7 +33,7 @@ bool fellowshipWiFi::disconnectWiFi()
 }
 
 
-bool fellowshipWiFi::sendData(HTTPMethod method, IPAddress host, uint32_t port, String endpoint, String data)
+bool fellowshipWiFi::sendData(HTTPMethod method, IPAddress host, uint32_t port, String endpoint)
 {
     int status = client.connect(host, port);
     if (!status) 
