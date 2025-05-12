@@ -1,6 +1,6 @@
 #include "lora/fellowship_lora.h"
 
-bool FellowshipLoRa::init() {
+bool fellowshipLoRa::init() {
 
 	if (!device.begin(LORA_FREQUENCY, LORA_BANDWIDTH))
 	{
@@ -18,7 +18,7 @@ bool FellowshipLoRa::init() {
 	return flags.was_init = true;
 }
 
-bool FellowshipLoRa::read(String &buffer)
+bool fellowshipLoRa::read(String &buffer)
 {
 	if (!was_init())
 	{
@@ -42,7 +42,7 @@ bool FellowshipLoRa::read(String &buffer)
 	return false;
 }
 
-bool FellowshipLoRa::write(String &msg)
+bool fellowshipLoRa::write(String &msg)
 {
 	if (!was_init())
 	{
@@ -55,12 +55,12 @@ bool FellowshipLoRa::write(String &msg)
 	return true;
 }
 
-void FellowshipLoRa::setFlag()
+void fellowshipLoRa::setFlag()
 {
 	flags.should_read = true;
 }
 
-bool FellowshipLoRa::was_init()
+bool fellowshipLoRa::was_init()
 {
 	return flags.was_init;
 }
