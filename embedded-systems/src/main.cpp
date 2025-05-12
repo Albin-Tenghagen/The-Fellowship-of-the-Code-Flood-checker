@@ -1,18 +1,23 @@
 #include <Arduino.h>
-
-// put function declarations here:
-int myFunction(int, int);
+#include <LittleFS.h>
+#include <ArduinoJson.h>
+#include "JsonHandling.h"
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  Serial.begin(9600);
+  LittleFS.begin();
+  delay(10000);
+
+  JsonHandling::readAndPrintJson();
+  delay(10000);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
+  JsonHandling::writeJson(58, 22.5, 45, 105, 105.5);
+  JsonHandling::readAndPrintJson();
+  delay(10000);
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  JsonHandling::writeJson(55, 20.5, 60, 103, 102.5);
+  JsonHandling::readAndPrintJson();
+  delay(10000);
 }
