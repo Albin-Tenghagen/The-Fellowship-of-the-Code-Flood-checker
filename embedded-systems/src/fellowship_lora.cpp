@@ -1,4 +1,4 @@
-#include "fellowship_lora.h"
+#include "lora/fellowship_lora.h"
 
 bool FellowshipLoRa::init() {
 
@@ -8,6 +8,8 @@ bool FellowshipLoRa::init() {
 		return false;
 	}
 	
+	device.setDio1Action(setFlag);
+
 	#if (!LORA_IS_SERVER)
 		errorFlag = device.startReceive();
 		flags.transmitAsLastOperation = false;
@@ -27,12 +29,13 @@ bool FellowshipLoRa::read(String &buffer)
 	errorFlag = device.startReceive();
 	flags.transmitAsLastOperation = false;
 
-	device.setDio1Action(setFlag);
 
-    while (!flags.shouldRead);
+    while (!flags.shouldRead)
+	{
+		device.readData(buffer);
+	}
 
 	if (errorFlag == RADIOLIB_ERR_NONE) {
-		device.readData(buffer);
 		return true;
 	}
 
