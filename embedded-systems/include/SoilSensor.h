@@ -34,7 +34,6 @@ namespace Soil
   void readSoilMoistureSensor()
   {
     digitalWrite(soil_sensor_power,HIGH);
-    delay(50);
     soil_reading_value = analogRead(soil_sensor);
   }
 
