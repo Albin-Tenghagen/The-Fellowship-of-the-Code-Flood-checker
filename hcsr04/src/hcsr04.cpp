@@ -54,6 +54,14 @@ namespace hcsr04
         return distance + config.calibration_offset_cm;
     }
 
+    void sendToLoRa(Stream &out)
+    {
+        float distance = readDistance();
+        out.print("{\"ultraSoundLevel\": ");
+        out.print(distance, 1); // 1 decimal place
+        out.println("}");
+    }
+
     void calibrateZero(float known_level_cm)
     {
         float current = readDistance();
@@ -66,3 +74,10 @@ namespace hcsr04
         return cm * 58.0;
     }
 }
+
+// Example loop
+/* void loop()
+{
+    hcsr04::sendToLoRa(Serial); // Replace Serial with LoRaSerial if needed
+    delay(1000);
+}*/
