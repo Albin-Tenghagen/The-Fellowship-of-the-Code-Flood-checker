@@ -16,7 +16,7 @@ void loop()
   //in the real program
   if(millis() - previous_reading >= interval_reading) 
     {
-      //Soil::updateSoilSensorValue();
+      Soil::updateSoilSensorValue();
       previous_reading = millis();
     }
 }
