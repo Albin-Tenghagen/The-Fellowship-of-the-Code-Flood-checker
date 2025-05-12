@@ -1,13 +1,13 @@
 #include <Arduino.h>
 #include <hcsr04.h>
 
-// Simulated test distances in cm (slow and realistic)
+// Values used for somewhat realistic simulation
 float test_values_cm[] = {25.0, 27.0, 28.5, 30.0, 32.0, 34.0, 36.5, 38.0, 40.0, 42.0, 44.5, 46.0, 48.0, 50.0};
 const int num_values = sizeof(test_values_cm) / sizeof(test_values_cm[0]);
 int current_index = 0;
 
 unsigned long last_log_time = 0;
-const unsigned long log_interval = 10000; // Simulates every 10 seconds rather than 30 minutes
+const unsigned long log_interval = 10000; // Simulates every 10 seconds rather than every 30 minutes
 
 void setup()
 {
