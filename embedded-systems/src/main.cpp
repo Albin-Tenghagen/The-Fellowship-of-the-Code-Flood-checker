@@ -10,11 +10,13 @@ void connectToWiFi()
     WiFi.config(
         IPAddress{192, 168, 8, 198},
         IPAddress{192, 168, 8, 1},
-        IPAddress{255, 255, 255, 255},
+        IPAddress{255, 255, 255, 0},
         IPAddress{1, 1, 1, 1}
     );
 
-    WiFi.begin("SSID", "PASSWORD");
+    WiFi.setHostname("Heltec Board");
+
+    WiFi.begin("HUAWEI-B535-0B48", "2MLRG8FFA58");
     uint8_t status = WiFi.waitForConnectResult();
     
 
@@ -24,40 +26,55 @@ void connectToWiFi()
     else Serial.println("Not connected");
 }
 
-constexpr char *requestHeader[] = {
-    "GET /api/endpoint HTTP/1.1",
+String requestHeader[] = {
+    "GET / HTTP/1.1",
     "Host: 192.168.8.169",
     "Connection: close"
 };
 
+WiFiClient client{};
+
 void setup()
 {
-    Serial.begin(115200);
+    Serial.begin(9600);
 
     while (!Serial);
 
     connectToWiFi();
 
-    WiFiClient client;
-    client.connect("192.168.8.169", 3000);
-    
-    for (int i = 0; i < 3; i++)
+    if (client.connect(IPAddress{192, 168, 8, 169}, 5000))
     {
-        client.println(requestHeader[i]);
+        Serial.println("Connected to server");
+        client.println("GET / HTTP/1.1");
+        client.println("Host: 192.168.8.169");
+        client.println("Connection: close");
+        client.println();
+        // client.println("GET / HTTP/1.1");
+    }
+    else
+    {
+        Serial.println("Something went wrong");
+        Serial.println(WiFi.status());
     }
 
-    while(client.available())
+    Serial.println("Headers sent");
+
+    Serial.println(client.available());
+    while(client.connected())
     {
-        char c = client.read();
-        Serial.print(c);
+    // read an incoming byte from the server and print them to serial monitor:
+        if (client.available())
+            Serial.print(client.readString());
     }
 
     if(!client.connected())
     {
-        Serial.println("disconnected");
+    // if the server's disconnected, stop the client:
+        Serial.println("\nDisconnected");
         client.stop();
     }
 
+    
 
     // FellowshipLoRa::init();
 
