@@ -13,7 +13,7 @@ namespace fellowshipWiFi
     bool connectWiFi(const char *ssid, const char *passphrase, IPAddress local_ipaddr, IPAddress gateway, IPAddress subnet_mask);
     bool disconnectWiFi();
 
-    bool sendData(HTTPMethod method, IPAddress host, uint32_t port, String endpoint);
+    bool sendRequest(IPAddress host, uint32_t port, String endpoint, String data);
     bool recieveData(String &buffer);
 } 
 

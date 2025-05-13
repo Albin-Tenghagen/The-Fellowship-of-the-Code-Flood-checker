@@ -1,5 +1,8 @@
 #include "wifi/fellowship_wifi.h"
 #include <WiFi.h>
+#include <json_parser.h>
+
+#include <vector>
 
 bool fellowshipWiFi::connectWiFi(const char *ssid, const char *passphrase, IPAddress local_ipaddr, IPAddress gateway, IPAddress subnet_mask)
 {
@@ -33,7 +36,7 @@ bool fellowshipWiFi::disconnectWiFi()
 }
 
 
-bool fellowshipWiFi::sendData(HTTPMethod method, IPAddress host, uint32_t port, String endpoint)
+bool fellowshipWiFi::sendRequest(IPAddress host, uint32_t port, String endpoint, String data)
 {
     int status = client.connect(host, port);
     if (!status) 
@@ -43,28 +46,28 @@ bool fellowshipWiFi::sendData(HTTPMethod method, IPAddress host, uint32_t port, 
         return false;
     }
 
-    String header[3];
-    switch (method)
-    {
-    case GET:   
-        header[0] = String("GET ") + endpoint + String(" HTTP/1.1");
-        break;
-    case POST:
-        header[0] = String("POST ") + endpoint + String(" HTTP/1.1");
-        break;
-    default:
-        break;
-    }
+    std::vector<String> headers;
 
-    header[1] = String("Host: ") + host;
-    header[2] = String("Connection: close");
+    
+    headers.push_back(String("POST ") + endpoint + String(" HTTP/1.1"));
+    headers.push_back(String("Host: ") + host.toString());
+    headers.push_back(String("User-Agent: Heltec-Board"));
+    headers.push_back(String("Connection: keep-alive"));
+    headers.push_back(String("Keep-Alive: timeout-5"));
+    headers.push_back(String("Content-Type: application/json"));
+    headers.push_back(String("Content-Length: " + data.length()));
+    headers.push_back("");
+    headers.push_back(data);
 
-    for (size_t i = 0; i < 3; i++)
+
+    for (size_t i = 0; i < headers.size(); i++)
     {
-        client.println(header[i]);
+        Serial.println(headers.at(i));
+        client.println(headers.at(i));
     }
 
     client.println();
+    client.stop();
 
     Serial.println("Data sent to server");
     return true;
