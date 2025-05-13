@@ -65,8 +65,8 @@ namespace JsonData
       int soil = random(0, 100);                    // Jordfuktighet i %
       float temp = random(10.0, 30.0);              // Temperatur i °C
       int humidity = random(40, 80);                // Luftfuktighet i %
-      float pressure = random(10, 40);              // Vattentryck i cm
-      float ultrasound = pressure + random(-2.0, 3.0);            // Ultraljudsvattennivå i cm
+      float pressure = random(-40, 40);              // Vattentryck i cm
+      float ultrasound = pressure + random(-3.0, 3.0);            // Ultraljudsvattennivå i cm
       float average = (pressure + ultrasound) / 2.0;
 
       // Skapa ett JSON-dokument
