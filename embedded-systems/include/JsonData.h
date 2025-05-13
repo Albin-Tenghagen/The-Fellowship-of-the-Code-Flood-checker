@@ -9,14 +9,14 @@ namespace JsonData
     //Funktion som skriver Jsondata till en string som sedan kan skickas.
     String CreateJsonData() 
     {
-      /*
-        int soil = //anropa sensorn för soilMoisture här. 
-        float temp = //anropa sensorn för temp här.
-        int hum = //anropa sensorn för humidity här.
-        float pressure = //anropa sensorn för waterLevelPressure här.
-        float ultrasound = //anropa sensorn för waterLevelUltrasound här.
-        float average = //Beräkna eller hämta medelvärdet av waterLevelPressure och waterLevelUltrasound här.
-       */
+      
+        int soil; //= anropa sensorn för soilMoisture här. 
+        float temp;// = anropa sensorn för temp här.
+        int hum; //= anropa sensorn för humidity här.
+        float pressure; //= anropa sensorn för waterLevelPressure här.
+        float ultrasound; //= anropa sensorn för waterLevelUltrasound här.
+        float average; //= Beräkna eller hämta medelvärdet av waterLevelPressure och waterLevelUltrasound här.
+       
        
         //Väljer att göra dokumentet 256 byte stort, vilket är tillräckligt för att lagra alla värden, men inte onödigt stort. 
         StaticJsonDocument<256> jsonDoc;
