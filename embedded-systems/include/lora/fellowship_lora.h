@@ -11,6 +11,7 @@ namespace fellowshipLoRa {
         bool transmit_flag = false;
         bool was_init = false;
         bool transmit_as_last_operation = true;
+        bool is_server = false;
         volatile bool should_read = false;
     } flags;
 
@@ -19,7 +20,7 @@ namespace fellowshipLoRa {
 
     static SX1262 device = new Module{ LORA_NSS, LORA_DIO1, LORA_RST, LORA_BUSY };
 
-    bool init();
+    bool init(bool is_server = false);
     bool was_init();
 
     void setFlag(void);

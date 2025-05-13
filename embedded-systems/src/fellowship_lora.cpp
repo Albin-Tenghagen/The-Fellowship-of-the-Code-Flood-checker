@@ -1,19 +1,17 @@
 #include "lora/fellowship_lora.h"
 
-bool fellowshipLoRa::init() {
-
+bool fellowshipLoRa::init(bool is_server) 
+{
 	if (!device.begin(LORA_FREQUENCY, LORA_BANDWIDTH))
 	{
 		error_msg = "Unable to initialize LoRa device";
 		return false;
 	}
 	
-	device.setDio1Action(setFlag);
-
-	#if (!LORA_IS_SERVER)
-		errorFlag = device.startReceive();
-		flags.transmitAsLastOperation = false;
-	#endif
+	if (is_server)
+	{
+		flags.transmit_as_last_operation = false;
+	}
 
 	return flags.was_init = true;
 }
@@ -26,20 +24,15 @@ bool fellowshipLoRa::read(String &buffer)
 		return false;
 	}
 
-	error_flag = device.startReceive();
 	flags.transmit_as_last_operation = false;
 
+	device.receive(buffer);
 
-    while (!flags.should_read)
-	{
-		device.readData(buffer);
+	if (error_flag != RADIOLIB_ERR_NONE) {
+		return false;
 	}
 
-	if (error_flag == RADIOLIB_ERR_NONE) {
-		return true;
-	}
-
-	return false;
+	return true;
 }
 
 bool fellowshipLoRa::write(String &msg)
