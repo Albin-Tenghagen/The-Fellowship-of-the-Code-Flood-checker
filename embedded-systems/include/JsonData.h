@@ -7,10 +7,17 @@
 namespace JsonData
 {
     //Funktion som skriver Jsondata till en string som sedan kan skickas.
-    String CreateJsonData(int soil, float temp, int hum, int pressure, float ultrasound, float average) 
+    String CreateJsonData() 
     {
-
-        //Byt ut alla värden till sensoravläsningar genom anrop till de funktionerna, alt lägg allting i main och anropa funktionerna därifrån.  
+      /*
+        int soil = //anropa sensorn för soilMoisture här. 
+        float temp = //anropa sensorn för temp här.
+        int hum = //anropa sensorn för humidity här.
+        float pressure = //anropa sensorn för waterLevelPressure här.
+        float ultrasound = //anropa sensorn för waterLevelUltrasound här.
+        float average = //Beräkna eller hämta medelvärdet av waterLevelPressure och waterLevelUltrasound här.
+       */
+       
         //Väljer att göra dokumentet 256 byte stort, vilket är tillräckligt för att lagra alla värden, men inte onödigt stort. 
         StaticJsonDocument<256> jsonDoc;
         jsonDoc["soil_moisture_percent"] = soil;
@@ -27,11 +34,18 @@ namespace JsonData
     }
 
     //alt funktion som gör samma sak utan biblioteket ArduinoJson
-    /*string CreateJsonData(int soil, float temp, int hum, int pressure, float ultrasound, float average) 
+    /*string CreateJsonData() 
     {
         char jsonString[256];
 
-      sprintf(jsonString,
+        int soil = //anropa sensorn för soilMoisture här. 
+        float temp = //anropa sensorn för temp här.
+        int hum = //anropa sensorn för humidity här.
+        float pressure = //anropa sensorn för waterLevelPressure här.
+        float ultrasound = //anropa sensorn för waterLevelUltrasound här.
+        float average = //Beräkna eller hämta medelvärdet av waterLevelPressure och waterLevelUltrasound här.
+       
+        sprintf(jsonString,
         "{\n"
         "  \"soil_moisture_percent\": %d,\n"
         "  \"temperature_c\": %.2f,\n"
@@ -56,7 +70,7 @@ namespace JsonData
       float average = (pressure + ultrasound) / 2.0;
 
       // Skapa ett JSON-dokument
-      StaticJsonDocument<200> doc;
+      StaticJsonDocument<256> doc;
 
       doc["soil_moisture_percent"] = soil;
       doc["temperature_c"] = temp;
