@@ -6,103 +6,63 @@
 #include "lora/fellowship_lora.h"
 #include "wifi/fellowship_wifi.h"
 
-void connectToWiFi()
-{
-    WiFi.config(
-        IPAddress{192, 168, 8, 198},
-        IPAddress{192, 168, 8, 1},
-        IPAddress{255, 255, 255, 0},
-        IPAddress{1, 1, 1, 1}
-    );
-
-    WiFi.setHostname("Heltec Board");
-
-    WiFi.begin("SSID", "PASSPHRASE");
-    uint8_t status = WiFi.waitForConnectResult();
-    
-
-    Serial.println(status);
-
-    if (WiFi.isConnected()) Serial.println("Internet Connected");
-    else Serial.println("Not connected");
-}
-
-String requestHeader[] = {
-    "GET / HTTP/1.1",
-    "Host: 192.168.8.169",
-    "Connection: close"
-};
-
-WiFiClient client{};
-
 void setup()
 {
-    Serial.begin(9600);
+    Serial.begin(115200);
 
-    while (!Serial);
+    if (!fellowshipLoRa::init())
+    {
+        Serial.println("Unable to initialize LoRa");
+        while (true) { };
+    }
 
-    fellowshipWiFi::connectWiFi("SSID", "PASS", { 192, 168, 8, 198 }, { 192, 168, 8, 1 }, { 255, 255, 255, 0 });
-    fellowshipWiFi::sendData(GET, {192, 168, 8, 169}, 5000, "/", "");
-
-    String data;
-    fellowshipWiFi::recieveData(data);
-
-    Serial.println(data);
-
-    // connectToWiFi();
-
-    // if (client.connect(IPAddress{192, 168, 8, 169}, 5000))
-    // {
-    //     Serial.println("Connected to server");
-    //     client.println("GET / HTTP/1.1");
-    //     client.println("Host: 192.168.8.169");
-    //     client.println("Connection: close");
-    //     client.println();
-    //     // client.println("GET / HTTP/1.1");
-    // }
-    // else
-    // {
-    //     Serial.println("Something went wrong");
-    //     Serial.println(WiFi.status());
-    // }
-
-    // Serial.println("Headers sent");
-
-    // Serial.println(client.available());
-    // while(client.connected())
-    // {
-    // // read an incoming byte from the server and print them to serial monitor:
-    //     if (client.available())
-    //         Serial.print(client.readString());
-    // }
-
-    // if(!client.connected())
-    // {
-    // // if the server's disconnected, stop the client:
-    //     Serial.println("\nDisconnected");
-    //     client.stop();
-    // }
-
-    
-
-    // FellowshipLoRa::init();
-
-    // if (!FellowshipLoRa::was_init() || FellowshipLoRa::error_flag != RADIOLIB_ERR_NONE) 
-    // {
-    //     Serial.println(FellowshipLoRa::error_msg);
-    //     return;
-    // }
-
-    // String msg = "Hello, World!";
-    // FellowshipLoRa::write(msg);
-
-    // String msg;
-    // FellowshipLoRa::read(msg);
-
-    // Serial.println(msg);
 }
 
 void loop()
 {
+    Serial.print("[SX1262] Waiting for transmission ");
 
+    String msg;
+    bool status = fellowshipLoRa::read(msg);
+
+    fellowshipLoRa::error_flag = fellowshipLoRa::device.receive(msg);
+
+    if (fellowshipLoRa::error_flag == RADIOLIB_ERR_NONE)
+    {
+        Serial.println("success!");
+        Serial.println(msg);
+    }
+    else if (fellowshipLoRa::error_flag == RADIOLIB_ERR_RX_TIMEOUT) {
+        // timeout occurred while waiting for a packet
+        Serial.println(F("timeout!"));
+    
+    } else if (fellowshipLoRa::error_flag == RADIOLIB_ERR_CRC_MISMATCH) {
+        // packet was received, but is malformed
+        Serial.println(F("CRC error!"));
+    
+    } else {
+        // some other error occurred
+        Serial.print(F("failed, code "));
+        Serial.println(fellowshipLoRa::error_flag);
+    
+    }
+
+    
+
+    // Serial.println("[SX1262] Will do transmission\n");
+
+    // String msg;
+    // fellowshipLoRa::write(msg);
+    // if (fellowshipLoRa::error_flag != RADIOLIB_ERR_NONE)
+    // {
+    //     Serial.print("Unable to send message");
+    //     while ( true ) {  };
+    // }
+    // else
+    // {
+    //     Serial.print("Message sent!");
+    //     Serial.println(msg);
+    // }
+
+    // delay(5000);
 }
