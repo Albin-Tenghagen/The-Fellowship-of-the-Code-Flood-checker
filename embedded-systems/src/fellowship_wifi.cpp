@@ -53,7 +53,7 @@ bool fellowshipWiFi::sendRequest(IPAddress host, uint32_t port, String endpoint,
     headers.push_back(String("Host: ") + host.toString());
     headers.push_back(String("User-Agent: Heltec-Board"));
     headers.push_back(String("Connection: keep-alive"));
-    headers.push_back(String("Keep-Alive: timeout-5"));
+    headers.push_back(String("Keep-Alive: timeout=5"));
     headers.push_back(String("Content-Type: application/json"));
     headers.push_back(String("Content-Length: " + data.length()));
     headers.push_back("");
