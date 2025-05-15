@@ -16,13 +16,13 @@ namespace fellowshipLoRa {
     static int16_t error_flag = RADIOLIB_ERR_NONE;
     static String error_msg;
 
-    static SX1262 device = new Module( LORA_NSS, LORA_DIO1, LORA_RST, LORA_BUSY );
+    static SX1262 *device;
 
-    bool init();
-    bool was_init();
+    int16_t init();
+    int16_t was_init();
     
-    bool read(String &buffer);
-    bool write(String &msg);
+    int16_t read(String &buffer);
+    int16_t write(String &msg);
 };
 
 #endif

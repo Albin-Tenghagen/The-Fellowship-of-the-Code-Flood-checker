@@ -10,7 +10,7 @@ void setup()
 {
     Serial.begin(115200);
 
-    if (!fellowshipLoRa::init())
+    if (fellowshipLoRa::init() != RADIOLIB_ERR_NONE)
     {
         Serial.println("Unable to initialize LoRa");
         while (true) { };
@@ -23,20 +23,19 @@ void loop()
     Serial.print("[SX1262] Waiting for transmission ");
 
     String msg;
-    bool status = fellowshipLoRa::read(msg);
 
-    fellowshipLoRa::error_flag = fellowshipLoRa::device.receive(msg);
+    int16_t status = fellowshipLoRa::read(msg);
 
-    if (fellowshipLoRa::error_flag == RADIOLIB_ERR_NONE)
+    if (status == RADIOLIB_ERR_NONE)
     {
         Serial.println("success!");
         Serial.println(msg);
     }
-    else if (fellowshipLoRa::error_flag == RADIOLIB_ERR_RX_TIMEOUT) {
+    else if (status == RADIOLIB_ERR_RX_TIMEOUT) {
         // timeout occurred while waiting for a packet
         Serial.println(F("timeout!"));
     
-    } else if (fellowshipLoRa::error_flag == RADIOLIB_ERR_CRC_MISMATCH) {
+    } else if (status == RADIOLIB_ERR_CRC_MISMATCH) {
         // packet was received, but is malformed
         Serial.println(F("CRC error!"));
     
