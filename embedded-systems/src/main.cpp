@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <RTOS.h>
 
 uint16_t sensor_value;
 uint16_t depth_mm;
