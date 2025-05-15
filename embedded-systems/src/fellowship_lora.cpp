@@ -50,6 +50,14 @@ int16_t fellowshipLoRa::write(String &msg)
 	return device->transmit(msg);
 }
 
+int16_t fellowshipLoRa::write(int16_t value)
+{
+	char msg[] = { (uint8_t) ((value & 0xFF00) >> 8), (uint8_t) (value), 0 };
+
+	String str { msg };
+	return write(str);
+}
+
 int16_t fellowshipLoRa::was_init()
 {
 	return flags.was_init;

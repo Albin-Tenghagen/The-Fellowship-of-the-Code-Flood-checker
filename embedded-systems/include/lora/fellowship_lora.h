@@ -22,6 +22,7 @@ namespace fellowshipLoRa {
     int16_t was_init();
     
     int16_t read(String &buffer);
+    int16_t write(int16_t value);
     int16_t write(String &msg);
 };
 
