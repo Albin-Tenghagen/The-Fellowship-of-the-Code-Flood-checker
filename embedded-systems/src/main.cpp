@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include <RTOS.h>
 
+#include "lora/fellowship_lora.h"
+
 uint16_t sensor_value;
 uint16_t depth_mm;
 uint16_t sensor_value_sum;
@@ -11,6 +13,15 @@ const uint8_t MEASURING_POINTS = 50;
 void setup()
 {
     Serial.begin(115200);
+
+    int16_t status = fellowshipLoRa::init();
+    if (status != RADIOLIB_ERR_NONE)
+    {
+        Serial.print("Unable to initialize LoRa! Error "); 
+        Serial.println(status);
+
+        while ( true ) { }
+    }
 }
 
 void loop()
@@ -27,4 +38,15 @@ void loop()
     Serial.print(sensor_value);
     Serial.print(", Depth in mm: ");
     Serial.println(depth_mm);
+
+    int16_t status = fellowshipLoRa::write(depth_mm);
+    if (status != RADIOLIB_ERR_NONE)
+    {
+        Serial.print("Unable to write to LoRa! Error "); 
+        Serial.println(status);
+
+        while ( true ) { }
+    }
+
+    delay(5000);
 }
