@@ -50,7 +50,7 @@ void loop()
 
     // Serial.println("[SX1262] Will do transmission\n");
 
-    // String msg;
+    // String msg = "Hello, World!";
     // fellowshipLoRa::write(msg);
     // if (fellowshipLoRa::error_flag != RADIOLIB_ERR_NONE)
     // {
@@ -63,5 +63,5 @@ void loop()
     //     Serial.println(msg);
     // }
 
-    // delay(5000);
+    delay(5000);
 }

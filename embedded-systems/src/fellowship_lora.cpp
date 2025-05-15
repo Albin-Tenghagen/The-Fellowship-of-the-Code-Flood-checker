@@ -31,7 +31,7 @@ int16_t fellowshipLoRa::read(String &buffer)
 
 	String msg;
 	error_flag = device->receive(msg);
-	Serial.println(error_flag);
+	Serial.println(msg);
 
 	return error_flag;
 }
