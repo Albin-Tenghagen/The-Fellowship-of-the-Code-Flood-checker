@@ -67,7 +67,6 @@ The system shall:
 
 - The units shall use the 433.05 MHz band to communicate.
 
-
 ### 2.2 Non-Functional Requirements
 
 The system shall: 
