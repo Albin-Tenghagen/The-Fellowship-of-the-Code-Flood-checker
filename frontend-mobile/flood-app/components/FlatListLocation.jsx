@@ -86,7 +86,7 @@ const FlatListLocation = ({ onLocationSelect }) => {
           keyExtractor={item => item.id.toString()}
           style={styles.text}
         />
-        <AnimatedButton title="Påbörja arbete" onPress={onButtonPress} />
+        <AnimatedButton style={styles.button}title="Påbörja arbete" onPress={onButtonPress} />
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -111,7 +111,8 @@ const createStyles = (theme) =>
       height: '100%',
       borderRadius: 8,
       margin: 8,
-      
+      paddingVertical: 25,
     },
+    
    
   });

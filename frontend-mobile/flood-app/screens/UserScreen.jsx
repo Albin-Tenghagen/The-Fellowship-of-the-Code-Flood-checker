@@ -1,8 +1,8 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, {useState} from 'react'
 import WorkerStatus from '../components/WorkerStatus'
-import MapScreen from '../components/MapScreen'
-import * as Location from 'expo-location'
+// import MapScreen from '../components/MapScreen'
+// import * as Location from 'expo-location'
 import FlatListLocation from '../components/FlatListLocation';
 
 const UserScreen = () => {

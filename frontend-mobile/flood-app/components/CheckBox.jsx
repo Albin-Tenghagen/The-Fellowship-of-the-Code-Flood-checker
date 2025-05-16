@@ -53,5 +53,6 @@ const createStyles = (theme) =>
     margin: 5,
     color: theme.textTertiary,
     fontSize: 25,
+    
   },
 });
