@@ -5,7 +5,10 @@ import CheckBox from './CheckBox';
 import AnimatedButton from './AnimatedButton';
 import { useTheme } from '../themes/ThemeContext';
 
-const FlatListLocation = () => {
+const FlatListLocation = ({ onLocationSelect }) => {
+  if (!onLocationSelect) {
+    console.warn("Prop 'onLocationSelect' saknas i FlatListLocation" );
+  }
   const { theme } = useTheme();
   const styles = createStyles(theme);
 
@@ -57,6 +60,7 @@ const FlatListLocation = () => {
     if (selectedId) {
       const chosen = locations.find(loc => loc.id === selectedId);
       console.log('Vald plats:', chosen);
+      onLocationSelect(chosen);
       
     } else {
       alert('Vänligen välj en plats först!');
@@ -74,12 +78,13 @@ const FlatListLocation = () => {
   }
 
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider style={styles.box}>
       <SafeAreaView style={styles.container}>
         <FlatList
           data={locations}
           renderItem={renderItem}
           keyExtractor={item => item.id.toString()}
+          style={styles.text}
         />
         <AnimatedButton title="Påbörja arbete" onPress={onButtonPress} />
       </SafeAreaView>
@@ -91,6 +96,11 @@ export default FlatListLocation;
 
 const createStyles = (theme) =>
   StyleSheet.create({
+    box: {
+      marginTop: 10,
+
+    },
+
     container: {
       flex: 1,
       backgroundColor: theme.card,
@@ -98,10 +108,10 @@ const createStyles = (theme) =>
       justifyContent: 'center',
       alignItems: 'center',
       width: '95%',
+      height: '100%',
       borderRadius: 8,
       margin: 8,
-      padding: 30,
-      paddingBottom: 30,
-      paddingTop: 50,
+      
     },
+   
   });

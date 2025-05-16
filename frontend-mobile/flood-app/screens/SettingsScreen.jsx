@@ -20,7 +20,7 @@ const SettingsScreen = () => {
   return (
     <ScrollView>
     <View style={styles.container}>
-      <FlatListLocation/>
+    
     
       {safety.map((item) => (
         <View key={item.id} style={styles.item}>

@@ -25,6 +25,7 @@ const WorkerStatus = ({ locationName = null }) => {
   const statusFade = useRef(new Animated.Value(1)).current;
   const cardScale = useRef(new Animated.Value(1)).current;
   const pulseAnimation = useRef(new Animated.Value(1)).current;
+  
 
   const handleStatusChange = () => {
     const currentIndex = STATUS_ORDER.indexOf(status);
@@ -474,6 +475,9 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 4,
     overflow: 'hidden',
+    marginTop: 25,
+    marginHorizontal: 8,
+    borderRadius: 8,
   },
   header: {
     padding: 20,
@@ -552,7 +556,7 @@ const styles = StyleSheet.create({
   },
   progressBarContainer: {
     flex: 1,
-    position: 'relative',
+    position: 'absolute',
   },
   timeline: {
     height: 8, // Increased from 6 to 8

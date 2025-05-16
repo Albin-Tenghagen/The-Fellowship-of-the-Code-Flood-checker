@@ -17,6 +17,7 @@ const CheckBox = ({ title, isChecked, onPress}) => {
             onPress={onPress}
             fillColor={theme.accent}
             innerIconStyle={{ borderWidth: 3 }}
+        
 
         />
             <Text style={styles.label}>{title}</Text>
@@ -33,17 +34,23 @@ const createStyles = (theme) =>
     flex: 1,
     alignItems: 'flex-start',
     justifyContent: 'center',
+  
+   
   },
   checkboxContainer: {
     flexDirection: 'row',
     marginBottom: 20,
+    paddingVertical: 1,
+    paddingTop:3,
+  
+  
   
   },
   checkbox: {
     alignSelf: 'center',
   },
   label: {
-    margin: 8,
+    margin: 5,
     color: theme.textTertiary,
     fontSize: 25,
   },
