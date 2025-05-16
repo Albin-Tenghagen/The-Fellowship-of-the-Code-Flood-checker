@@ -80,11 +80,11 @@ const FlatListLocation = ({ onLocationSelect }) => {
   return (
     <SafeAreaProvider style={styles.box}>
       <SafeAreaView style={styles.container}>
+        <Text style={styles.font}>Mätstationer</Text>
         <FlatList
           data={locations}
           renderItem={renderItem}
           keyExtractor={item => item.id.toString()}
-          style={styles.text}
         />
         <AnimatedButton style={styles.button}title="Påbörja arbete" onPress={onButtonPress} />
       </SafeAreaView>
@@ -111,8 +111,12 @@ const createStyles = (theme) =>
       height: '100%',
       borderRadius: 8,
       margin: 8,
-      paddingVertical: 25,
+      paddingVertical: 30,
     },
-    
+    font: {
+      fontSize: 35,
+      color: theme.textTertiary,
+      marginBottom: 35,
+    },
    
   });
