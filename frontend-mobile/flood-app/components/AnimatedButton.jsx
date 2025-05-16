@@ -11,7 +11,7 @@ const AnimatedButton = ({ title = "Tryck här!", onPress }) => {
 
     const handlePressIn = () => {
         Animated.spring(scale, {
-            toValue: 0.85,
+            toValue: 0.95,
             useNativeDriver: true,
         }).start();
     };
