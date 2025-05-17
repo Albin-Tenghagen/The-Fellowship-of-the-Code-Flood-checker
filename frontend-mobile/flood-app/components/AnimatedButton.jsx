@@ -1,9 +1,9 @@
 // AnimatedButton.js
-import { StyleSheet, Text, Animated, Pressable } from 'react-native';
+import { StyleSheet, Text, Animated, Pressable, View } from 'react-native';
 import React, { useRef } from 'react';
 import { useTheme } from '../themes/ThemeContext';
 
-const AnimatedButton = ({ title = "Tryck här!", onPress }) => {
+const AnimatedButton = ({ title, onPress, data, style }) => {
     const { theme } = useTheme();
     const styles = createStyles(theme);
 
@@ -14,6 +14,10 @@ const AnimatedButton = ({ title = "Tryck här!", onPress }) => {
             toValue: 0.95,
             useNativeDriver: true,
         }).start();
+
+        if (onPress) {
+            onPress(data);
+        }
     };
 
     const handlePressOut = () => {
@@ -23,10 +27,11 @@ const AnimatedButton = ({ title = "Tryck här!", onPress }) => {
             friction: 2,
             useNativeDriver: true,
         }).start();
+    };
 
-        // Kör funktionen om den finns
+       const handlePress = () => {
         if (onPress) {
-            onPress();
+            onPress(data);
         }
     };
 
@@ -35,6 +40,7 @@ const AnimatedButton = ({ title = "Tryck här!", onPress }) => {
             <Pressable
                 onPressIn={handlePressIn}
                 onPressOut={handlePressOut}
+                onPress={handlePress}
                 style={styles.button}
                 accessibilityRole="button"
                 accessibilityLabel="Knapp med animering"

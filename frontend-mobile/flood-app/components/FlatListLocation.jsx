@@ -1,14 +1,15 @@
 import { StyleSheet, Text, View, FlatList, StatusBar } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import CheckBox from './CheckBox';
 import AnimatedButton from './AnimatedButton';
 import { useTheme } from '../themes/ThemeContext';
 
 const FlatListLocation = ({ onLocationSelect }) => {
   if (!onLocationSelect) {
-    console.warn("Prop 'onLocationSelect' saknas i FlatListLocation" );
+    console.warn("Prop 'onLocationSelect' saknas i FlatListLocation");
   }
+
   const { theme } = useTheme();
   const styles = createStyles(theme);
 
@@ -22,13 +23,11 @@ const FlatListLocation = ({ onLocationSelect }) => {
         const response = await fetch('http://localhost:5001/users/safety');
         const json = await response.json();
 
-     
         const withWaterLevels = json.products.map(item => ({
           ...item,
-          waterlevel: Math.floor(Math.random() * 10), 
+          waterlevel: Math.floor(Math.random() * 10),
         }));
 
-       
         withWaterLevels.sort((a, b) => b.waterlevel - a.waterlevel);
 
         setLocations(withWaterLevels);
@@ -42,7 +41,6 @@ const FlatListLocation = ({ onLocationSelect }) => {
     getLocations();
   }, []);
 
- 
   const onSelect = (id) => {
     setSelectedId(id);
   };
@@ -56,12 +54,11 @@ const FlatListLocation = ({ onLocationSelect }) => {
     />
   );
 
-  const onButtonPress = () => {
+  const handleButtonPress = () => {
     if (selectedId) {
       const chosen = locations.find(loc => loc.id === selectedId);
       console.log('Vald plats:', chosen);
       onLocationSelect(chosen);
-      
     } else {
       alert('Vänligen välj en plats först!');
     }
@@ -69,30 +66,32 @@ const FlatListLocation = ({ onLocationSelect }) => {
 
   if (loading) {
     return (
-      <SafeAreaProvider>
-        <SafeAreaView style={styles.container}>
-          <Text>Laddar...</Text>
-        </SafeAreaView>
-      </SafeAreaProvider>
+      <SafeAreaView style={styles.loadingContainer}>
+        <Text>Laddar...</Text>
+      </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaProvider style={styles.box}>
-      <SafeAreaView style={styles.container}>
-        <Text style={styles.font}>Mätstationer</Text>
-        <FlatList
-          data={locations}
-          renderItem={renderItem}
-          keyExtractor={item => item.id.toString()}
-        />
-        <AnimatedButton style={styles.button}title="Påbörja arbete" onPress={onButtonPress} />
-      </SafeAreaView>
-    </SafeAreaProvider>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.font}>Mätstationer</Text>
+      <FlatList
+        data={locations}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
+        contentContainerStyle={styles.flatListContainer}
+      />
+      <AnimatedButton
+        style={styles.button}
+        title="Påbörja arbete"
+        onPress={handleButtonPress}
+      />
+    </SafeAreaView>
   );
 };
 
 export default FlatListLocation;
+
 
 const createStyles = (theme) =>
   StyleSheet.create({
