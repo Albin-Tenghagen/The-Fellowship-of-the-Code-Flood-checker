@@ -23,7 +23,10 @@ void setup()
 
 void loop()
 {
-    
+    String msg;
+    fellowshipLoRa::readUntilValueRecv(msg);
+
+    Serial.printf("[SX1262] Message received: %li\n", fellowshipLoRa::convertToInt16(msg[0], msg[1]));
 }
 
 #endif
