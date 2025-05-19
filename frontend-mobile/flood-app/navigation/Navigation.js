@@ -1,7 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Pressable, View } from "react-native";
+import { Pressable, View, Text, StyleSheet, Image } from "react-native";
 import HomeScreen from "../screens/HomeScreen";
 import { MaterialCommunityIcons, AntDesign, FontAwesome6 } from "@expo/vector-icons";
 import { useTheme } from "../themes/ThemeContext";
@@ -13,6 +13,24 @@ import TipsScreen from "../screens/TipsScreen";
 
 const Tab = createBottomTabNavigator();
 
+const HeaderTitle = () => {
+  const { theme } = useTheme();
+  
+  return (
+    <View style={styles.headerContainer}>
+      <Text style={[styles.headerTitle, { color: theme.textColor }]}>
+        Hydro<Text style={{ color: theme.primary }}>Guard</Text>
+      </Text>
+      {/* <MaterialCommunityIcons 
+        name="water-alert" 
+        size={24} 
+        color={theme.primary} 
+        style={styles.headerIcon} 
+      /> */}
+    </View>
+  );
+};
+
 const Navigation = () => {
   const { customTheme, theme, isDark, toggleTheme } = useTheme();
 
@@ -20,14 +38,25 @@ const Navigation = () => {
     <NavigationContainer theme={customTheme}>
       <Tab.Navigator
         screenOptions={{
-          headerTitle: "HydroGuard",
+          headerTitle: () => <HeaderTitle />,
           headerTitleAlign: "center",
           headerStyle: {
             elevation: 0,
             shadowOpacity: 0,
+            backgroundColor: theme.card,
+            borderBottomWidth: 1,
+            borderBottomColor: theme.border,
           },
           headerRight: () => (
-            <Pressable onPress={toggleTheme} style={{ marginRight: 15 }}>
+            <Pressable 
+              onPress={toggleTheme} 
+              style={({ pressed }) => [
+                styles.themeToggle,
+                { 
+                  backgroundColor: pressed ? theme.backgroundSecondary : 'transparent',
+                }
+              ]}
+            >
               <MaterialCommunityIcons
                 name={isDark ? "white-balance-sunny" : "weather-night"}
                 color={theme.accent}
@@ -35,11 +64,14 @@ const Navigation = () => {
               />
             </Pressable>
           ),
-          // Adjust the tab bar style to evenly space the tabs
           tabBarStyle: {
             paddingBottom: 5,
             height: 60,
-          }
+            backgroundColor: theme.card,
+            borderTopColor: theme.border,
+          },
+          tabBarActiveTintColor: theme.primary,
+          tabBarInactiveTintColor: theme.textSecondary,
         }}
       >
         <Tab.Screen
@@ -105,5 +137,29 @@ const Navigation = () => {
     </NavigationContainer>
   );
 };
+
+const styles = StyleSheet.create({
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerTitle: {
+    fontSize: 22,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+  },
+  headerIcon: {
+    marginLeft: 8,
+  },
+  themeToggle: {
+    marginRight: 15,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
+});
 
 export default Navigation;
