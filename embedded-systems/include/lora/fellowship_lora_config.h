@@ -15,7 +15,7 @@
 #define LORA_IS_SERVER               1 
 
 // The frequency in MHz to broadcast data. 
-#define LORA_FREQUENCY               868
+#define LORA_FREQUENCY               434
 
 // Bandwidth in kHz
 #define LORA_BANDWIDTH               125
