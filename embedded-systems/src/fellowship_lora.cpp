@@ -2,9 +2,11 @@
 
 int16_t fellowshipLoRa::init() 
 {	
-	Serial.println("Initializing ... ");
+	// Initializes device as a SX1262 module. 
 	device = new SX1262(new Module ( LORA_NSS, LORA_DIO1, LORA_RST, LORA_BUSY ));
-	error_flag = device->begin(868);
+
+	// Init device with the correct frequency.
+	error_flag = device->begin(LORA_FREQUENCY);
 	if (error_flag != RADIOLIB_ERR_NONE)
 	{
 		error_msg = "Unable to initialize LoRa device";
@@ -14,7 +16,7 @@ int16_t fellowshipLoRa::init()
 	else
 	{
 		flags.was_init = true;
-		Serial.println("Successfully initialized lora!");
+		error_msg = "Successfully initialized lora!";
 	}
 
 	return error_flag;
@@ -29,6 +31,7 @@ int16_t fellowshipLoRa::read(String &buffer)
 		return false;
 	}
 
+	// Blocking, returns RADIOLIB_ERR_RX_TIMEOUT on timeout.
 	error_flag = device->receive(buffer);
 
 	return error_flag;
@@ -44,7 +47,8 @@ int16_t fellowshipLoRa::readUntilValueRecv(String &buffer)
 	}
 
 	String msg;
-	
+
+	// Blocking, if recieve returns RADIOLIB_ERR_RX_TIMEOUT the loop continues to wait for something else.
 	while ((error_flag = device->receive(buffer)) == RADIOLIB_ERR_RX_TIMEOUT);
 
 	return error_flag;
@@ -58,15 +62,16 @@ int16_t fellowshipLoRa::write(String &msg)
 		return false;
 	}
 
+	// Transmits message
 	error_flag = device->transmit(msg);
-	Serial.println(error_flag);
 
 	return device->transmit(msg);
 }
 
 int16_t fellowshipLoRa::write(int16_t value)
 {
-	char msg[] = { (uint8_t) ((value & 0xFF00) >> 8), (uint8_t) (value), 0 };
+	// Converts int16_t to two uint8_t so it can be sent as a string. Probably overcomplicated ngl.
+	char msg[] = { (uint8_t) (value >> 8), (uint8_t) (value), 0 };
 
 	String str { msg };
 	return write(str);

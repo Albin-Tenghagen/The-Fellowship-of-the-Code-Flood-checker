@@ -4,7 +4,9 @@
 
 #include <vector>
 
-bool fellowshipWiFi::connectWiFi(const char *ssid, const char *passphrase, IPAddress local_ipaddr, IPAddress gateway, IPAddress subnet_mask)
+#include "wifi/secrets.h"
+
+bool fellowshipWiFi::connectWiFi(IPAddress local_ipaddr, IPAddress gateway, IPAddress subnet_mask)
 {
     WiFi.config(
         local_ipaddr,
@@ -13,7 +15,7 @@ bool fellowshipWiFi::connectWiFi(const char *ssid, const char *passphrase, IPAdd
         IPAddress{1, 1, 1, 1}
     );
 
-    WiFi.begin(ssid, passphrase);
+    WiFi.begin(SSID, PASSPHRASE);
     
     uint8_t status = WiFi.waitForConnectResult();
     if (status != wl_status_t::WL_CONNECTED)
