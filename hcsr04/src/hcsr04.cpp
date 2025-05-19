@@ -10,6 +10,8 @@ namespace hcsr04
 
     bool mock_mode = false;
     unsigned long mock_duration = 580; // Default to 10 cm (10 * 58)
+    float baseline_cm = 0.0;
+    bool baseline_set = false;
 
     void begin(uint8_t trig_pin, uint8_t echo_pin)
     {
@@ -66,6 +68,27 @@ namespace hcsr04
     {
         float current = readDistance();
         config.calibration_offset_cm = known_level_cm - current;
+    }
+
+    void setBaselineFromCurrentReading()
+    {
+        baseline_cm = readDistance();
+        baseline_set = true;
+    }
+
+    float readRelativeToBaseline()
+    {
+        if (!baseline_set)
+            return 0.0;
+
+        float current = readDistance();
+        return current - baseline_cm;
+    }
+
+    void setBaseline(float cm)
+    {
+        baseline_cm = cm;
+        baseline_set = true;
     }
 
     // Converts a distance in cm to the simulated echo duration (testing feature)

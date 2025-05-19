@@ -12,27 +12,42 @@ const unsigned long log_interval = 10000; // Simulates every 10 seconds rather t
 void setup()
 {
     Serial.begin(9600);
-
+    hcsr04::begin(9, 10);
     // Enable mock mode so simulated distances are used instead of real hardware
-    hcsr04::setMockMode(true);
+    hcsr04::setMockMode(false);
+
+    // Option 1: Automatically set a baseline value when starting the sensor
+    hcsr04::setBaselineFromCurrentReading();
+
+    // Option 2: Manually set a baseline value (example: = 43.0)
+    // hcsr04::setBaseline(0.0); // You can update this any time dynamically
 }
 
 void loop()
 {
-    unsigned long now = millis();
-    if (now - last_log_time >= log_interval)
+    float distance = hcsr04::readDistance();
+    float delta = hcsr04::readRelativeToBaseline();
+    float meter = distance / 100.0;
+
+    if (distance >= 380.0)
     {
-        last_log_time = now;
-
-        float cm = test_values_cm[current_index];
-        unsigned long simulated_duration = hcsr04::simulateEchoDurationFromCM(cm);
-        hcsr04::setMockDuration(simulated_duration);
-
-        float result_cm = hcsr04::readDistance();
-        Serial.print("Simulated Distance: ");
-        Serial.print(result_cm, 1);
-        Serial.println(" cm");
-
-        current_index = (current_index + 1) % num_values;
+        Serial.println("Out of range");
     }
+    else
+    {
+        Serial.print("Distance: ");
+        Serial.print(distance, 1);
+        Serial.print(" cm\t");
+
+        Serial.print(meter, 2);
+        Serial.print(" m\t");
+
+        Serial.print("Delta: ");
+        if (delta >= 0)
+            Serial.print("+");
+        Serial.print(delta, 1);
+        Serial.println(" cm from baseline");
+    }
+
+    delay(1000);
 }
