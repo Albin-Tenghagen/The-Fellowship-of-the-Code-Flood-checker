@@ -6,17 +6,16 @@ import WorkerStatus from '../components/WorkerStatus'
 import FlatListLocation from '../components/FlatListLocation';
 
 const UserScreen = () => {
-  const [selectedLocation, setSelectedLocation] = useState(null);
-
+  const [selectedData, setSelectedData] = useState(null);
+  
   return (
     <View style={styles.container}>
       <ScrollView>
       <View style={styles.statusContainer}>
-        <FlatListLocation onLocationSelect={setSelectedLocation}/>
-      </View>
-      
-        <View style={styles.statusContainer}>
-          <WorkerStatus locationData={selectedLocation}/>
+        <FlatListLocation onSend={setSelectedData}/>
+        {selectedData && ( 
+        <WorkerStatus data={selectedData}/>
+        )}
         </View>
      
       

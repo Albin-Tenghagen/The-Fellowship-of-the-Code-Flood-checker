@@ -5,13 +5,14 @@ import CheckBox from './CheckBox';
 import AnimatedButton from './AnimatedButton';
 import { useTheme } from '../themes/ThemeContext';
 
-const FlatListLocation = ({ onLocationSelect }) => {
-  if (!onLocationSelect) {
+const FlatListLocation = ({ onSend }) => {
+  if (!onSend) {
     console.warn("Prop 'onLocationSelect' saknas i FlatListLocation");
   }
 
   const { theme } = useTheme();
   const styles = createStyles(theme);
+  const [locationData, setLocationData] = useState(null);
 
   const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -58,7 +59,7 @@ const FlatListLocation = ({ onLocationSelect }) => {
     if (selectedId) {
       const chosen = locations.find(loc => loc.id === selectedId);
       console.log('Vald plats:', chosen);
-      onLocationSelect(chosen);
+      onSend(chosen);
     } else {
       alert('Vänligen välj en plats först!');
     }

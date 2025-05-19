@@ -6,6 +6,13 @@ import FlatListLocation from '../components/FlatListLocation';
 const SettingsScreen = () => {
   const [safety, setSafety] = useState([]);
   const [safetyError, setSafetyError] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+
+  const handleLocationSelect = (location) => {
+    setSelectedLocation(location);
+    console.log("Plats:", location);
+  };
+
   useEffect(() => {
     const getSafety = async () => {
       try {
@@ -21,7 +28,32 @@ const SettingsScreen = () => {
     <ScrollView>
     <View style={styles.container}>
     
-    
+      <FlatListLocation onLocationSelect={ handleLocationSelect }/>
+
+        {selectedLocation && (
+        <View style={{ marginTop: 30 }}>
+          <Text style={{ fontSize: 18 }}>Vald plats:</Text>
+          <Text> Plats: {selectedLocation.location}</Text>
+          <Text>Vattennivå: {selectedLocation.waterlevel} cm</Text>
+          <Text>Tidpunkt: {selectedLocation.timestamp} </Text>
+          <Text>Beskrivning: {selectedLocation.description} </Text>
+
+          {selectedLocation.proactiveActions && (
+            <View style={{ marginTop: 10 }}>
+              <Text style={{ fontWeight: 'bold' }}>Förebyggande åtgärder:</Text>
+              {selectedLocation.proactiveActions.basementProtection && (
+                <Text>• Källarskydd: {selectedLocation.proactiveActions.basementProtection}</Text>
+              )}
+              {selectedLocation.proactiveActions.trenchDigging && (
+                <Text>• Grävning: {selectedLocation.proactiveActions.trenchDigging}</Text>
+              )}
+              {selectedLocation.proactiveActions.electricHazards && (
+               <Text>• Elrisker: {selectedLocation.proactiveActions.electricHazards}</Text>
+              )}
+            </View>
+          )}
+        </View>
+      )}
       {safety.map((item) => (
         <View key={item.id} style={styles.item}>
           <Text style={styles.location}>{item.location}</Text>
