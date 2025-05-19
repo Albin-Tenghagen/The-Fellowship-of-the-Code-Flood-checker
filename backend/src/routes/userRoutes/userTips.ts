@@ -8,6 +8,7 @@ import { validateUserTips } from "../../validators/tipsValidation.ts";
 import { timestampCreation } from "../../middleware/timestampCreation.ts";
 
 import db from "../../../Database/db.ts"
+import { Query } from "pg";
 const pool = db.pool
 
 const userTipsRouter: Router = express.Router();
@@ -81,56 +82,40 @@ userTipsRouter.put(
   "/putTip/:id",
   async (req: TipRequest, res: Response): Promise<void> => {
     const id = Number(req.params.id);
-    const filePath = path.resolve("Database/tips.json");
-
-    const { location, description, } = req.body;
+    const { location, description } = req.body;
 
     try {
-      const jsonData = await readFile(filePath, "utf-8");
-      const tips = JSON.parse(jsonData);
+      const { rows } = await db.pool.query(`SELECT * FROM "userTips" WHERE id = $1`, [id]);
 
-      const index = tips.findIndex((tip: TipBody) => tip.id === id);
-      if (index === -1) {
+      if (rows.length === 0) {
         res.status(404).json({ message: "Tip not found..." });
         return;
       }
-
-      if (!tips) {
-        res.status(404).json({
-          message: "The server could not find the tips, please try again later",
-        });
-        return;
+ 
+      const updatedTip = {
+        timestamp: rows[0].timestamp,
+        username: rows[0].username,
+        location,
+        description
       }
-      tips[index].location = location;
-      tips[index].description = description;
+      const validatedTip = await validateUserTips(updatedTip);
 
-      try {
-        const validatedTip = await validateUserTips(tips[index]);
-        console.log("validatedTip : ", validatedTip);
-        tips.push(validatedTip);
-      } catch (error) {
-        console.error("Error: ", error);
-        res.status(400).json({
-          message: "Validation failed",
-          details: error,
-        });
-        return;
-      }
+      const updateQuery = `
+        UPDATE "userTips"
+        SET location = $1, description = $2
+        WHERE id = $3
+        RETURNING * `;
+      ;
+      const updateValues = [validatedTip.location, validatedTip.description, id];
+      const updateResult = await db.pool.query(updateQuery, updateValues);
 
-      fs.writeFileSync(filePath, JSON.stringify(tips, null, 2), "utf-8");
-
-      res.status(200).json({ message: "Tip edited!", tips: tips });
-      return;
+      res.status(200).json({ message: "Tip edited!", updatedTip: updateResult.rows[0] });
     } catch (error) {
-      console.error("Server error!");
-      res
-        .status(500)
-        .json({ message: "There was a major internet breakdown, sorry..." });
-      return;
+      console.error("Error:", error);
+      res.status(400).json({ message: "Validation or update failed", details: error });
     }
   }
 );
-
 //DELETE
 userTipsRouter.delete(
   "/deleteTip/:id",
@@ -139,27 +124,28 @@ userTipsRouter.delete(
     const filePath = path.resolve("Database/tips.json");
 
     try {
-      const jsonData = await readFile(filePath, "utf-8");
-      const tips = JSON.parse(jsonData);
-
-      const index = tips.findIndex((tip: TipBody) => tip.id === id);
-      if (index === -1) {
+        // const jsonData = await readFile(filePath, "utf-8");
+        // const tips = JSON.parse(jsonData);
+        const { rows } = await pool.query(`SELECT * FROM "userTips"`)
+      const index = rows.findIndex((tip: TipBody) => tip.id === id);
+      if (index === -1) { 
         res.status(404).json({ message: "Tip not found..." });
         return;
       }
 
-      if (!tips) {
+      if (!rows) {
         res.status(404).json({
           message: "The server could not find the tips, please try again later",
         });
         return;
       }
 
-      const lessTips = tips.splice(index, 1);
-      console.log(lessTips);
-
-      fs.writeFileSync(filePath, JSON.stringify(tips, null, 2), "utf-8");
-      res.status(200).json({ message: "Tip deleted!", lessTips: lessTips });
+      const query = `DELETE FROM "userTips" WHERE id = ($1)`
+      const values = [id]
+      console.log(query);
+      const result = await pool.query(query, values)
+      // fs.writeFileSync(filePath, JSON.stringify(tips, null, 2), "utf-8");
+      res.status(200).json({ message: "Tip deleted!", lessTips: result });
       return;
     } catch (error) {
       console.error("Server error ");

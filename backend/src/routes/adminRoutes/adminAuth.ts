@@ -1,5 +1,11 @@
 console.log("adminAuth router running....");
-import express, { Request, Response, Router } from "express";
+import express, { Request, Response, NextFunction } from "express";
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+import generateToken from "../../middleware/generate_jwt_token.ts";
+import authenticateToken from "../../middleware/jwtAuth.ts";
+dotenv.config();
+
 import { readFile } from "fs/promises";
 // Import nested modules
 import authMonitoringtRouter from "./adminMonitoring.ts";
@@ -30,11 +36,9 @@ adminRouter.get("/", (_req, res) => {
 //TODO Kryptera denna post för att få en funktionell inloggningsfunktion
 adminRouter.post(
   "/login",
-  async (req: adminLogin, res: Response): Promise<void> => {
+  async (req: adminLogin, res: Response, next: NextFunction): Promise<void> => {
     const filePath = path.resolve("Database/admin.json");
-    const name = req.body.name;
-    const email = req.body.email;
-    const password = req.body.password;
+    const { name, email, password } = req.body;
 
     if (![name, email, password].every(Boolean)) {
       res.status(400).json({
@@ -42,6 +46,7 @@ adminRouter.post(
       });
       return;
     }
+
     try {
       const jsonData = await readFile(filePath, "utf-8");
       const loginInfo = JSON.parse(jsonData);
@@ -55,17 +60,34 @@ adminRouter.post(
         specificLogin.email === email &&
         specificLogin.password === password
       ) {
-        res.status(200).json({
-          message: "Login successful, you should receive a session token",
-        });
+
+        next();
       } else {
         res.status(401).json({ message: "Invalid credentials" });
       }
     } catch (error) {
       console.error("Server error", error);
       res.status(500).json({ message: "SERVER SERVER ERROR" });
-      return;
+    }
+  },
+  generateToken,
+  (req: adminLogin, res: Response) => {
+    // Final response using token created in middleware
+    res.status(200).json({
+      message: "Login successful, you should receive a session token",
+      token: res.locals.token,
+    });
+  }
+);
+
+adminRouter.get(
+  "/secret",
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+    } catch (error) {
+      res.status(403).json({ error: "JWT-token är ogiltig" });
     }
   }
 );
+
 export default adminRouter;

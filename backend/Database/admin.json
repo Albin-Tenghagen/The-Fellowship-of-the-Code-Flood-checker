@@ -3,12 +3,14 @@
     "id": 1001,
     "name": "Albin Tenghagen",
     "email": "albin.tenghagen@chasacademy.se",
-    "password": "MittSuperHemligaLösenord"
+    "password": "MittSuperHemligaLösenord",
+    "role": "admin"
   },
   {
     "id": 1002,
     "name": "sami al-halabi",
     "email": "sami.al-halabi@chasacademy.se",
-    "password": "MittMegaHemligaLösenord"
+    "password": "MittMegaHemligaLösenord",
+    "role": "admin"
   }
 ]
