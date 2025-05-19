@@ -1,8 +1,9 @@
 #ifndef __SERVER__
 
 #include <Arduino.h>
-#include <RTOS.h>
+#include <WaterPressure.h>
 
+<<<<<<< HEAD:embedded-systems/src/client.cpp
 #include "lora/fellowship_lora.h"
 
 uint16_t sensor_value;
@@ -11,6 +12,9 @@ uint16_t sensor_value_sum;
 uint16_t sensor_average_value;
 const uint8_t SENSOR = A4;
 const uint8_t MEASURING_POINTS = 50;
+=======
+WaterPressure::WaterPressureSensor water_pressure_sensor(A4);
+>>>>>>> origin/dev_suvx_marco:embedded-systems/src/main.cpp
 
 void setup()
 {
@@ -28,6 +32,7 @@ void setup()
 
 void loop()
 {
+<<<<<<< HEAD:embedded-systems/src/client.cpp
     for (uint8_t i = 0; i < MEASURING_POINTS; i++)
     {
         sensor_value = analogRead(SENSOR);
@@ -54,3 +59,7 @@ void loop()
 }
 
 #endif
+=======
+    WaterPressure::readWaterLevel(water_pressure_sensor);
+}
+>>>>>>> origin/dev_suvx_marco:embedded-systems/src/main.cpp
