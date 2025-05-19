@@ -87,6 +87,15 @@ namespace fellowshipLoRa {
      * @returns RADIOLIB_ERR (int16_t).
      */
     int16_t write(String &msg);
+
+    /**
+     * @brief Converts two 8 bit values to a 16 bit value
+     * 
+     * @param higherBits Higher bits of the 16 bit variable
+     * @param lowerBits Lower bits of the 16 bit variable
+     * @return uint16_t result of calculation (higherBits << 8 + lowerBits)
+     */
+    uint16_t convertToInt16(uint8_t higherBits, uint8_t lowerBits);
 };
 
 #endif
