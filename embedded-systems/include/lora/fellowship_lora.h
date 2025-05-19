@@ -50,11 +50,11 @@ namespace fellowshipLoRa {
     int16_t init();
 
     /**
-     * @brief Checks if LoRa was initialized.
+     * @brief Checks if library was initialized.
      * 
-     * @returns RADIOLIB_ERR (int16_t)
+     * @returns true if library was initialized
      */
-    int16_t was_init();
+    bool wasInit();
     
     /**
      * @brief Reads a message from LoRa. This function is blocking.

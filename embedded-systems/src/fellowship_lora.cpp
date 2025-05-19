@@ -28,7 +28,7 @@ int16_t fellowshipLoRa::init()
 
 int16_t fellowshipLoRa::read(String &buffer)
 {
-	if (!was_init())
+	if (!wasInit())
 	{
 		error_flag = RADIOLIB_ERR_UNKNOWN;
 		error_msg = "LoRa was not initialized";
@@ -43,7 +43,7 @@ int16_t fellowshipLoRa::read(String &buffer)
 
 int16_t fellowshipLoRa::readUntilValueRecv(String &buffer)
 {
-	if (!was_init())
+	if (!wasInit())
 	{
 		error_flag = RADIOLIB_ERR_UNKNOWN;
 		error_msg = "LoRa was not initialized";
@@ -60,7 +60,7 @@ int16_t fellowshipLoRa::readUntilValueRecv(String &buffer)
 
 int16_t fellowshipLoRa::write(String &msg)
 {
-	if (!was_init())
+	if (!wasInit())
 	{
 		error_msg = "LoRa was not initialized";
 		return false;
@@ -81,7 +81,7 @@ int16_t fellowshipLoRa::write(int16_t value)
 	return write(str);
 }
 
-int16_t fellowshipLoRa::was_init()
+bool fellowshipLoRa::wasInit()
 {
 	return flags.was_init;
 }
