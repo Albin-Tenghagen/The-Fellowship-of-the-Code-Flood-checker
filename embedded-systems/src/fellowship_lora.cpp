@@ -29,9 +29,23 @@ int16_t fellowshipLoRa::read(String &buffer)
 		return false;
 	}
 
+	error_flag = device->receive(buffer);
+
+	return error_flag;
+}
+
+int16_t fellowshipLoRa::readUntilValueRecv(String &buffer)
+{
+	if (!was_init())
+	{
+		error_flag = RADIOLIB_ERR_UNKNOWN;
+		error_msg = "LoRa was not initialized";
+		return false;
+	}
+
 	String msg;
-	error_flag = device->receive(msg);
-	Serial.println(msg);
+	
+	while ((error_flag = device->receive(buffer)) == RADIOLIB_ERR_RX_TIMEOUT);
 
 	return error_flag;
 }
