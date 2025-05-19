@@ -7,13 +7,13 @@ import { fetchSafety } from '../services/api';
 const WorkerStatus = ({ locationName = null }) => {
   const { theme } = useTheme();
   const STATUS = {
-    NOT_STARTED: 'Ej påbörjad',
+    // NOT_STARTED: 'Ej påbörjad',
     ON_SITE: 'På plats',
     IN_PROGRESS: 'Arbete pågår',
     COMPLETED: 'Klart'
   };
-  const STATUS_ORDER = [STATUS.NOT_STARTED, STATUS.ON_SITE, STATUS.IN_PROGRESS, STATUS.COMPLETED];
-  const [status, setStatus] = useState(STATUS.NOT_STARTED);
+  const STATUS_ORDER = [STATUS.ON_SITE, STATUS.IN_PROGRESS, STATUS.COMPLETED];
+  const [status, setStatus] = useState(STATUS.ON_SITE);
   const [timeLeft, setTimeLeft] = useState(null);
   const [startTime, setStartTime] = useState(null);
   const [safety, setSafety] = useState([]);
@@ -192,8 +192,8 @@ const WorkerStatus = ({ locationName = null }) => {
 
   const getStatusColor = () => {
     switch (status) {
-      case STATUS.NOT_STARTED:
-        return '#4e535d';
+      // case STATUS.NOT_STARTED:
+      //   return '#4e535d';
       case STATUS.ON_SITE:
         return '#0e2c5c';
       case STATUS.IN_PROGRESS:
@@ -208,8 +208,8 @@ const WorkerStatus = ({ locationName = null }) => {
   const getStatusIcon = () => {
     const iconColor = getStatusColor();
     switch (status) {
-      case STATUS.NOT_STARTED:
-        return <AntDesign name="clockcircle" size={28} color={iconColor} />;
+      // case STATUS.NOT_STARTED:
+      //   return <AntDesign name="clockcircle" size={28} color={iconColor} />;
       case STATUS.ON_SITE:
         return <MaterialIcons name="place" size={28} color={iconColor} />;
       case STATUS.IN_PROGRESS:
@@ -433,7 +433,7 @@ const WorkerStatus = ({ locationName = null }) => {
       )}
 
       {/* Time Stats */}
-      {startTime && status !== STATUS.NOT_STARTED && (
+      {startTime && status !== STATUS.ON_SITE && (
         <View style={[styles.timeStats, { backgroundColor: theme.backgroundSecondary }]}>
           <View style={styles.statItem}>
             <Text style={[styles.statLabel, { color: theme.textTertiary }]}>Startad</Text>
@@ -452,7 +452,7 @@ const WorkerStatus = ({ locationName = null }) => {
         </View>
       )}
       
-      {status === STATUS.NOT_STARTED && (
+      {status === STATUS.ON_SITE && (
         <View style={[styles.instructionContainer, { backgroundColor: theme.backgroundTertiary }]}>
           <View style={styles.instructionContent}>
             <MaterialIcons name="info-outline" size={20} color={theme.primary} />
