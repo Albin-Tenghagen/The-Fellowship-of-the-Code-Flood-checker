@@ -68,7 +68,7 @@ namespace fellowshipLoRa {
      * @brief Reads a message from LoRa but unlike `read(String&)` does not return a timeout. This function is blocking.
      * 
      * @param buffer String to write message to
-     * @returns RADIOLIB_ERR (int16_t). On timeout function returns `RADIOLIB_ERR_RX_TIMEOUT`
+     * @returns RADIOLIB_ERR (int16_t).
      */
     int16_t readUntilValueRecv(String &buffer);
 
