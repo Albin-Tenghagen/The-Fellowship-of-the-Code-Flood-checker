@@ -50,3 +50,7 @@ The problem today has been that LoRa does not initialize. I have tried to use di
 ### 2025-05-05
 
 I have started using RadioLib and this seems to have solved the problem.
+
+### 2025-05-19
+
+Most code now works and documentation has been added. Both to code snippets and function explanations using doxygen. It also seems the boards have support for the LoRa band 434 so it can be used instead of 868 since it takes less power.  
