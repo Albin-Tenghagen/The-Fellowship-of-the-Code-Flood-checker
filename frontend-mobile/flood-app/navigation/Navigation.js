@@ -13,20 +13,21 @@ import TipsScreen from "../screens/TipsScreen";
 
 const Tab = createBottomTabNavigator();
 
+
 const HeaderTitle = () => {
   const { theme } = useTheme();
-  
+
   return (
     <View style={styles.headerContainer}>
       <Text style={[styles.headerTitle, { color: theme.textColor }]}>
         Hydro<Text style={{ color: theme.primary }}>Guard</Text>
       </Text>
-      {/* <MaterialCommunityIcons 
-        name="water-alert" 
-        size={24} 
-        color={theme.primary} 
-        style={styles.headerIcon} 
-      /> */}
+      <MaterialCommunityIcons
+        name="water"
+        size={24}
+        color={theme.primary}
+        style={styles.headerIcon}
+      />
     </View>
   );
 };
@@ -48,11 +49,11 @@ const Navigation = () => {
             borderBottomColor: theme.border,
           },
           headerRight: () => (
-            <Pressable 
-              onPress={toggleTheme} 
+            <Pressable
+              onPress={toggleTheme}
               style={({ pressed }) => [
                 styles.themeToggle,
-                { 
+                {
                   backgroundColor: pressed ? theme.backgroundSecondary : 'transparent',
                 }
               ]}
@@ -108,7 +109,7 @@ const Navigation = () => {
           component={LocationScreen}
           options={{
             tabBarIcon: ({ color, size }) => (
-             <FontAwesome6 name="location-dot" color={color} size={size} />
+              <FontAwesome6 name="location-dot" color={color} size={size} />
             ),
             tabBarLabel: "Location",
           }}
