@@ -7,7 +7,7 @@
 namespace DHTSensor
 {
 
-    const uint8_t DHTPIN = 2; 
+    const uint8_t DHTPIN = 3; //Change for the actual pin used 
     const uint8_t DHTTYPE = DHT11;
     DHT dht(DHTPIN, DHTTYPE);
     float temperature;
@@ -24,14 +24,14 @@ namespace DHTSensor
 
     void ReadDHTSensor()
     {
-        temperature = dht.readTemperature();
+        temperature = dht.readTemperature() - 2;
         humidity = dht.readHumidity();
     }
 
     void PrintDHTSensor()
     {
         Serial.print("Temperature: ");
-        Serial.print(temperature);
+        Serial.print(temperature, 1);
         Serial.println("°C");
         Serial.print("Humidity: ");
         Serial.print(humidity);
