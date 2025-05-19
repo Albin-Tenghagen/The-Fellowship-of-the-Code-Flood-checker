@@ -4,7 +4,7 @@ WaterPressure::WaterPressureSensor::WaterPressureSensor(uint8_t _SENSOR_PIN)
 :
 SENSOR_PIN(_SENSOR_PIN), MEASURING_POINTS(50)
 {
-    pinMode(_SENSOR_PIN, INPUT);
+    pinMode(SENSOR_PIN, INPUT);
 }
 
 WaterPressure::WaterPressureSensor::~WaterPressureSensor()
@@ -21,8 +21,8 @@ void WaterPressure::readWaterLevel(WaterPressureSensor& sensor_object)
         delay(100);
     }
 
-    // Serial.print("Sensor value: ");
-    // Serial.print(sensor_value);
-    // Serial.print(", Depth in mm: ");
-    // Serial.println(depth_mm);
+    Serial.print("Sensor value: ");
+    Serial.print(sensor_object.sensor_value);
+    Serial.print(", Depth in mm: ");
+    Serial.println(sensor_object.depth_mm);
 }
