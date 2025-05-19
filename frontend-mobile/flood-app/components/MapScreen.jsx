@@ -12,6 +12,7 @@ export default function MapScreen() {
     const [newMarkerCoordinate, setNewMarkerCoordinate] = useState(null);
     const [markerTitle, setMarkerTitle] = useState('');
     const [markerDescription, setMarkerDescription] = useState('');
+    const [currentDelta, setCurrentDelta] = useState({ latitudeDelta: 0.6, longitudeDelta: 0.6 });
     const mapRef = useRef(null);
 
     const [markers, setMarkers] = useState([
@@ -86,7 +87,7 @@ export default function MapScreen() {
             }
 
             try {
-                // Get location with more options for better accuracy
+    
                 let location = await Location.getCurrentPositionAsync({
                     accuracy: Location.Accuracy.Balanced,
                     timeout: 10000,
@@ -183,8 +184,73 @@ export default function MapScreen() {
     const deleteMarker = (markerId) => {
         const marker = markers.find(m => m.id === markerId);
         if (marker && marker.type === 'user') {
-
+            setMarkers(markers.filter(m => m.id !== markerId));
         }
+    };
+
+    const zoomOut = () => {
+        if (mapRef.current) {
+
+            mapRef.current.getCamera().then(camera => {
+ 
+                const newLatDelta = currentDelta.latitudeDelta * 2;
+                const newLngDelta = currentDelta.longitudeDelta * 2;
+
+                const maxLatDelta = 14;
+                const maxLngDelta = 14;
+
+                const constrainedLatDelta = Math.min(newLatDelta, maxLatDelta);
+                const constrainedLngDelta = Math.min(newLngDelta, maxLngDelta);
+
+                setCurrentDelta({
+                    latitudeDelta: constrainedLatDelta,
+                    longitudeDelta: constrainedLngDelta
+                });
+
+                mapRef.current.animateToRegion({
+                    latitude: camera.center.latitude,
+                    longitude: camera.center.longitude,
+                    latitudeDelta: constrainedLatDelta,
+                    longitudeDelta: constrainedLngDelta
+                });
+            });
+        }
+    };
+
+    const zoomIn = () => {
+        if (mapRef.current) {
+
+            mapRef.current.getCamera().then(camera => {
+
+                const newLatDelta = currentDelta.latitudeDelta / 2;
+                const newLngDelta = currentDelta.longitudeDelta / 2;
+
+                const minLatDelta = 0.005;
+                const minLngDelta = 0.005;
+
+                const constrainedLatDelta = Math.max(newLatDelta, minLatDelta);
+                const constrainedLngDelta = Math.max(newLngDelta, minLngDelta);
+
+                setCurrentDelta({
+                    latitudeDelta: constrainedLatDelta,
+                    longitudeDelta: constrainedLngDelta
+                });
+
+                mapRef.current.animateToRegion({
+                    latitude: camera.center.latitude,
+                    longitude: camera.center.longitude,
+                    latitudeDelta: constrainedLatDelta,
+                    longitudeDelta: constrainedLngDelta
+                });
+            });
+        }
+    };
+
+    const onRegionChangeComplete = (region) => {
+        setCurrentDelta({
+            latitudeDelta: region.latitudeDelta,
+            longitudeDelta: region.longitudeDelta
+        });
     };
 
     if (errorMsg) {
@@ -207,8 +273,9 @@ export default function MapScreen() {
                     longitudeDelta: 0.6,
                 }}
                 showsUserLocation={true}
-                showsMyLocationButton={true}
+                showsMyLocationButton={false}
                 onPress={handleMapPress}
+                onRegionChangeComplete={onRegionChangeComplete}
             >
                 {markers.map(marker => (
                     <Marker
@@ -237,6 +304,22 @@ export default function MapScreen() {
                 ))}
             </MapView>
 
+            <View style={styles.zoomContainer}>
+                <TouchableOpacity
+                    style={styles.zoomButton}
+                    onPress={zoomIn}
+                >
+                    <MaterialIcons name="add" size={24} color="white" />
+                </TouchableOpacity>
+                
+                <TouchableOpacity
+                    style={styles.zoomButton}
+                    onPress={zoomOut}
+                >
+                    <MaterialIcons name="remove" size={24} color="white" />
+                </TouchableOpacity>
+            </View>
+
             <View style={styles.buttonContainer}>
                 <TouchableOpacity
                     style={[styles.actionButton, isAddingMarker && styles.activeButton]}
@@ -254,7 +337,6 @@ export default function MapScreen() {
                 </TouchableOpacity>
             </View>
 
-
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -267,7 +349,7 @@ export default function MapScreen() {
 
                         <TextInput
                             style={styles.input}
-                            placeholder="Namn på platsen"
+                            placeholder="Titel (obligatorisk)"
                             value={markerTitle}
                             onChangeText={setMarkerTitle}
                             maxLength={50}
@@ -371,6 +453,24 @@ const styles = StyleSheet.create({
         backgroundColor: '#b85151',
     },
     locationButton: {
+        backgroundColor: '#3c7fc8',
+        padding: 12,
+        borderRadius: 30,
+        elevation: 5,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+    },
+    // New styles for zoom buttons
+    zoomContainer: {
+        position: 'absolute',
+        left: 20,
+        top: 100,
+        flexDirection: 'column',
+        gap: 10,
+    },
+    zoomButton: {
         backgroundColor: '#3c7fc8',
         padding: 12,
         borderRadius: 30,
