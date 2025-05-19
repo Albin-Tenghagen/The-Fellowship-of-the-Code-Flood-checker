@@ -97,6 +97,7 @@ const LoginScreen = ({ navigation }) => {
                 <AnimatedButton
                 onPress={handleSubmit}
                 style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+                title="Logga in"
                 accessibilityRole='button'
                 accessibilityLabel='Logga in knapp'
                 accessibilityHint='Tryck här för att logga in med deangivna uppgifterna'
