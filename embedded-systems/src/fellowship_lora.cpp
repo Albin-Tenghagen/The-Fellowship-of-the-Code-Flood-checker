@@ -5,8 +5,12 @@ int16_t fellowshipLoRa::init()
 	// Initializes device as a SX1262 module. 
 	device = new SX1262(new Module ( LORA_NSS, LORA_DIO1, LORA_RST, LORA_BUSY ));
 
+	device->setBandwidth(LORA_BANDWIDTH);
+	device->setOutputPower(LORA_OUTPUT_STRENGTH_DBG);
+	
 	// Init device with the correct frequency.
 	error_flag = device->begin(LORA_FREQUENCY);
+
 	if (error_flag != RADIOLIB_ERR_NONE)
 	{
 		error_msg = "Unable to initialize LoRa device";
