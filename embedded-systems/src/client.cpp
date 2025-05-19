@@ -1,3 +1,5 @@
+#ifndef __SERVER__
+
 #include <Arduino.h>
 #include <RTOS.h>
 
@@ -50,3 +52,5 @@ void loop()
 
     delay(5000);
 }
+
+#endif
