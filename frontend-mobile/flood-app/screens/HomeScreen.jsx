@@ -6,7 +6,9 @@ import WaterLevelCard from '../components/WaterLevelCard';
 import InfoCard from '../components/InfoCard';
 import TipsBoxCard from '../components/TipsBoxCard';
 import { fetchTips } from '../services/api';
-
+import { useUser } from '../context/UserContext';
+import { useAuth } from '../context/AuthContext';
+import { saveToStorage, getFromStorage, deleteFromStorage } from '../services/webCompatibleSecureStore';
 const HomeScreen = () => {
   const { theme } = useTheme();
 

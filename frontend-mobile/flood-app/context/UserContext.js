@@ -8,30 +8,30 @@ import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-    const [userName, setUserName] = useState("");
+    const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const load = async () => {
-            const storedUser = await AsyncStorage.getItem("userName");
-            if (storedUser) setUserName(storedUser);
+            const storedUser = await AsyncStorage.getItem("userProfile");
+            if (storedUser) setUser(storedUser);
             setIsLoading(false);
         };
         load();
     }, []);
 
-    const saveUserName = async (name) => {
-        setUserName(name);
-        await AsyncStorage.setItem("userName", name);
+    const saveUserData = async (userData) => {
+        setUser(userData);
+        await AsyncStorage.setItem("userProfile", JSON.stringify(userData));
     };
 
     const clearUser = async () => {
-        setUserName("");
-        await AsyncStorage.removeItem("userName");
+        setUser(null);
+        await AsyncStorage.removeItem("userProfile");
     }
 
     return (
-        <UserContext.Provider value={{userName, isLoading, saveUserName, clearUser}}>
+        <UserContext.Provider value={{user, isLoading, saveUserData, clearUser}}>
             {children}
         </UserContext.Provider>
     )

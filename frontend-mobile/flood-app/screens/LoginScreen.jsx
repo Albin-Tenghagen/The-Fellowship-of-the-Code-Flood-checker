@@ -7,45 +7,41 @@ import { saveToStorage, getFromStorage, deleteFromStorage } from '../services/we
 import { useAuth } from '../context/AuthContext';
 import { ImageBackground, TextInput } from 'react-native';
 import AnimatedButton from '../components/AnimatedButton';
+import { loginWithApi } from '../services/api';
 
 
 const LoginScreen = ({ navigation }) => {
-  const { theme, isDark, toggleTheme } = useTheme();
-  const { userName, saveUserName, clearUser } = useUser();
+  const { theme, isDark } = useTheme();
+  //const { userName, saveUserName, clearUser } = useUser();
   const styles = createStyles(theme);
-  const { login, logout } = useAuth();
+  const { login } = useAuth();
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("john@mail.com");
+  const [password, setPassword] = useState("pwned123");
   const [error, setError] = useState("");
 
-
-  const handleSubmit = () => {
-    if (name.trim().length < 2) {
-        setError("Namnet måste vara minst 2 tecken");
+  const handleSubmit = async () => {
+    if (!email || ! password) {
+        setError("Fyll i e-post och lösenord");
         return;
     }
-    saveUserName(name.trim());
-    const fakeToken = Math.random().toString(36).slice(2);
-    login(fakeToken);
-    navigation?.navigate("Home");
+    try {
+      const result = await loginWithApi(email, password);
+
+      if (!result || !result.access_token) {
+        setError("Du har skrivit in fel användarnamn eller lösenord");
+        return;
+      }
+      await login(result.access_token);
+      navigation.navigate("HomeScreen")
+      setError("Något gick fel vid inloggningen");
+    } catch (error) {
+      console.error("Login error", error);
+      setError("Något gick fel vid inlogggningen")
+    }
   };
 
-  const handleSaveToken = async () => {
-    const fakeToken = Math.random().toString(36).slice(2);
-    await saveToStorage("userToken", fakeToken);
-    console.log("Token sparad!");
-  };
-
-  const handleGetToken = async () => {
-    const token = await getFromStorage("userToken");
-    console.log("Token hämtad:", token);
-
-  };
-
-  const handleDeleteToken = async () => {
-    await deleteFromStorage("userToken");
-    console.log("Token är raderad");
-  };
-
+ 
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -61,59 +57,53 @@ const LoginScreen = ({ navigation }) => {
       accessibilityLabel='Bakgrundsbild med inloggningsformulär'
       >
         <View style={styles.overlay}>
-            <ScrollView
+            <View
               style={styles.container}
               contentContainerStyle={styles.scrollContainer}
               accessibilityRole={true}
               accessibilityLabel='Scrollbart innehåll med introduktion till appens aktiviteter'
               >
-            <View style={styles.form}>
-              <Text style={styles.label}>Admin inlogg
-              </Text>
+              <Text style={styles.label} accessibilityLabel='header'>Logga in</Text>
               <TextInput
-                value={name}
-                onChangeText={(text) => {
-                    setName(text);
+                  value={email}
+                  onChangeText={(text) => {
+                    setEmail(text);
                     setError("");
-                }}
-                style={styles.input}
-                placeholder='Skriv in ditt användarnamn'
-                placeholderTextColor={theme.textTertiary}
-                accessibilityLabel='Användarnamn'
-                accessibilityHint='Fält där du skriver in ditt användarnamn'
+                  }}
+                  style={styles.input}
+                  placeholder='Skriv in din email-adress'
+                  accessibilityLabel='email-adress'
+                  accessibilityHint='Fält där du kan skriva in din email'
+                  keyboardType='email-address'
+                  returnKeyType='done'
+                  />
+              <TextInput
+                value={password}
+                  onChangeText={(text) => {
+                    setPassword(text);
+                    setError("");
+                  }}
+                  style={styles.input}
+                  placeholder='Skriv in ditt lösenord'
+                  placeholderTextColor={theme. textSecondary}
+                  accessibilityLabel='Lösenord'
+                  accessibilityHint='Fält där du kan skriva in ditt lösenord'
+                  secureTextEntry
+                  keyboardType='default'
+                  returnKeyType='done'
                 />
-                {error ? <Text style={styles.errorText}>{error}</Text> : null}
+                {error ? <Text>{error}</Text> : null}
 
-                 <AnimatedButton title="Logga in" onPress={() => console.log('Sparar')}accessibilityRole='button'
-                accessibilityLabel='Knapp för att logga in' />
+                <AnimatedButton
+                onPress={handleSubmit}
+                style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+                accessibilityRole='button'
+                accessibilityLabel='Logga in knapp'
+                accessibilityHint='Tryck här för att logga in med deangivna uppgifterna'
+                ><Text>Logga in</Text></AnimatedButton>
 
-                
-            </View>
-            <View style={styles.section}>
-              <Text>
-                {userName ? `Välkommen ${userName}!` : `Välkommen - ingen användare!`}
-              </Text>
-              <Pressable
-                onPress={() => {
-                  logout();
-                  clearUser();
-                }}
-                >
-                  <Text>Logga ut</Text>
-                </Pressable>
-            </View>
-            <View >
-              <Pressable onPress={handleSaveToken}>
-                <Text>Spara token</Text>
-              </Pressable>
-              <Pressable onPress={handleGetToken}>
-               <Text>Hämta token</Text>
-              </Pressable>
-              <Pressable onPress={handleDeleteToken}>
-               <Text>Ta bort token</Text>
-              </Pressable>
-            </View>
-        </ScrollView>
+            
+        </View>
         </View>
       </ImageBackground>
     </SafeAreaView>
