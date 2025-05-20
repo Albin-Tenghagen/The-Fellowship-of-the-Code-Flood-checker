@@ -7,9 +7,9 @@ import InfoCard from '../components/InfoCard';
 import InfrastructureIssuesCard from '../components/InfrastructureIssuesCard';
 
 const HomeScreen = () => {
-  const { theme } = useTheme(); 
+  const { theme } = useTheme();
   const navigation = useNavigation();
-  
+
   const navigateToTipsScreen = () => {
     navigation.navigate('Tips');
   };
@@ -75,7 +75,7 @@ const HomeScreen = () => {
         <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
           Infrastrukturproblem
         </Text>
-        
+
         <InfrastructureIssuesCard
           title="Aktuella problem"
           width="90%"
@@ -86,7 +86,7 @@ const HomeScreen = () => {
           Säkerhetstips
         </Text>
 
-        <TouchableOpacity 
+        <TouchableOpacity
           style={[styles.navigationCard, { backgroundColor: theme.card }]}
           onPress={navigateToTipsScreen}
         >
@@ -120,6 +120,9 @@ const HomeScreen = () => {
             width="90%"
             height={50}
             icon="information-variant"
+            titleColor={theme.primary}
+            valueColor={theme.primary}
+            timestampColor={theme.primary}
           />
         </View>
 

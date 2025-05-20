@@ -17,21 +17,21 @@ const UserScreen = () => {
     pressureLevel: null
   });
   const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
     const getMonitoringData = async () => {
       try {
         setLoading(true);
         console.log("Fetching monitoring data...");
-        
+
         const monitoringData = await fetchMonitoring();
         console.log("Monitoring data fetched successfully, entries:", monitoringData.length);
-        
+
         if (monitoringData && monitoringData.length > 0) {
           const latestData = monitoringData[monitoringData.length - 1];
-          
+
           console.log("Using latest monitoring data:", latestData);
-          
+
           setWeatherData({
             temperature: latestData.temperature,
             humidity: latestData.humidity,
@@ -46,7 +46,7 @@ const UserScreen = () => {
       } catch (error) {
         console.error('Error fetching monitoring data:', error);
         Alert.alert(
-          "Data Loading Error", 
+          "Data Loading Error",
           "Could not load monitoring data. Please try again later.",
           [{ text: "OK" }]
         );
@@ -54,9 +54,9 @@ const UserScreen = () => {
         setLoading(false);
       }
     };
-    
+
     getMonitoringData();
-    
+
     const intervalId = setInterval(getMonitoringData, 5 * 60 * 1000);
     return () => clearInterval(intervalId);
   }, []);
@@ -67,7 +67,7 @@ const UserScreen = () => {
         <View style={styles.statusContainer}>
           <WorkerStatus />
         </View>
-        
+
         <InfrastructureIssuesCard
           title="Aktuella problem"
           width="90%"
@@ -86,6 +86,9 @@ const UserScreen = () => {
             icon="water"
             loading={loading}
             value={weatherData.ultraSoundLevel}
+            titleColor={theme.primary}
+            valueColor={theme.primary}
+            timestampColor={theme.primary}
           />
           <WaterLevelCard
             title="Trycknivå"
@@ -94,6 +97,9 @@ const UserScreen = () => {
             icon="gauge"
             loading={loading}
             value={weatherData.pressureLevel}
+            titleColor={theme.primary}
+            valueColor={theme.primary}
+            timestampColor={theme.primary}
           />
         </View>
 
@@ -109,6 +115,9 @@ const UserScreen = () => {
             icon="thermometer"
             loading={loading}
             value={weatherData.temperature}
+            titleColor={theme.primary}
+            valueColor={theme.primary}
+            timestampColor={theme.primary}
           />
           <WaterLevelCard
             title="Luftfuktighet"
@@ -117,6 +126,9 @@ const UserScreen = () => {
             icon="water-percent"
             loading={loading}
             value={weatherData.humidity}
+            titleColor={theme.primary}
+            valueColor={theme.primary}
+            timestampColor={theme.primary}
           />
         </View>
 
@@ -128,6 +140,9 @@ const UserScreen = () => {
             icon="weather-windy"
             loading={loading}
             value={weatherData.airPressure}
+            titleColor={theme.primary}
+            valueColor={theme.primary}
+            timestampColor={theme.primary}
           />
           <WaterLevelCard
             title="Jordfuktighet"
@@ -136,6 +151,9 @@ const UserScreen = () => {
             icon="water-percent"
             loading={loading}
             value={weatherData.soilMoisture}
+            titleColor={theme.primary}
+            valueColor={theme.primary}
+            timestampColor={theme.primary}
           />
         </View>
       </ScrollView>

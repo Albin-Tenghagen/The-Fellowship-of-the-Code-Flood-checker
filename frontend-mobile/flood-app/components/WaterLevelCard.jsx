@@ -12,6 +12,9 @@ const WaterLevelCard = ({
     image = null,
     parameter = null,
     alternateParams = [],
+    titleColor = null,
+    valueColor = null,
+    timestampColor = null, // Add this new prop
 }) => {
     const { theme } = useTheme();
     const [paramValue, setParamValue] = useState('Ej tillgänglig');
@@ -130,14 +133,19 @@ const WaterLevelCard = ({
                 height ? { height } : { aspectRatio: 1 },
             ]}
         >
-            {getParameterIcon() && (
-                <MaterialCommunityIcons
-                    name={getParameterIcon()}
-                    size={32}
-                    color={theme.icon}
-                    style={{ marginBottom: 8 }}
-                />
-            )}
+            <View style={styles.headerContainer}>
+                {getParameterIcon() && (
+                    <MaterialCommunityIcons
+                        name={getParameterIcon()}
+                        size={24}
+                        color={titleColor || theme.primary}
+                        style={{ marginBottom: 8 }}
+                    />
+                )}
+                <Text style={[styles.title, { color: titleColor || theme.primary }]}>
+                    {title}
+                </Text>
+            </View>
 
             {image && (
                 <Image
@@ -147,27 +155,23 @@ const WaterLevelCard = ({
                 />
             )}
 
-            <Text style={[styles.text, { color: theme.textColor }]}>
-                {title}
-            </Text>
-
             {loading ? (
                 <Text style={{ color: theme.textColor }}>Laddar...</Text>
             ) : error ? (
                 <View style={styles.dataContainer}>
-                    <Text style={[styles.valueText, { color: theme.textColor }]}>
+                    <Text style={[styles.valueText, { color: valueColor || theme.textColor }]}>
                         {paramValue} {getParameterUnit()}
                     </Text>
-                    <Text style={[styles.timestamp, { color: theme.textSecondary }]}>
+                    <Text style={[styles.timestamp, { color: timestampColor || theme.textSecondary }]}>
                         {timestamp}
                     </Text>
                 </View>
             ) : (
                 <View style={styles.dataContainer}>
-                    <Text style={[styles.valueText, { color: theme.textColor }]}>
+                    <Text style={[styles.valueText, { color: valueColor || theme.primary }]}>
                         {paramValue} {getParameterUnit()}
                     </Text>
-                    <Text style={[styles.timestamp, { color: theme.textSecondary }]}>
+                    <Text style={[styles.timestamp, { color: timestampColor || theme.textSecondary }]}>
                         {timestamp}
                     </Text>
                 </View>
@@ -193,10 +197,15 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 4,
     },
-    text: {
+    title: {
         fontSize: 16,
         fontWeight: '500',
         textAlign: 'center',
+        marginBottom: 8,
+    },
+    headerContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
         marginBottom: 8,
     },
     image: {
