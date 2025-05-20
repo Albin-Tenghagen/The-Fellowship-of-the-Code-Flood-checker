@@ -65,7 +65,7 @@ const InfrastructureIssuesCard = ({
         <MaterialCommunityIcons
           name="alert-circle-outline"
           size={24}
-          color={theme.icon}
+          color={theme.primary}
           style={{ marginRight: 8 }}
         />
         <Text style={[styles.title, { color: titleColor || theme.textPrimary }]}>

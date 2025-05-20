@@ -99,10 +99,10 @@ const HomeScreen = () => {
               style={styles.navigationIcon}
             />
             <View style={styles.navigationTextContainer}>
-              <Text style={[styles.navigationTitle, { color: theme.textColor }]}>
+              <Text style={[styles.navigationTitle, { color: theme.textPrimary }]}>
                 Skicka tips ifall du ser en risk för översvämning
               </Text>
-              <Text style={[styles.navigationSubtitle, { color: theme.textSecondary }]}>
+              <Text style={[styles.navigationSubtitle, { color: theme.textPrimary }]}>
                 Se alla tips eller dela med dig av dina egna
               </Text>
             </View>
@@ -121,9 +121,9 @@ const HomeScreen = () => {
             width="90%"
             height={50}
             icon="information-variant"
-            titleColor={theme.primary}
-            valueColor={theme.primary}
-            timestampColor={theme.primary}
+            titleColor={theme.textPrimary}
+            valueColor={theme.textPrimary}
+            timestampColor={theme.textPrimary}
           />
         </View>
 

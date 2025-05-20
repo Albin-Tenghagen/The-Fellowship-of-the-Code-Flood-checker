@@ -91,7 +91,7 @@ const TipInputCard = ({
       </View>
       
       <View style={styles.inputContainer}>
-        <Text style={[styles.label, { color: textColor || theme.textColor }]}>Beskrivning</Text>
+        <Text style={[styles.label, { color: textColor || theme.textPrimary }]}>Beskrivning</Text>
         <TextInput
           style={[styles.textArea, { backgroundColor: theme.inputBackground, color: theme.textPrimary }]}
           placeholder="Beskriv ditt tips här..."

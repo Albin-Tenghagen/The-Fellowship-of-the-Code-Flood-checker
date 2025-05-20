@@ -1,4 +1,3 @@
-
 import { StyleSheet, View, Image, Text } from 'react-native';
 import React from 'react';
 import { useTheme } from '../themes/ThemeContext';
@@ -12,6 +11,7 @@ const InfoCard = ({
     height = null,
     icon = null,
     image = null,
+    textColor = null,
 }) => {
 
     const { theme } = useTheme();
@@ -29,7 +29,7 @@ const InfoCard = ({
                 <MaterialCommunityIcons
                     name={icon}
                     size={32}
-                    color={theme.icon}
+                    color={theme.primary}
                     style={{ marginBottom: 8 }}
                 />
             )}
@@ -42,10 +42,10 @@ const InfoCard = ({
                 />
             )}
 
-            <Text style={[styles.title, { color: theme.textColor }]}>
+            <Text style={[styles.title, { color: textColor || theme.textPrimary }]}>
                 {title}
             </Text>
-            <Text style={[styles.text, { color: theme.textColor }]}>
+            <Text style={[styles.text, { color: textColor || theme.textPrimary }]}>
                 {text}
             </Text>
         </View>
