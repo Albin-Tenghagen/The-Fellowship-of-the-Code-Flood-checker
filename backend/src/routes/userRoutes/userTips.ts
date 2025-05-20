@@ -1,25 +1,22 @@
 console.log("tips router running....");
 import express, { Request, Response, Router } from "express";
-import fs from "fs";
-import { readFile } from "fs/promises";
 import path from "path";
-
-import { userTipObject, TipBody } from "../../types/types.ts";
+import { TipRequest, userTipObject } from "../../types/types.ts";
 import { validateUserTips } from "../../validators/tipsValidation.ts";
+import { timestampCreation } from "../../middleware/timestampCreation.ts";
+
+import db from "../../../Database/db.ts";
+const pool = db.pool;
 
 const userTipsRouter: Router = express.Router();
-
-interface TipRequest extends Request<{ id: string }, any, TipBody> {}
 
 userTipsRouter.get(
   "/",
   async (_req: TipRequest, res: Response): Promise<void> => {
-    const filePath = path.resolve("Database/tips.json");
-
     try {
-      const jsonData = await readFile(filePath, "utf-8");
-      const tips = JSON.parse(jsonData);
-      console.log(tips);
+      const { rows: tips } = await pool.query(
+        `SELECT * FROM "userTips" ORDER BY id ASC`
+      );
 
       if (!tips) {
         res.status(404).json({
@@ -44,50 +41,39 @@ userTipsRouter.get(
 userTipsRouter.post(
   "/postTip",
   async (req: TipRequest, res: Response): Promise<void> => {
-    const filePath = path.resolve("Database/tips.json");
+    const { location, description } = req.body;
 
-    const { timestamp, location, description, user } = req.body;
+    if (!location || !description) {
+      res.status(400).json({ Error: "All values are required" });
+      return;
+    }
+
+    const newTip = {
+      timestamp: timestampCreation(),
+      location,
+      description,
+    };
 
     try {
-      const jsonData = await readFile(filePath, "utf-8");
-      const tips = JSON.parse(jsonData);
+      const validatedTip = await validateUserTips(newTip);
+      const query = `
+      INSERT INTO "userTips" (timestamp, location, description, username)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *`;
+      const values = [
+        validatedTip.timestamp,
+        validatedTip.location,
+        validatedTip.description,
+        validatedTip.username,
+      ];
 
-      if (!timestamp || !location || !description || !user) {
-        res.status(400).json({ Error: "All values are required" });
-        return;
-      }
-
-      const newTip = {
-        id: tips.length + 1001,
-        timestamp,
-        location,
-        description,
-        user,
-      };
-      try {
-        const validatedTip = await validateUserTips(newTip);
-        console.log("validatedTip : ", validatedTip);
-        tips.push(validatedTip);
-      } catch (error) {
-        console.error("Error: ", error);
-        res.status(400).json({
-          message: "Validation failed",
-          details: error,
-        });
-        return;
-      }
-
-      fs.writeFileSync(filePath, JSON.stringify(tips, null, 2), "utf-8");
-      res
-        .status(201)
-        .json({ message: "Tips added", tips: tips, newtip: newTip });
-      return;
+      const result = await db.pool.query(query, values);
+      res.status(201).json({ message: "Tip added", newTip: result.rows[0] });
     } catch (error) {
-      console.error("Server error ");
+      console.error("Error:", error);
       res
-        .status(500)
-        .json({ message: "There was a major internet breakdown, sorry..." });
-      return;
+        .status(400)
+        .json({ message: "Validation or DB insert failed", details: error });
     }
   }
 );
@@ -97,58 +83,50 @@ userTipsRouter.put(
   "/putTip/:id",
   async (req: TipRequest, res: Response): Promise<void> => {
     const id = Number(req.params.id);
-    const filePath = path.resolve("Database/tips.json");
-
-    const { timestamp, location, description, user } = req.body;
+    const { location, description } = req.body;
 
     try {
-      const jsonData = await readFile(filePath, "utf-8");
-      const tips = JSON.parse(jsonData);
+      const { rows } = await db.pool.query(
+        `SELECT * FROM "userTips" WHERE id = $1`,
+        [id]
+      );
 
-      const index = tips.findIndex((tip: TipBody) => tip.id === id);
-      if (index === -1) {
+      if (rows.length === 0) {
         res.status(404).json({ message: "Tip not found..." });
         return;
       }
 
-      if (!tips) {
-        res.status(404).json({
-          message: "The server could not find the tips, please try again later",
-        });
-        return;
-      }
-      tips[index].timestamp = timestamp;
-      tips[index].location = location;
-      tips[index].description = description;
-      tips[index].user = user;
+      const updatedTip = {
+        timestamp: rows[0].timestamp,
+        username: rows[0].username,
+        location,
+        description,
+      };
+      const validatedTip = await validateUserTips(updatedTip);
 
-      try {
-        const validatedTip = await validateUserTips(tips[index]);
-        console.log("validatedTip : ", validatedTip);
-        tips.push(validatedTip);
-      } catch (error) {
-        console.error("Error: ", error);
-        res.status(400).json({
-          message: "Validation failed",
-          details: error,
-        });
-        return;
-      }
+      const updateQuery = `
+        UPDATE "userTips"
+        SET location = $1, description = $2
+        WHERE id = $3
+        RETURNING * `;
+      const updateValues = [
+        validatedTip.location,
+        validatedTip.description,
+        id,
+      ];
+      const updateResult = await db.pool.query(updateQuery, updateValues);
 
-      fs.writeFileSync(filePath, JSON.stringify(tips, null, 2), "utf-8");
-
-      res.status(200).json({ message: "Tip edited!", tips: tips });
-      return;
-    } catch (error) {
-      console.error("Server error!");
       res
-        .status(500)
-        .json({ message: "There was a major internet breakdown, sorry..." });
-      return;
+        .status(200)
+        .json({ message: "Tip edited!", updatedTip: updateResult.rows[0] });
+    } catch (error) {
+      console.error("Error:", error);
+      res
+        .status(400)
+        .json({ message: "Validation or update failed", details: error });
     }
   }
 );
-
 //DELETE
 userTipsRouter.delete(
   "/deleteTip/:id",
@@ -157,27 +135,28 @@ userTipsRouter.delete(
     const filePath = path.resolve("Database/tips.json");
 
     try {
-      const jsonData = await readFile(filePath, "utf-8");
-      const tips = JSON.parse(jsonData);
-
-      const index = tips.findIndex((tip: TipBody) => tip.id === id);
+      // const jsonData = await readFile(filePath, "utf-8");
+      // const tips = JSON.parse(jsonData);
+      const { rows } = await pool.query(`SELECT * FROM "userTips"`);
+      const index = rows.findIndex((tip: userTipObject) => tip.id === id);
       if (index === -1) {
         res.status(404).json({ message: "Tip not found..." });
         return;
       }
 
-      if (!tips) {
+      if (!rows) {
         res.status(404).json({
           message: "The server could not find the tips, please try again later",
         });
         return;
       }
 
-      const lessTips = tips.splice(index, 1);
-      console.log(lessTips);
-
-      fs.writeFileSync(filePath, JSON.stringify(tips, null, 2), "utf-8");
-      res.status(200).json({ message: "Tip deleted!", lessTips: lessTips });
+      const query = `DELETE FROM "userTips" WHERE id = ($1)`;
+      const values = [id];
+      console.log(query);
+      const result = await pool.query(query, values);
+      // fs.writeFileSync(filePath, JSON.stringify(tips, null, 2), "utf-8");
+      res.status(200).json({ message: "Tip deleted!", lessTips: result });
       return;
     } catch (error) {
       console.error("Server error ");

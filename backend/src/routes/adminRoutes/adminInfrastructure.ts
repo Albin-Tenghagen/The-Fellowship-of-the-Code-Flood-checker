@@ -3,7 +3,7 @@ import express, { Request, Response, Router } from "express";
 import fs from "fs";
 import { readFile, writeFile } from "fs/promises";
 import path from "path";
-import { infrastructureRequest } from "types/types";
+import { infrastructureRequest, infrastructureBody } from "types/types";
 import { validateInfrastructureIssue } from "../../validators/infrastructureValidation.ts";
 import { timestampCreation } from "../../middleware/timestampCreation.ts";
 const authInfrastructureRouter = express.Router();
@@ -47,7 +47,7 @@ authInfrastructureRouter.post(
   async (req: infrastructureRequest, res: Response): Promise<void> => {
     const filePath = path.resolve("Database/infrastructure.json");
 
-    const { problem } = req.body;
+    const { problem, location } = req.body;
 
     try {
       const jsonData = await readFile(filePath, "utf-8");
@@ -64,6 +64,7 @@ authInfrastructureRouter.post(
         id: infrastructureData.length + 1001,
         timestamp,
         problem,
+        location
       };
       console.log(newInfrastructureData);
       try {
@@ -101,6 +102,68 @@ authInfrastructureRouter.post(
 );
 
 //PUT
+authInfrastructureRouter.put(
+  "/putInfrastructure/:id",
+  async (req: infrastructureRequest, res: Response): Promise<void> => {
+    const id = Number(req.params.id);
+    const filePath = path.resolve("Database/infrastructure.json");
+    const { problem, location } = req.body;
+
+    try {
+      const jsonData = await readFile(filePath, "utf-8");
+      const problems: infrastructureBody[] = JSON.parse(jsonData);
+
+      const index = problems.findIndex((problem) => problem.id === id);
+      if (index == -1) {
+        res.status(404).json({ message: "problem not found" });
+        return;
+      }
+
+      problems[index].location = location;
+      problems[index].problem = problem;
+
+      await writeFile(filePath, JSON.stringify(problems, null,), "utf-8")
+
+      res.status(200).json({ message: "Problem updated successfully" });
+    } catch (error) {
+      console.error("server error", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+);
 
 //DELETE
+
+authInfrastructureRouter.delete(
+  "/deleteInfrastructure/:id",
+  async (req: infrastructureRequest, res: Response): Promise<void> => {
+    const id = Number(req.params.id);
+    const filePath = path.resolve("/Database/infrastructure.json");
+
+    try {
+      const jsonData = await readFile(filePath, "utf-8");
+      const problems: infrastructureBody[] = JSON.parse(jsonData);
+      
+      const index = problems.findIndex((problem) => problem.id == id);
+      if (index === -1) {
+        res.status(404).json({ message: "Problem not found..." });
+        return;
+      }
+      if (!problems) {
+        res.status(404).json({ message: "The server could not find the problems, please try again later" });
+        return;
+      }
+
+      const lessProblems = problems.splice(index, 1); 
+      console.log(lessProblems)
+      await writeFile(filePath, JSON.stringify(problems, null, 2), "utf-8");
+      res.status(200).json({ message: "Problem deleted!", lessProblems: lessProblems})
+      return;
+    } catch (error) {
+      console.error("Server error", error);
+      res.status(500).json({ message: "Internal server error" });
+      return;
+    }
+  }
+);
 export default authInfrastructureRouter;

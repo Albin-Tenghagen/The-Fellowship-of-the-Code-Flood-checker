@@ -2,9 +2,9 @@ console.log("Issue upkeep router running....");
 import express, { Request, Response } from "express";
 import { readFile, writeFile } from "fs/promises";
 import path from "path";
-import fs from "fs";
-import { usersSafetyInfo, userSafetyBody } from "types/types";
+import { user_observation, users_observation_info } from "types/types";
 import { validateIssueUpkeep } from "../../validators/issueUpkeepValidation.ts";
+import { timestampCreation } from "../../middleware/timestampCreation.ts";
 
 const authIssueUpkeepRouter = express.Router();
 
@@ -21,41 +21,31 @@ authIssueUpkeepRouter.get("/", (_req, res) => {
 //POST Creating status or warnings for the public eye to see
 authIssueUpkeepRouter.post(
   "/publicWarning",
-  async (req: usersSafetyInfo, res: Response): Promise<void> => {
+  async (req: Request, res: Response): Promise<void> => {
     const filePath = path.resolve("Database/userSafety.json");
 
-    const newSafetyBody = {
+    const new_user_observation = {
       location: req.body.location,
       description: req.body.description,
-      proactiveActions: {
-        basementProtection: req.body.proactiveActions?.basementProtection,
-        trenchDigging: req.body.proactiveActions?.trenchDigging,
-        electricHazards: req.body.proactiveActions?.electricHazards,
-      },
+      proactiveActions: req.body.proactiveActions,
+      warning: req.body.warning,
+      waterlevel: req.body.waterlevel,
+      riskAssesment: req.body.riskAssesment
     };
+
+    if (typeof req.body.proactiveActions !== "boolean") {
+      res.status(400).send({ error: "ProactiveActions must be a boolean" });
+      return;
+    }
 
     try {
       const jsonData = await readFile(filePath, "utf-8");
       const issues = JSON.parse(jsonData);
 
-      const swedenTime = new Intl.DateTimeFormat("sv-SE", {
-        timeZone: "Europe/Stockholm",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-      }).format(new Date());
-
-      // Format it like "YYYY-MM-DD HH:mm:ss"
-      const [datePart, timePart] = swedenTime.split(", ");
-      const formatedDate = `${datePart} ${timePart}`;
-
-      const publicIssue: userSafetyBody = {
+      const publicIssue: user_observation = {
         id: issues.length + 1001,
-        timestamp: formatedDate,
-        ...newSafetyBody,
+        timestamp: timestampCreation(),
+        ...new_user_observation,
       };
 
       try {
@@ -71,7 +61,7 @@ authIssueUpkeepRouter.post(
 
       await writeFile(filePath, JSON.stringify(issues, null, 2));
 
-      res.status(201).json({ message: "New safety issue added successfully" });
+      res.status(201).json({ message: "New user observation issue added successfully" });
     } catch (error) {
       console.error("Error reading or writing the file:", error);
       res.status(500).json({ message: "Internal server error" });
@@ -82,14 +72,14 @@ authIssueUpkeepRouter.post(
 //PUT Modifying current issue
 authIssueUpkeepRouter.put(
   "/publicWarning/:id",
-  async (req: usersSafetyInfo, res: Response): Promise<void> => {
+  async (req: Request, res: Response): Promise<void> => {
     const id = Number(req.params.id);
     const filePath = path.resolve("Database/userSafety.json");
-    const { timestamp, location, description, proactiveActions } = req.body;
+    const { location, description, proactiveActions } = req.body;
 
     try {
       const jsonData = await readFile(filePath, "utf-8");
-      const issues: userSafetyBody[] = JSON.parse(jsonData);
+      const issues: user_observation[] = JSON.parse(jsonData);
 
       const index = issues.findIndex((issue) => issue.id === id);
       if (index == -1) {
@@ -116,13 +106,13 @@ authIssueUpkeepRouter.put(
 //DELETE for deleting irrelevant issues
 authIssueUpkeepRouter.delete(
   "/publicWarning/:id",
-  async (req: usersSafetyInfo, res: Response): Promise<void> => {
+  async (req: Request, res: Response): Promise<void> => {
     const id = Number(req.params.id);
     const filePath = path.resolve("Database/userSafety.json");
 
     try {
       const jsonData = await readFile(filePath, "utf-8");
-      const issues: userSafetyBody[] = JSON.parse(jsonData);
+      const issues: user_observation[] = JSON.parse(jsonData);
 
       const index = issues.findIndex((issue) => issue.id === id);
       if (index === -1) {

@@ -5,7 +5,7 @@ info:
   version: 1.0.0
 
 servers:
-  - url: http://localhost:5000/
+  - url: http://localhost:5001/
     description: "This is the current testing and production enviroment for this API"
 
 paths:
@@ -230,8 +230,7 @@ paths:
                   risks:
                     type: array
                     items:
-                      type: object
-                      additionalProperties: true
+                      $ref: "#/components/schemas/riskAssesment"
         "404":
           description: Risks not found
           content:
@@ -535,10 +534,13 @@ paths:
             schema:
               type: object
               properties:
+                location:
+                  type: string
                 problem:
                   type: string
               required:
                 - problem
+                - location
       responses:
         "201":
           description: Created
@@ -571,14 +573,123 @@ paths:
                     type: string
                     example: There was a major internet breakdown, sorry...
 
+  /admins/authenticated/infrastructureIssues/putInfrastructure/{id}:
+    put:
+      tags:
+        - Admin Infrastructure
+      summary: Edits a current infrastructure message
+      description: |
+        Edits a problem related to infrastructure. For example, if a road gets flooded, this endpoint can be used to update the infrastructure issue.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the infrastructure issue to update
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                problem:
+                  type: string
+                  example: "Road flooded"
+                location:
+                  type: string
+                  example: "Main Street, City Center"
+      responses: 
+        "200": 
+          description: Problem updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  message:
+                    type: string
+                    example: "Problem updated successfully"
+                  updatedInfrastructureIssue:
+                    type: object
+                    $ref: "#/components/schemas/InfrastructureIssue"
+        "404":
+          description: Problem not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Problem not found"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Internal server error"
+  
+  /admins/authenticated/infrastructureIssues/deleteInfrastructure/{id}:
+    delete:
+      tags:
+        - Admin Infrastructure
+      summary: Delete an infrastructure problem
+      description: Deletes an infrastructure issue by its ID, such as a reported road problem.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the infrastructure issue to delete
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Problem deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Problem deleted!
+                  lessProblems:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/InfrastructureIssue"
+        "404":
+          description: Problem not found or list not available
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Problem not found...
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Internal server error
+
   /admins/authenticated/issueUpkeep/:
     get:
       tags: 
         - Admin IssueUpkeep
       summary: Welcome to the admin issue upkeep endpoint
       description: Returns a welcome message confirming the adminIssueUpkeep endpoint is active
-      tags:
-        - Infrastructure
       responses:
         "200":
           description: Endpoint is reachable and returning expected response
@@ -589,7 +700,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: Welcome to the adminIssueUpkeep Endpoint
+                    example: "Welcome to the adminIssueUpkeep Endpoint"
 
   /admins/authenticated/issueUpkeep/publicWarning:
     post:
@@ -612,6 +723,7 @@ paths:
                 properties:
                   message:
                     type: string
+                    example: "Safety issue added successfully"
         "500":
           description: Internal server error
 
@@ -642,15 +754,31 @@ paths:
                 properties:
                   message:
                     type: string
+                    example: "Issue updated"
                   issues:
                     type: array
                     items:
                       $ref: "#/components/schemas/UserSafetyBody"
         "404":
           description: Issue not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Issue not found"
         "500":
           description: Internal server error
-
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Internal server error"
     delete:
       tags:
         - Admin IssueUpkeep
@@ -671,14 +799,32 @@ paths:
                 properties:
                   message:
                     type: string
+                    example: "Issue deleted"
                   lessIssues:
                     type: array
                     items:
                       $ref: "#/components/schemas/UserSafetyBody"
         "404":
           description: Issue not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Issue not found"
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Internal server error"
+
 
 components:
   schemas:
@@ -724,14 +870,7 @@ components:
           type: string
         problem:
           type: string
-    ProactiveActions:
-      type: object
-      properties:
-        basementProtection:
-          type: boolean
-        trenchDigging:
-          type: boolean
-        electricHazards:
+        location: 
           type: string
     UserSafetyBodyInput:
       type: object
@@ -744,17 +883,32 @@ components:
         description:
           type: string
         proactiveActions:
-          $ref: "#/components/schemas/ProactiveActions"
+          type: boolean
     UserSafetyBody:
-      allOf:
-        - $ref: "#/components/schemas/UserSafetyBodyInput"
-        - type: object
-          required:
-            - id
-            - timestamp
-          properties:
-            id:
-              type: integer
-            timestamp:
-              type: string
-              format: date-time
+      type: object
+      required:
+        - id
+        - timestamp
+        - location
+        - description
+        - proactiveActions
+      properties:
+        id:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time
+        location:
+          type: string
+        description:
+          type: string
+        proactiveActions:
+          type: boolean
+    riskAssesment :
+        type: object
+        required:
+          - id
+          - timestamp
+          - warning
+          - waterlevel
+          - riskAssesment

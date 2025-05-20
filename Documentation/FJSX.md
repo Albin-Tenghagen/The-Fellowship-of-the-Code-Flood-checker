@@ -1,11 +1,7 @@
-# English ↓
-
-    Progress of the day 4/4-25
+1.  Progress of the day 4/4-25
     Branch FJSX-develop created
-
-Endpoints/modules for the REST-API
-/user
-
+    Endpoints/modules for the REST-API
+    /user
     |
 
     |-----/user/tips
@@ -115,21 +111,20 @@ What has been accomplished
 
     Middleware has been added !!NOTE ONLY AS ROUTING MIDDLEWARE
 
-3. 17/4-25
-
-What has been accomplished
+3.  17/4-25
+    What has been accomplished
 
     Started working on swagger documentation, but its doesnt seem to work, we get the error message: No operations
 
-4. 18/4-25
+4.  18/4-25
 
-What has been accomplished
+    ## What has been accomplished
 
     Worked on CRUD-operations for the admin routes, finished almost all of them, will continue on monday
 
-5. 21/4-25
+5.  21/4-25
 
-What has been accomplished
+    ## What has been accomplished
 
     finished the CRUD-operations in their current form They are in need of revisiting when the database is in place
 
@@ -137,9 +132,9 @@ What has been accomplished
 
     Swagger have we worked with a bit, but it is not cooperating. Considering just starting with yaml right away instead
 
-6. 23/4-25
+6.  23/4-25
 
-What has been accomplished
+    ## What has been accomplished
 
     Got swagger to work with a yaml-file. There is now swagger documentation for each CRUD-operatio on each endpoint.
 
@@ -148,11 +143,97 @@ What has been accomplished
     furthest down on that page there is also "types" typed up for the data that is being sent and recieved. So they now how the data is structured.
     It needs a code-review before merging to develop. The code review shall dony by next meeting(25/4-25)
 
-7. 25/4-25
-   What has been accomplished
+7.  25/4-25
 
-   Swagger documentation and instruction for the frontend team is finished and in this branch under FORFRONTEND.md
+    ## What has been accomplished
 
-   Joi-validation for a big part of the data being worked with has been implemented
+    Swagger documentation and instruction for the frontend team is finished and in this branch under FORFRONTEND.md
 
-   Middleware function for timestamp creation is put in place. But needs to be implemented throughout the whole project
+    Joi-validation for a big part of the data being worked with has been implemented
+
+    Middleware function for timestamp creation is put in place. But needs to be implemented throughout the whole project
+
+8.  02/05-25
+
+    ## What has been accomplished
+
+    Put and delete implemented in infrastructure issues.
+
+    swagger documentation is updated with new types and routes. some have also been updated to
+
+    A diagram for how the database is gonna be structured
+    Link to diagram: https://drive.google.com/file/d/16A-hVIY7EcBifMhhOyvWhP4TI4wbav9T/view?usp=sharing
+
+    Applied the timestapmCreation middleware all over di place.
+
+    Joi Validation has been updated to accommodate the change of different types.
+
+9.  15/05-25
+
+    ## What needs to be done
+
+        * types.ts: some types need to altered because the data structure has been changed
+            - monitoring type
+            - userTipObject and TipBody need to be checked on. Does it need to be  seperated?
+            - userSafety and userRisk should be removed and replaced with user_observation
+            - loginData: does it need token key?
+            - public_info? Should we use it?
+
+        * (TALK WITH GROUP ALSO) Started working on Vervel but might change to /docker.tar
+
+
+        * Endpoints
+            - Admin_maintenance route needs to be implemented
+            OBS!!! ALL CONNECTIONS TO THOSE ENDPOINTS NEED TO ALTERED/REMOVED
+            - historicalMonitoring endpoint can be removed and be added to monitoring,
+            - userRisks and userSafety endpoint should be combined into the DEFAULT user.ts endpoint
+
+        * CRUD additions
+            - issueUpkeep should CRUD to user_observation(in DEFAULT user.ts) maybe implement a timer so it updates automatically  .
+            - POST for monitoring_data
+            - authentication and authorization CRUDS
+
+        * JWT authentication and authorization
+        * hashing and salting passwords.
+        * update SWAGGER
+
+    ## Agenda for 16/05-25
+
+        * All of the above
+        * migrating from JSON files writing to SQL-syntax
+        * ... profit?
+
+        Zana routes
+         - adminInfrastructure
+         -adminIssueUpkeep
+
+        Sami routes
+            - user.ts
+            - userRisk
+            - userSafety
+
+        Albin routes
+            - admin Auth
+            - Monitoring
+
+    ## preperations for Zana for tomorrow
+
+        - kolla år-1/ar-1 repo:  för att se postgresSQL syntax
+        - gör dig familjär med adminInfrastructure & adminIssueUpkeep routes så jobbar du med det imorgon
+
+        - Kolla lite veckans ämnen JWT & lösenord hashing and salting
+            https://docs.google.com/document/d/1ve1vf7MvZ88FlM5kI6SlJlBBEXuovt5rT27D45EAYJU/edit?tab=t.0#heading=h.4mgipwske1am
+        - kolla
+            1. generate_jwt_token.ts
+            2. jwtAuth.ts
+
+    ## questions for rest of group
+
+        - docker.tar and docker-compose-
+
+    ## What has been done
+
+        1. types.ts has been overhauled
+        2. user.ts now includes user_observation
+        3. Zana got the DB locally on his machine
+        4. maybe something more
