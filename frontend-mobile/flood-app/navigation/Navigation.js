@@ -79,7 +79,7 @@ const Navigation = () => {
           name="Home"
           component={HomeScreen}
           options={{
-            tabBarIcon: ({ focused, color, size }) => (
+            tabBarIcon: ({ focused, size }) => (
               <MaterialCommunityIcons
                 name="home"
                 color={focused ? theme.primary : theme.secondary}
@@ -149,7 +149,7 @@ const Navigation = () => {
           name="User"
           component={UserScreen}
           options={{
-            tabBarIcon: ({ focused, color, size }) => (
+            tabBarIcon: ({ focused, size }) => (
               <AntDesign 
                 name="user" 
                 color={focused ? theme.primary : theme.secondary}  
@@ -172,7 +172,7 @@ const Navigation = () => {
           name="Setting"
           component={SettingsScreen}
           options={{
-            tabBarIcon: ({ focused, color, size }) => (
+            tabBarIcon: ({ focused, size }) => (
               <AntDesign 
                 name="setting" 
                 color={focused ? theme.primary : theme.secondary}  
