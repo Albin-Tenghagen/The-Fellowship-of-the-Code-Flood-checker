@@ -80,6 +80,7 @@ const HomeScreen = () => {
           title="Aktuella problem"
           width="90%"
           maxItems={3}
+          
         />
 
         <Text style={[styles.sectionTitle, { color: theme.textColor }]}>

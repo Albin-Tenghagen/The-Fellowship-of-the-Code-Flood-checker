@@ -7,7 +7,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 const InfrastructureIssuesCard = ({
   title = 'Infrastrukturproblem',
   width = '90%',
-  maxItems = 3, 
+  maxItems = 3,
+  titleColor = null,
 }) => {
   const { theme } = useTheme();
   const [issues, setIssues] = useState([]);
@@ -67,7 +68,7 @@ const InfrastructureIssuesCard = ({
           color={theme.icon}
           style={{ marginRight: 8 }}
         />
-        <Text style={[styles.title, { color: theme.textColor }]}>
+        <Text style={[styles.title, { color: titleColor || theme.textPrimary }]}>
           {title}
         </Text>
       </View>
@@ -86,10 +87,10 @@ const InfrastructureIssuesCard = ({
         <ScrollView style={styles.issuesContainer}>
           {issues.map((issue) => (
             <View key={issue.id} style={styles.issueItem}>
-              <Text style={[styles.issueProblem, { color: theme.textColor }]}>
+              <Text style={[styles.issueProblem, { color: theme.textPrimary }]}>
                 {issue.problem}
               </Text>
-              <Text style={[styles.issueTimestamp, { color: theme.textSecondary }]}>
+              <Text style={[styles.issueTimestamp, { color: theme.textPrimary }]}>
                 {formatTimestamp(issue.timestamp)}
               </Text>
             </View>
