@@ -121,7 +121,7 @@ const HomeScreen = () => {
             width="90%"
             height={50}
             icon="information-variant"
-            titleColor={theme.textPrimary}
+            titleColor={theme.prima}
             valueColor={theme.textPrimary}
             timestampColor={theme.textPrimary}
           />
