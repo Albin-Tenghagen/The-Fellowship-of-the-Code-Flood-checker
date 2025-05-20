@@ -11,7 +11,6 @@ const WaterLevelCard = ({
     icon = null,
     image = null,
     parameter = null,
-    alternateParams = [],
     titleColor = null,
     valueColor = null,
     timestampColor = null, // Add this new prop
@@ -159,19 +158,19 @@ const WaterLevelCard = ({
                 <Text style={{ color: theme.textColor }}>Laddar...</Text>
             ) : error ? (
                 <View style={styles.dataContainer}>
-                    <Text style={[styles.valueText, { color: valueColor || theme.textColor }]}>
+                    <Text style={[styles.valueText, { color: valueColor || theme.textPrimary }]}>
                         {paramValue} {getParameterUnit()}
                     </Text>
-                    <Text style={[styles.timestamp, { color: timestampColor || theme.textSecondary }]}>
+                    <Text style={[styles.timestamp, { color: timestampColor || theme.textPrimary }]}>
                         {timestamp}
                     </Text>
                 </View>
             ) : (
                 <View style={styles.dataContainer}>
-                    <Text style={[styles.valueText, { color: valueColor || theme.primary }]}>
+                    <Text style={[styles.valueText, { color: valueColor || theme.textPrimary }]}>
                         {paramValue} {getParameterUnit()}
                     </Text>
-                    <Text style={[styles.timestamp, { color: timestampColor || theme.textSecondary }]}>
+                    <Text style={[styles.timestamp, { color: timestampColor || theme.textPrimary }]}>
                         {timestamp}
                     </Text>
                 </View>
