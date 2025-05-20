@@ -8,6 +8,7 @@ const TipInputCard = ({
   title = 'Skicka in tips',
   width = '90%',
   onTipSubmitted = null,
+  textColor = null, 
 }) => {
   const { theme } = useTheme();
   const [tipText, setTipText] = useState('');
@@ -73,26 +74,26 @@ const TipInputCard = ({
           color={theme.icon}
           style={{ marginRight: 8 }}
         />
-        <Text style={[styles.title, { color: theme.textColor }]}>
+        <Text style={[styles.title, { color: textColor || theme.textPrimary }]}>
           {title}
         </Text>
       </View>
       
       <View style={styles.inputContainer}>
-        <Text style={[styles.label, { color: theme.textColor }]}>Plats</Text>
+        <Text style={[styles.label, { color: textColor || theme.textPrimary }]}>Plats</Text>
         <TextInput
-          style={[styles.input, { backgroundColor: theme.inputBackground, color: theme.textColor }]}
+          style={[styles.input, { backgroundColor: theme.inputBackground, color: theme.textPrimary }]}
           placeholder="Ange plats"
-          placeholderTextColor={theme.textSecondary}
+          placeholderTextColor={theme.textPrimary}
           value={location}
           onChangeText={setLocation}
         />
       </View>
       
       <View style={styles.inputContainer}>
-        <Text style={[styles.label, { color: theme.textColor }]}>Beskrivning</Text>
+        <Text style={[styles.label, { color: textColor || theme.textColor }]}>Beskrivning</Text>
         <TextInput
-          style={[styles.textArea, { backgroundColor: theme.inputBackground, color: theme.textColor }]}
+          style={[styles.textArea, { backgroundColor: theme.inputBackground, color: theme.textPrimary }]}
           placeholder="Beskriv ditt tips här..."
           placeholderTextColor={theme.textSecondary}
           multiline
