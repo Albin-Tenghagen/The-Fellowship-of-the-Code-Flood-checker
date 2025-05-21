@@ -12,6 +12,7 @@ const InfoCard = ({
     icon = null,
     image = null,
     textColor = null,
+    backgroundColor = null,
 }) => {
 
     const { theme } = useTheme();

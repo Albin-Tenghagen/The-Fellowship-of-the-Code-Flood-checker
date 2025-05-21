@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --loader ts-node/esm src/server.ts",
     "mon": "nodemon",
-    "dist": "node dist/server.js"
+    "dist": "node dist/server.js",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "keywords": [],
   "author": "",
@@ -23,7 +25,10 @@
     "pg": "^8.15.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
-    "yamljs": "^0.3.0"
+    "yamljs": "^0.3.0",
+    "expo": "~53.0.9",
+    "react": "19.0.0",
+    "react-native": "0.79.2"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
