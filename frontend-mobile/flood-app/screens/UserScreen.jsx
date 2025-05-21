@@ -86,7 +86,7 @@ const UserScreen = () => {
             icon="water"
             loading={loading}
             value={weatherData.ultraSoundLevel}
-            titleColor={theme.textPrimary}
+            titleColor={theme.primary}
             valueColor={theme.textPrimary}
             timestampColor={theme.textPrimary}
           />
