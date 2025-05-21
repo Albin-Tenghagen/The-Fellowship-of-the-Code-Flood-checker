@@ -89,5 +89,4 @@ bool fellowshipLoRa::wasInit()
 uint16_t fellowshipLoRa::convertToInt16(uint8_t higherBits, uint8_t lowerBits)
 {
 	return (((uint16_t) higherBits) << 8) | lowerBits;
-	
 }
