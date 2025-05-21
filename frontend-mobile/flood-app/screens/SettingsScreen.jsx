@@ -28,7 +28,7 @@ const SettingsScreen = () => {
     <ScrollView>
     <View style={styles.container}>
     
-      <FlatListLocation onLocationSelect={ handleLocationSelect }/>
+      <FlatListLocation onSend={ handleLocationSelect }/>
 
         {selectedLocation && (
         <View style={{ marginTop: 30 }}>

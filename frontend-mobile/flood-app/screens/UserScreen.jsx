@@ -5,6 +5,7 @@ import WorkerStatus from '../components/WorkerStatus'
 // import * as Location from 'expo-location'
 import FlatListLocation from '../components/FlatListLocation';
 import AnimatedButton from '../components/AnimatedButton';
+import { useAuth } from '../context/AuthContext';
 
 const UserScreen = () => {
   const [selectedData, setSelectedData] = useState(null);
@@ -13,7 +14,7 @@ const UserScreen = () => {
     <View style={styles.container}>
       <ScrollView>
       <View style={styles.statusContainer}>
-        <AnimatedButton style={styles.button} onPress={logout}>
+        <AnimatedButton style={styles.button} title="Logga ut" onPress={logout}>
           <Text>Logga ut</Text>
         </AnimatedButton>
         <FlatListLocation onSend={setSelectedData}/>

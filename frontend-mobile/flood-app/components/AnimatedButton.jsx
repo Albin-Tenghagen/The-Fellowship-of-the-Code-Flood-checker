@@ -65,6 +65,7 @@ const createStyles = (theme) =>
             paddingVertical: 10,
             paddingHorizontal: 12,
             borderRadius: 8,
+            marginBottom: 3,
         },
         buttonText: {
             fontSize: 18,
