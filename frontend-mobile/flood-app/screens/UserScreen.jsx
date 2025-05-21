@@ -86,9 +86,9 @@ const UserScreen = () => {
             icon="water"
             loading={loading}
             value={weatherData.ultraSoundLevel}
-            titleColor={theme.primary}
-            valueColor={theme.primary}
-            timestampColor={theme.primary}
+            titleColor={theme.textPrimary}
+            valueColor={theme.textPrimary}
+            timestampColor={theme.textPrimary}
           />
           <WaterLevelCard
             title="Trycknivå"
@@ -97,9 +97,9 @@ const UserScreen = () => {
             icon="gauge"
             loading={loading}
             value={weatherData.pressureLevel}
-            titleColor={theme.primary}
-            valueColor={theme.primary}
-            timestampColor={theme.primary}
+            titleColor={theme.textPrimary}
+            valueColor={theme.textPrimary}
+            timestampColor={theme.textPrimary}
           />
         </View>
 
@@ -115,9 +115,9 @@ const UserScreen = () => {
             icon="thermometer"
             loading={loading}
             value={weatherData.temperature}
-            titleColor={theme.primary}
-            valueColor={theme.primary}
-            timestampColor={theme.primary}
+            titleColor={theme.textPrimary}
+            valueColor={theme.textPrimary}
+            timestampColor={theme.textPrimary}
           />
           <WaterLevelCard
             title="Luftfuktighet"
@@ -126,9 +126,9 @@ const UserScreen = () => {
             icon="water-percent"
             loading={loading}
             value={weatherData.humidity}
-            titleColor={theme.primary}
-            valueColor={theme.primary}
-            timestampColor={theme.primary}
+            titleColor={theme.textPrimary}
+            valueColor={theme.textPrimary}
+            timestampColor={theme.textPrimary}
           />
         </View>
 
@@ -140,9 +140,9 @@ const UserScreen = () => {
             icon="weather-windy"
             loading={loading}
             value={weatherData.airPressure}
-            titleColor={theme.primary}
-            valueColor={theme.primary}
-            timestampColor={theme.primary}
+            titleColor={theme.textPrimary}
+            valueColor={theme.textPrimary}
+            timestampColor={theme.textPrimary}
           />
           <WaterLevelCard
             title="Jordfuktighet"
@@ -151,9 +151,9 @@ const UserScreen = () => {
             icon="water-percent"
             loading={loading}
             value={weatherData.soilMoisture}
-            titleColor={theme.primary}
-            valueColor={theme.primary}
-            timestampColor={theme.primary}
+            titleColor={theme.textPrimary}
+            valueColor={theme.textPrimary}
+            timestampColor={theme.textPrimary}
           />
         </View>
       </ScrollView>

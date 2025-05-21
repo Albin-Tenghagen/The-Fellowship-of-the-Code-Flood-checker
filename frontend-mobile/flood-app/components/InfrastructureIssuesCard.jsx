@@ -7,7 +7,15 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 const InfrastructureIssuesCard = ({
   title = 'Infrastrukturproblem',
   width = '90%',
-  maxItems = 3, 
+  maxItems = 3,
+  backgroundColor = null,
+  titleColor = null,
+  iconColor = null,
+  errorColor = null,
+  emptyTextColor = null,
+  issueTextColor = null,
+  timestampColor = null,
+  borderColor = null,
 }) => {
   const { theme } = useTheme();
   const [issues, setIssues] = useState([]);
@@ -20,20 +28,20 @@ const InfrastructureIssuesCard = ({
         setLoading(true);
         setError(null);
         const data = await fetchInfrastructureIssues();
-        
+
 
         const sortedIssues = data
           .sort((a, b) => {
             try {
               const dateA = new Date(a.timestamp);
               const dateB = new Date(b.timestamp);
-              return dateB - dateA; 
+              return dateB - dateA;
             } catch (err) {
               return b.timestamp.localeCompare(a.timestamp);
             }
           })
           .slice(0, maxItems);
-        
+
         setIssues(sortedIssues);
       } catch (err) {
         console.error('Error fetching infrastructure issues:', err);
@@ -56,7 +64,7 @@ const InfrastructureIssuesCard = ({
     <View
       style={[
         styles.card,
-        { backgroundColor: theme.card },
+        { backgroundColor: backgroundColor || theme.card },
         width ? { width } : {},
       ]}
     >
@@ -64,10 +72,10 @@ const InfrastructureIssuesCard = ({
         <MaterialCommunityIcons
           name="alert-circle-outline"
           size={24}
-          color={theme.icon}
+          color={iconColor || theme.primary}
           style={{ marginRight: 8 }}
         />
-        <Text style={[styles.title, { color: theme.textColor }]}>
+        <Text style={[styles.title, { color: titleColor || theme.textPrimary }]}>
           {title}
         </Text>
       </View>
@@ -75,21 +83,27 @@ const InfrastructureIssuesCard = ({
       {loading ? (
         <ActivityIndicator size="small" color={theme.primary} style={styles.loader} />
       ) : error ? (
-        <Text style={[styles.errorText, { color: 'red' }]}>
+        <Text style={[styles.errorText, { color: errorColor || 'red' }]}>
           Error: {error}
         </Text>
       ) : issues.length === 0 ? (
-        <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
+        <Text style={[styles.emptyText, { color: emptyTextColor || theme.textSecondary }]}>
           Inga aktuella infrastrukturproblem
         </Text>
       ) : (
         <ScrollView style={styles.issuesContainer}>
           {issues.map((issue) => (
-            <View key={issue.id} style={styles.issueItem}>
-              <Text style={[styles.issueProblem, { color: theme.textColor }]}>
+            <View
+              key={issue.id}
+              style={[
+                styles.issueItem,
+                { borderBottomColor: borderColor || '#eee' }
+              ]}
+            >
+              <Text style={[styles.issueProblem, { color: issueTextColor || theme.textColor }]}>
                 {issue.problem}
               </Text>
-              <Text style={[styles.issueTimestamp, { color: theme.textSecondary }]}>
+              <Text style={[styles.issueTimestamp, { color: timestampColor || theme.textSecondary }]}>
                 {formatTimestamp(issue.timestamp)}
               </Text>
             </View>

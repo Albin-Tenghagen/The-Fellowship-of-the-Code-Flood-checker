@@ -14,7 +14,7 @@ const WaterLevelCard = ({
     alternateParams = [],
     titleColor = null,
     valueColor = null,
-    timestampColor = null, // Add this new prop
+    timestampColor = null, 
 }) => {
     const { theme } = useTheme();
     const [paramValue, setParamValue] = useState('Ej tillgänglig');
@@ -138,11 +138,11 @@ const WaterLevelCard = ({
                     <MaterialCommunityIcons
                         name={getParameterIcon()}
                         size={24}
-                        color={titleColor || theme.primary}
+                        color={titleColor || theme.textPrimary}
                         style={{ marginBottom: 8 }}
                     />
                 )}
-                <Text style={[styles.title, { color: titleColor || theme.primary }]}>
+                <Text style={[styles.title, { color: titleColor || theme.textPrimary }]}>
                     {title}
                 </Text>
             </View>
@@ -156,19 +156,19 @@ const WaterLevelCard = ({
             )}
 
             {loading ? (
-                <Text style={{ color: theme.textColor }}>Laddar...</Text>
+                <Text style={{ color: theme.textPrimary }}>Laddar...</Text>
             ) : error ? (
                 <View style={styles.dataContainer}>
-                    <Text style={[styles.valueText, { color: valueColor || theme.textColor }]}>
+                    <Text style={[styles.valueText, { color: valueColor || theme.textPrimary }]}>
                         {paramValue} {getParameterUnit()}
                     </Text>
-                    <Text style={[styles.timestamp, { color: timestampColor || theme.textSecondary }]}>
+                    <Text style={[styles.timestamp, { color: timestampColor || theme.textSecondary}]}>
                         {timestamp}
                     </Text>
                 </View>
             ) : (
                 <View style={styles.dataContainer}>
-                    <Text style={[styles.valueText, { color: valueColor || theme.primary }]}>
+                    <Text style={[styles.valueText, { color: valueColor || theme.textPrimary }]}>
                         {paramValue} {getParameterUnit()}
                     </Text>
                     <Text style={[styles.timestamp, { color: timestampColor || theme.textSecondary }]}>
