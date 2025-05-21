@@ -28,10 +28,7 @@ const WorkerStatus = ({ locationName = null }) => {
 
   const [selectedLocation, setSelectedLocation] = useState(null);
 
-  const handleLocationSelect = (location) => {
-    setSelectedLocation(location);
-    console.log("Plats:", location);
-  };
+
   
 
   const handleStatusChange = () => {
@@ -468,32 +465,6 @@ const WorkerStatus = ({ locationName = null }) => {
               Tryck på kortet för att börja med "På plats" när du anländer till arbetsplatsen.
             </Text>
           </View>
-          <FlatListLocation onLocationSelect={ handleLocationSelect }/>
-
-        {selectedLocation && (
-        <View style={{ marginTop: 30 }}>
-          <Text style={{ fontSize: 18 }}>Vald plats:</Text>
-          <Text> Plats: {selectedLocation.location}</Text>
-          <Text>Vattennivå: {selectedLocation.waterlevel} cm</Text>
-          <Text>Tidpunkt: {selectedLocation.timestamp} </Text>
-          <Text>Beskrivning: {selectedLocation.description} </Text>
-
-          {selectedLocation.proactiveActions && (
-            <View style={{ marginTop: 10 }}>
-              <Text style={{ fontWeight: 'bold' }}>Förebyggande åtgärder:</Text>
-              {selectedLocation.proactiveActions.basementProtection && (
-                <Text>• Källarskydd: {selectedLocation.proactiveActions.basementProtection}</Text>
-              )}
-              {selectedLocation.proactiveActions.trenchDigging && (
-                <Text>• Grävning: {selectedLocation.proactiveActions.trenchDigging}</Text>
-              )}
-              {selectedLocation.proactiveActions.electricHazards && (
-               <Text>• Elrisker: {selectedLocation.proactiveActions.electricHazards}</Text>
-              )}
-            </View>
-          )}
-        </View>
-      )}
         </View>
       )}
     </View>
