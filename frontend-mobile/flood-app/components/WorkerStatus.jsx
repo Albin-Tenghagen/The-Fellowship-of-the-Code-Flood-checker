@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native
 import { AntDesign, MaterialIcons, Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTheme } from '../themes/ThemeContext';
 import { fetchSafety } from '../services/api';
+import FlatListLocation from '../components/FlatListLocation';
 
 const WorkerStatus = ({ locationName = null }) => {
   const { theme } = useTheme();
@@ -25,8 +26,25 @@ const WorkerStatus = ({ locationName = null }) => {
   const statusFade = useRef(new Animated.Value(1)).current;
   const cardScale = useRef(new Animated.Value(1)).current;
   const pulseAnimation = useRef(new Animated.Value(1)).current;
-
+  const [safetyError, setSafetyError] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState(null);
+
+  const handleLocationSelect = (location) => {
+    setSelectedLocation(location);
+    console.log("Plats:", location);
+  };
+
+  useEffect(() => {
+    const getSafety = async () => {
+      try {
+        const safetyData = await fetchSafety();
+        setSafety(safetyData);
+      } catch (error) {
+        setSafetyError(error.message);
+      }
+    };
+    getSafety();
+  }, []);
 
 
   
@@ -255,8 +273,30 @@ const WorkerStatus = ({ locationName = null }) => {
 
   const renderTimelineProgress = () => {
     const progressColor = getStatusColor();
+
+   const [safety, setSafety] = useState([]);
+    const [safetyError, setSafetyError] = useState(null);
+    const [selectedLocation, setSelectedLocation] = useState(null);
+  
+    const handleLocationSelect = (location) => {
+      setSelectedLocation(location);
+      console.log("Plats:", location);
+    };
+  
+    useEffect(() => {
+      const getSafety = async () => {
+        try {
+          const safetyData = await fetchSafety();
+          setSafety(safetyData);
+        } catch (error) {
+          setSafetyError(error.message);
+        }
+      };
+      getSafety();
+    }, []);
     
     return (
+
       <View style={styles.progressBarContainer}>
         <View style={[styles.timeline, { backgroundColor: theme.backgroundTertiary }]}>
           {/* Optional glow effect */}
@@ -310,7 +350,7 @@ const WorkerStatus = ({ locationName = null }) => {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.card }]}>
-
+      <FlatListLocation onSend={ handleLocationSelect }/>
       <View style={styles.header}>
         <Text style={[styles.title, { color: theme.inputBackground }]}>Arbetsstatus</Text>
         <Text style={[styles.subtitle, { color: theme.textTertiary }]}>
@@ -460,6 +500,30 @@ const WorkerStatus = ({ locationName = null }) => {
       {status === STATUS.NOT_STARTED && (
         <View style={[styles.instructionContainer, { backgroundColor: theme.backgroundTertiary }]}>
           <View style={styles.instructionContent}>
+                {selectedLocation && (
+                    <View style={{ marginTop: 30 }}>
+                      <Text style={{ fontSize: 18 }}>Vald plats:</Text>
+                      <Text> Plats: {selectedLocation.location}</Text>
+                      <Text>Vattennivå: {selectedLocation.waterlevel} cm</Text>
+                      <Text>Tidpunkt: {selectedLocation.timestamp} </Text>
+                      <Text>Beskrivning: {selectedLocation.description} </Text>
+            
+                      {selectedLocation.proactiveActions && (
+                        <View style={{ marginTop: 10 }}>
+                          <Text style={{ fontWeight: 'bold' }}>Förebyggande åtgärder:</Text>
+                          {selectedLocation.proactiveActions.basementProtection && (
+                            <Text>• Källarskydd: {selectedLocation.proactiveActions.basementProtection}</Text>
+                          )}
+                          {selectedLocation.proactiveActions.trenchDigging && (
+                            <Text>• Grävning: {selectedLocation.proactiveActions.trenchDigging}</Text>
+                          )}
+                          {selectedLocation.proactiveActions.electricHazards && (
+                           <Text>• Elrisker: {selectedLocation.proactiveActions.electricHazards}</Text>
+                          )}
+                        </View>
+                      )}
+                    </View>
+                  )}
             <MaterialIcons name="info-outline" size={20} color={theme.primary} />
             <Text style={[styles.instructionText, { color: theme.primary }]}>
               Tryck på kortet för att börja med "På plats" när du anländer till arbetsplatsen.
