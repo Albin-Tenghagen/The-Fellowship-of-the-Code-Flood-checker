@@ -78,9 +78,9 @@ export interface adminLogin extends Request<{}, any, loginData> {}
 //* admin monitoring
 
 export interface MonitoringEntry {
-  id: string;
-  timestamp: number;
-  location: string; //Var sensorTornet är placerat
+  station_id: string;
+  timestamp: string;
+  // location: string; //Var sensorTornet är placerat
   soil_moisture_percent: number;
   temperature_c: number;
   humidity_percent: number;
