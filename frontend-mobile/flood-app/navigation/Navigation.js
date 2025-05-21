@@ -13,20 +13,19 @@ import TipsScreen from "../screens/TipsScreen";
 
 const Tab = createBottomTabNavigator();
 
-
 const HeaderTitle = () => {
   const { theme } = useTheme();
 
   return (
     <View style={styles.headerContainer}>
-      <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-        Hydro<Text style={{ color: theme.primary }}>Guard</Text>
+      <Text style={[styles.headerTitle, { color: theme.textPrimary }]}>
+        Hydro<Text style={{ color: theme.textPrimary }}>Guard</Text>
       </Text>
       <MaterialCommunityIcons
         name="water"
         size={24}
         color={theme.primary}
-        style={styles.primary}
+        style={styles.headerIcon}
       />
     </View>
   );
@@ -45,8 +44,7 @@ const Navigation = () => {
             elevation: 0,
             shadowOpacity: 0,
             backgroundColor: theme.card,
-            borderBottomWidth: 1,
-            borderBottomColor: theme.border,
+            borderBottomWidth: 0,
           },
           headerRight: () => (
             <Pressable
@@ -111,7 +109,7 @@ const Navigation = () => {
           name="Login"
           component={LoginScreen}
           options={{
-            tabBarIcon: ({ focused, color, size }) => (
+            tabBarIcon: ({ focused, size }) => (
               <AntDesign
                 name="login"
                 color={focused ? theme.primary : theme.secondary}
@@ -134,7 +132,7 @@ const Navigation = () => {
           name="Location"
           component={LocationScreen}
           options={{
-            tabBarIcon: ({ focused, color, size }) => (
+            tabBarIcon: ({ focused, size }) => (
               <FontAwesome6
                 name="location-dot"
                 color={focused ? theme.primary : theme.secondary}
