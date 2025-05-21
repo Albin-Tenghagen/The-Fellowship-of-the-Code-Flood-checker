@@ -88,14 +88,14 @@ const Navigation = () => {
               />
             ),
             tabBarLabel: ({ focused }) => (
-              <Text style={{ 
+              <Text style={{
                 color: focused ? theme.primary : theme.secondary,
                 fontSize: 12,
                 opacity: focused ? 1 : 0.8
               }}>
                 Home
               </Text>
-            ),
+            )
           }}
         />
         <Tab.Screen
@@ -120,7 +120,7 @@ const Navigation = () => {
               />
             ),
             tabBarLabel: ({ focused }) => (
-              <Text style={{ 
+              <Text style={{
                 color: focused ? theme.primary : theme.secondary,
                 fontSize: 12,
                 opacity: focused ? 1 : 0.8
@@ -135,14 +135,22 @@ const Navigation = () => {
           component={LocationScreen}
           options={{
             tabBarIcon: ({ focused, color, size }) => (
-              <FontAwesome6 
+              <FontAwesome6
                 name="location-dot"
                 color={focused ? theme.primary : theme.secondary}
                 size={focused ? size + 2 : size}
                 style={{ opacity: focused ? 1 : 0.8 }}
               />
             ),
-            tabBarLabel: "Location",
+            tabBarLabel: ({ focused }) => (
+              <Text style={{
+                color: focused ? theme.primary : theme.secondary,
+                fontSize: 12,
+                opacity: focused ? 1 : 0.8
+              }}>
+                Location
+              </Text>
+            ),
           }}
         />
         <Tab.Screen
@@ -150,15 +158,15 @@ const Navigation = () => {
           component={UserScreen}
           options={{
             tabBarIcon: ({ focused, size }) => (
-              <AntDesign 
-                name="user" 
-                color={focused ? theme.primary : theme.secondary}  
+              <AntDesign
+                name="user"
+                color={focused ? theme.primary : theme.secondary}
                 size={focused ? size + 2 : size}
                 style={{ opacity: focused ? 1 : 0.8 }}
               />
             ),
             tabBarLabel: ({ focused }) => (
-              <Text style={{ 
+              <Text style={{
                 color: focused ? theme.primary : theme.secondary,
                 fontSize: 12,
                 opacity: focused ? 1 : 0.8
@@ -173,15 +181,15 @@ const Navigation = () => {
           component={SettingsScreen}
           options={{
             tabBarIcon: ({ focused, size }) => (
-              <AntDesign 
-                name="setting" 
-                color={focused ? theme.primary : theme.secondary}  
+              <AntDesign
+                name="setting"
+                color={focused ? theme.primary : theme.secondary}
                 size={focused ? size + 2 : size}
                 style={{ opacity: focused ? 1 : 0.8 }}
               />
             ),
             tabBarLabel: ({ focused }) => (
-              <Text style={{ 
+              <Text style={{
                 color: focused ? theme.primary : theme.secondary,
                 fontSize: 12,
                 opacity: focused ? 1 : 0.8
