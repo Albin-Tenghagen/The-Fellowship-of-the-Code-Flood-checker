@@ -48,7 +48,7 @@ bool fellowshipWiFi::sendRequest(IPAddress host, uint32_t port, String endpoint,
     headers.push_back(String("User-Agent: Heltec-Board"));
     headers.push_back(String("Connection: close"));
     headers.push_back(String("Content-Type: application/json"));
-    headers.push_back(String("Content-Length: " + data.length()));
+    headers.push_back(String("Content-Length: ") + String(data.length()));
     headers.push_back("");
     headers.push_back(data);
 
@@ -65,9 +65,6 @@ bool fellowshipWiFi::sendRequest(IPAddress host, uint32_t port, String endpoint,
         Serial.println(headers.at(i));
         client.println(headers.at(i));
     }
-
-    client.println();
-    client.stop();
 
     Serial.println("Data sent to server");
     return true;
