@@ -26,7 +26,7 @@ const HeaderTitle = () => {
         name="water"
         size={24}
         color={theme.primary}
-        style={styles.headerIcon}
+        style={styles.primary}
       />
     </View>
   );
@@ -60,7 +60,7 @@ const Navigation = () => {
             >
               <MaterialCommunityIcons
                 name={isDark ? "white-balance-sunny" : "weather-night"}
-                color={theme.accent}
+                color={theme.primary}
                 size={24}
               />
             </Pressable>
@@ -79,10 +79,23 @@ const Navigation = () => {
           name="Home"
           component={HomeScreen}
           options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="home" color={color} size={size} />
+            tabBarIcon: ({ focused, size }) => (
+              <MaterialCommunityIcons
+                name="home"
+                color={focused ? theme.primary : theme.secondary}
+                size={focused ? size + 2 : size}
+                style={{ opacity: focused ? 1 : 0.8 }}
+              />
             ),
-            tabBarLabel: "Home",
+            tabBarLabel: ({ focused }) => (
+              <Text style={{ 
+                color: focused ? theme.primary : theme.secondary,
+                fontSize: 12,
+                opacity: focused ? 1 : 0.8
+              }}>
+                Home
+              </Text>
+            ),
           }}
         />
         <Tab.Screen
@@ -90,7 +103,7 @@ const Navigation = () => {
           component={TipsScreen}
           options={{
             tabBarButton: () => null,
-            tabBarItemStyle: { display: 'none' }, // Completely hide it
+            tabBarItemStyle: { display: 'none' },
             headerTitle: "Tips för översvämningsskydd",
           }}
         />
@@ -98,18 +111,36 @@ const Navigation = () => {
           name="Login"
           component={LoginScreen}
           options={{
-            tabBarIcon: ({ color, size }) => (
-              <AntDesign name="login" color={color} size={size} />
+            tabBarIcon: ({ focused, color, size }) => (
+              <AntDesign
+                name="login"
+                color={focused ? theme.primary : theme.secondary}
+                size={focused ? size + 2 : size}
+                style={{ opacity: focused ? 1 : 0.8 }}
+              />
             ),
-            tabBarLabel: "Login",
+            tabBarLabel: ({ focused }) => (
+              <Text style={{ 
+                color: focused ? theme.primary : theme.secondary,
+                fontSize: 12,
+                opacity: focused ? 1 : 0.8
+              }}>
+                Login
+              </Text>
+            ),
           }}
         />
         <Tab.Screen
           name="Location"
           component={LocationScreen}
           options={{
-            tabBarIcon: ({ color, size }) => (
-              <FontAwesome6 name="location-dot" color={color} size={size} />
+            tabBarIcon: ({ focused, color, size }) => (
+              <FontAwesome6 
+                name="location-dot"
+                color={focused ? theme.primary : theme.secondary}
+                size={focused ? size + 2 : size}
+                style={{ opacity: focused ? 1 : 0.8 }}
+              />
             ),
             tabBarLabel: "Location",
           }}
@@ -118,20 +149,46 @@ const Navigation = () => {
           name="User"
           component={UserScreen}
           options={{
-            tabBarIcon: ({ color, size }) => (
-              <AntDesign name="user" color={color} size={size} />
+            tabBarIcon: ({ focused, size }) => (
+              <AntDesign 
+                name="user" 
+                color={focused ? theme.primary : theme.secondary}  
+                size={focused ? size + 2 : size}
+                style={{ opacity: focused ? 1 : 0.8 }}
+              />
             ),
-            tabBarLabel: "User",
+            tabBarLabel: ({ focused }) => (
+              <Text style={{ 
+                color: focused ? theme.primary : theme.secondary,
+                fontSize: 12,
+                opacity: focused ? 1 : 0.8
+              }}>
+                User
+              </Text>
+            ),
           }}
         />
         <Tab.Screen
           name="Setting"
           component={SettingsScreen}
           options={{
-            tabBarIcon: ({ color, size }) => (
-              <AntDesign name="setting" color={color} size={size} />
+            tabBarIcon: ({ focused, size }) => (
+              <AntDesign 
+                name="setting" 
+                color={focused ? theme.primary : theme.secondary}  
+                size={focused ? size + 2 : size}
+                style={{ opacity: focused ? 1 : 0.8 }}
+              />
             ),
-            tabBarLabel: "Setting",
+            tabBarLabel: ({ focused }) => (
+              <Text style={{ 
+                color: focused ? theme.primary : theme.secondary,
+                fontSize: 12,
+                opacity: focused ? 1 : 0.8
+              }}>
+                Setting
+              </Text>
+            ),
           }}
         />
       </Tab.Navigator>

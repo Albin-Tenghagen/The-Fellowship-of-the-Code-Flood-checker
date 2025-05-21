@@ -11,10 +11,9 @@ const WaterLevelCard = ({
     icon = null,
     image = null,
     parameter = null,
-    alternateParams = [],
     titleColor = null,
     valueColor = null,
-    timestampColor = null, 
+    timestampColor = null,
 }) => {
     const { theme } = useTheme();
     const [paramValue, setParamValue] = useState('Ej tillgänglig');
@@ -81,15 +80,15 @@ const WaterLevelCard = ({
             try {
                 setLoading(true);
                 setError(null);
-                
+
                 console.log(`Fetching data for ${parameter}...`);
                 const monitoringData = await fetchMonitoring();
                 console.log(`Got monitoring data:`, monitoringData);
-                
+
                 if (monitoringData && Array.isArray(monitoringData) && monitoringData.length > 0) {
                     const latestData = monitoringData[0];
                     console.log(`Latest data entry:`, latestData);
-                    
+
                     if (latestData[parameter] !== undefined) {
                         const formattedValue = formatParameterValue(latestData[parameter]);
                         setParamValue(formattedValue);
@@ -98,7 +97,7 @@ const WaterLevelCard = ({
                         setParamValue('Ej tillgänglig');
                         console.log(`No ${parameter} value found in data`);
                     }
-                    
+
                     if (latestData.timestamp) {
                         setTimestamp(latestData.timestamp);
                     } else {
@@ -162,7 +161,7 @@ const WaterLevelCard = ({
                     <Text style={[styles.valueText, { color: valueColor || theme.textPrimary }]}>
                         {paramValue} {getParameterUnit()}
                     </Text>
-                    <Text style={[styles.timestamp, { color: timestampColor || theme.textSecondary}]}>
+                    <Text style={[styles.timestamp, { color: timestampColor || theme.textPrimary }]}>
                         {timestamp}
                     </Text>
                 </View>
@@ -171,7 +170,7 @@ const WaterLevelCard = ({
                     <Text style={[styles.valueText, { color: valueColor || theme.textPrimary }]}>
                         {paramValue} {getParameterUnit()}
                     </Text>
-                    <Text style={[styles.timestamp, { color: timestampColor || theme.textSecondary }]}>
+                    <Text style={[styles.timestamp, { color: timestampColor || theme.textPrimary }]}>
                         {timestamp}
                     </Text>
                 </View>

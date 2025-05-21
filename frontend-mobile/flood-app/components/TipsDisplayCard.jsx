@@ -7,8 +7,15 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 const TipsDisplayCard = ({
   title = 'Senaste tipsen',
   width = '90%',
-  maxItems = 5, 
-  refresh = false, 
+  maxItems = 5,
+  refresh = false,
+  textColor = null,
+  iconColor = null, // Changed from icon to iconColor for clarity
+  // Add these additional color props for consistency with other components
+  titleColor = null,
+  secondaryTextColor = null,
+  userTextColor = null,
+  borderColor = null,
 }) => {
   const { theme } = useTheme();
   const [tips, setTips] = useState([]);
@@ -24,23 +31,23 @@ const TipsDisplayCard = ({
         setLoading(true);
       }
       setError(null);
-      
+
       console.log('Fetching tips...');
       const data = await fetchTips();
       console.log('Got tips:', data);
-      
+
       const sortedTips = data
         .sort((a, b) => {
           try {
             const dateA = new Date(a.timestamp);
             const dateB = new Date(b.timestamp);
-            return dateB - dateA; 
+            return dateB - dateA;
           } catch (err) {
             return b.timestamp.localeCompare(a.timestamp);
           }
         })
         .slice(0, maxItems);
-      
+
       setTips(sortedTips);
     } catch (err) {
       console.error('Error fetching tips:', err);
@@ -76,45 +83,52 @@ const TipsDisplayCard = ({
         <MaterialCommunityIcons
           name="message-text-outline"
           size={24}
-          color={theme.icon}
+          color={iconColor || theme.primary}
           style={{ marginRight: 8 }}
         />
-        <Text style={[styles.title, { color: theme.textColor }]}>
+        <Text style={[styles.title, { color: titleColor || theme.textPrimary }]}>
           {title}
         </Text>
       </View>
 
       {loading && !refreshing ? (
-        <ActivityIndicator size="small" color={theme.primary} style={styles.loader} />
+        <ActivityIndicator size="small" color={iconColor || theme.primary} style={styles.loader} />
       ) : error ? (
         <Text style={[styles.errorText, { color: 'red' }]}>
           Error: {error}
         </Text>
       ) : tips.length === 0 ? (
-        <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
+        <Text style={[styles.emptyText, { color: secondaryTextColor || theme.textSecondary }]}>
           Inga tips tillgängliga
         </Text>
       ) : (
-        <ScrollView 
+        <ScrollView
           style={styles.tipsContainer}
           refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            <RefreshControl 
+              refreshing={refreshing} 
+              onRefresh={onRefresh} 
+              colors={[iconColor || theme.primary]}
+            />
           }
         >
           {tips.map((tip) => (
-            <View key={tip.id} style={styles.tipItem}>
-              <Text style={[styles.tipLocation, { color: theme.textColor }]}>
+            <View key={tip.id} style={[
+              styles.tipItem,
+              { borderBottomColor: borderColor || '#eee' }
+            ]}>
+              <Text style={[styles.tipLocation, { color: textColor || theme.textPrimary }]}>
                 {tip.location}
               </Text>
-              <Text style={[styles.tipDescription, { color: theme.textColor }]}>
+              <Text style={[styles.tipDescription, { color: textColor || theme.textPrimary }]}>
                 {tip.description}
               </Text>
               <View style={styles.tipFooter}>
-                <Text style={[styles.tipTimestamp, { color: theme.textSecondary }]}>
+                <Text style={[styles.tipTimestamp, { color: secondaryTextColor || theme.textSecondary }]}>
                   {formatTimestamp(tip.timestamp)}
                 </Text>
                 {tip.user && (
-                  <Text style={[styles.tipUser, { color: theme.primary }]}>
+                  <Text style={[styles.tipUser, { color: userTextColor || theme.primary }]}>
                     - {tip.user}
                   </Text>
                 )}
@@ -168,7 +182,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     paddingBottom: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: '#eee', // This will be overridden in the component
   },
   tipLocation: {
     fontSize: 16,

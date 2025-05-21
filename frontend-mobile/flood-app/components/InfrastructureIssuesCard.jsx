@@ -8,14 +8,7 @@ const InfrastructureIssuesCard = ({
   title = 'Infrastrukturproblem',
   width = '90%',
   maxItems = 3,
-  backgroundColor = null,
   titleColor = null,
-  iconColor = null,
-  errorColor = null,
-  emptyTextColor = null,
-  issueTextColor = null,
-  timestampColor = null,
-  borderColor = null,
 }) => {
   const { theme } = useTheme();
   const [issues, setIssues] = useState([]);
@@ -72,7 +65,7 @@ const InfrastructureIssuesCard = ({
         <MaterialCommunityIcons
           name="alert-circle-outline"
           size={24}
-          color={iconColor || theme.primary}
+          color={theme.primary}
           style={{ marginRight: 8 }}
         />
         <Text style={[styles.title, { color: titleColor || theme.textPrimary }]}>
@@ -93,17 +86,11 @@ const InfrastructureIssuesCard = ({
       ) : (
         <ScrollView style={styles.issuesContainer}>
           {issues.map((issue) => (
-            <View
-              key={issue.id}
-              style={[
-                styles.issueItem,
-                { borderBottomColor: borderColor || '#eee' }
-              ]}
-            >
-              <Text style={[styles.issueProblem, { color: issueTextColor || theme.textColor }]}>
+            <View key={issue.id} style={styles.issueItem}>
+              <Text style={[styles.issueProblem, { color: theme.textPrimary }]}>
                 {issue.problem}
               </Text>
-              <Text style={[styles.issueTimestamp, { color: timestampColor || theme.textSecondary }]}>
+              <Text style={[styles.issueTimestamp, { color: theme.textPrimary }]}>
                 {formatTimestamp(issue.timestamp)}
               </Text>
             </View>

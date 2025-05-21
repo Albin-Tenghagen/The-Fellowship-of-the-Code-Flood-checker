@@ -11,10 +11,7 @@ const InfoCard = ({
     height = null,
     icon = null,
     image = null,
-    titleColor = null,
     textColor = null,
-    iconColor = null,
-    backgroundColor = null,
 }) => {
 
     const { theme } = useTheme();
@@ -32,7 +29,7 @@ const InfoCard = ({
                 <MaterialCommunityIcons
                     name={icon}
                     size={32}
-                    color={iconColor || theme.icon}
+                    color={theme.primary}
                     style={{ marginBottom: 8 }}
                 />
             )}
@@ -45,7 +42,7 @@ const InfoCard = ({
                 />
             )}
 
-            <Text style={[styles.title, { color: titleColor || theme.textPrimary }]}>
+            <Text style={[styles.title, { color: textColor || theme.textPrimary }]}>
                 {title}
             </Text>
             <Text style={[styles.text, { color: textColor || theme.textPrimary }]}>

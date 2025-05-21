@@ -86,7 +86,7 @@ const UserScreen = () => {
             icon="water"
             loading={loading}
             value={weatherData.ultraSoundLevel}
-            titleColor={theme.textPrimary}
+            titleColor={theme.primary}
             valueColor={theme.textPrimary}
             timestampColor={theme.textPrimary}
           />
@@ -97,7 +97,7 @@ const UserScreen = () => {
             icon="gauge"
             loading={loading}
             value={weatherData.pressureLevel}
-            titleColor={theme.textPrimary}
+            titleColor={theme.primary}
             valueColor={theme.textPrimary}
             timestampColor={theme.textPrimary}
           />
@@ -115,7 +115,7 @@ const UserScreen = () => {
             icon="thermometer"
             loading={loading}
             value={weatherData.temperature}
-            titleColor={theme.textPrimary}
+            titleColor={theme.primary}
             valueColor={theme.textPrimary}
             timestampColor={theme.textPrimary}
           />
@@ -126,7 +126,7 @@ const UserScreen = () => {
             icon="water-percent"
             loading={loading}
             value={weatherData.humidity}
-            titleColor={theme.textPrimary}
+            titleColor={theme.primary}
             valueColor={theme.textPrimary}
             timestampColor={theme.textPrimary}
           />
@@ -140,7 +140,7 @@ const UserScreen = () => {
             icon="weather-windy"
             loading={loading}
             value={weatherData.airPressure}
-            titleColor={theme.textPrimary}
+            titleColor={theme.primary}
             valueColor={theme.textPrimary}
             timestampColor={theme.textPrimary}
           />
@@ -151,7 +151,7 @@ const UserScreen = () => {
             icon="water-percent"
             loading={loading}
             value={weatherData.soilMoisture}
-            titleColor={theme.textPrimary}
+            titleColor={theme.primary}
             valueColor={theme.textPrimary}
             timestampColor={theme.textPrimary}
           />

@@ -12,10 +12,10 @@ export const lightTheme = {
 
 
 
-    textPrimary: '#312E2A',
-    textSecondary: '#264247',
-    textTertiary:'#fad9d1',
-    textError:'#543d37',
+    textPrimary: ' #312E2A',
+    textSecondary: ' #264247',
+    textTertiary:' #fad9d1',
+    textError:' #543d37',
    
 
 
