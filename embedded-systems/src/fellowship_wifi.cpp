@@ -40,6 +40,18 @@ bool fellowshipWiFi::disconnectWiFi()
 
 bool fellowshipWiFi::sendRequest(IPAddress host, uint32_t port, String endpoint, String data)
 {
+    std::vector<String> headers;
+
+    
+    headers.push_back(String("POST ") + endpoint + String(" HTTP/1.1"));
+    headers.push_back(String("Host: ") + host.toString());
+    headers.push_back(String("User-Agent: Heltec-Board"));
+    headers.push_back(String("Connection: close"));
+    headers.push_back(String("Content-Type: application/json"));
+    headers.push_back(String("Content-Length: " + data.length()));
+    headers.push_back("");
+    headers.push_back(data);
+
     int status = client.connect(host, port);
     if (!status) 
     {
@@ -47,20 +59,6 @@ bool fellowshipWiFi::sendRequest(IPAddress host, uint32_t port, String endpoint,
         Serial.println(host);
         return false;
     }
-
-    std::vector<String> headers;
-
-    
-    headers.push_back(String("POST ") + endpoint + String(" HTTP/1.1"));
-    headers.push_back(String("Host: ") + host.toString());
-    headers.push_back(String("User-Agent: Heltec-Board"));
-    headers.push_back(String("Connection: keep-alive"));
-    headers.push_back(String("Keep-Alive: timeout=5"));
-    headers.push_back(String("Content-Type: application/json"));
-    headers.push_back(String("Content-Length: " + data.length()));
-    headers.push_back("");
-    headers.push_back(data);
-
 
     for (size_t i = 0; i < headers.size(); i++)
     {
