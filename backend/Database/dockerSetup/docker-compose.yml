@@ -1,3 +1,4 @@
+version: '3.9'
 services:
   postgres_db:
     image: postgres:latest
@@ -6,8 +7,29 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres123
-      - POSTGRES_DB=portfolioDB
+      - POSTGRES_DB=ccdb
     ports:
       - "5432:5432"
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-net
+
+  backend_api:
+    build: ./backend  
+    container_name: BackendAPI
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_HOST=postgres_db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres123
+      - DB_NAME=ccdb
+    depends_on:
+      - postgres_db
+    networks:
+      - app-net
+
+networks:
+  app-net:
