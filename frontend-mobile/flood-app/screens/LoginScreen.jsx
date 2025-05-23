@@ -17,7 +17,7 @@ const LoginScreen = ({ navigation }) => {
   const { login } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("john@mail.com");
-  const [password, setPassword] = useState("pwned123");
+  const [password, setPassword] = useState("changeme");
   const [error, setError] = useState("");
 
   const handleSubmit = async () => {
