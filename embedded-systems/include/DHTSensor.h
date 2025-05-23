@@ -13,22 +13,22 @@ namespace DHTSensor
     float temperature;
     uint8_t humidity;
 
-    void InitDHTSensor();
-    void ReadDHTSensor();
-    void PrintDHTSensor();
+    void initDHTSensor();
+    void readDHTSensor();
+    void printDHTSensor();
 
-    void InitDHTSensor()
+    void initDHTSensor()
     {
         dht.begin();
     }
 
-    void ReadDHTSensor()
+    void readDHTSensor()
     {
         temperature = dht.readTemperature() - 2;
         humidity = dht.readHumidity();
     }
 
-    void PrintDHTSensor()
+    void printDHTSensor()
     {
         Serial.print("Temperature: ");
         Serial.print(temperature, 1);
