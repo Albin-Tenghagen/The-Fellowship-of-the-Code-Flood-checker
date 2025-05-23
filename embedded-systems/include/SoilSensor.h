@@ -15,7 +15,7 @@ namespace Soil
   void printSoilMoistureSensorValues(); //Comment out/delete this function for the real program
   void updateSoilSensorValue();
 
-  void InitiateSoilSensor() 
+  void initiateSoilSensor() 
   {
     pinMode(soil_sensor,INPUT);
     pinMode(soil_sensor_power,OUTPUT);
