@@ -7,15 +7,22 @@
 namespace DHTSensor
 {
 
-    const uint8_t DHTPIN = 5; //Change for the actual pin used 
-    const uint8_t DHTTYPE = DHT11;
-    DHT dht(DHTPIN, DHTTYPE);
+    uint8_t DHT_PIN = 5; //Change for the actual pin used 
+    const uint8_t DHT_TYPE = DHT11;
+    DHT dht(DHT_PIN, DHT_TYPE);
     float temperature;
     uint8_t humidity;
 
+    void initDHTSensor(uint8_t pin);
     void initDHTSensor();
     void readDHTSensor();
     void printDHTSensor();
+    
+    void initDHTSensor(uint8_t pin)
+    {
+        DHTSensor::DHT_PIN = pin;
+        dht.begin();
+    }
 
     void initDHTSensor()
     {
