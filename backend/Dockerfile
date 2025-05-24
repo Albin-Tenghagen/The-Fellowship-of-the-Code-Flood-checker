@@ -2,11 +2,12 @@ FROM node:18
 
 WORKDIR /app
 
+COPY package*.json ./
+
+RUN npm install --include=dev
+
 COPY . .
 
-RUN npm install
+EXPOSE 5001
 
-EXPOSE 5000
-
-CMD ["npm", "run", "mon"]
-
+CMD ["npm", "start"]

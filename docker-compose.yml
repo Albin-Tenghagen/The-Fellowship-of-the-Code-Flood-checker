@@ -9,7 +9,7 @@ services:
       - POSTGRES_PASSWORD=postgres123
       - POSTGRES_DB=ccdb
     ports:
-      - "5432:5432"
+      - "5433:5432"  # host 5433 → container 5432
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
     networks:
@@ -19,13 +19,12 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-
     container_name: BackendAPI
     ports:
-      - "5000:5000"
+      - "5001:5001"  # expose backend API on 5001
     environment:
       - DB_HOST=postgres_db
-      - DB_PORT=5432
+      - DB_PORT=5432  # keep this 5432 — because INSIDE docker, Postgres is on 5432
       - DB_USER=postgres
       - DB_PASSWORD=postgres123
       - DB_NAME=ccdb
