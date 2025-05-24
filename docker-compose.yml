@@ -16,7 +16,10 @@ services:
       - app-net
 
   backend_api:
-    build: ./backend  
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+
     container_name: BackendAPI
     ports:
       - "5000:5000"
