@@ -86,7 +86,7 @@ const TipInputCard = ({
             },
           ]}
           placeholder="Ange plats"
-          placeholderTextColor={placeholderTextColor || theme.textSecondary || '#999'}
+          placeholderTextColor={placeholderTextColor || theme.textPrimary }
           value={location}
           onChangeText={setLocation}
         />
@@ -103,14 +103,14 @@ const TipInputCard = ({
             },
           ]}
           placeholder="Beskriv ditt tips här..."
-          placeholderTextColor={placeholderTextColor || theme.placeholderText || '#999'}
+          placeholderTextColor={placeholderTextColor || theme.textPrimary }
           multiline
           numberOfLines={4}
           textAlignVertical="top"
           value={tipText}
           onChangeText={setTipText}
         />
-        <Text style={{ color: theme.textPrimary, fontSize: 12 }}>
+        <Text style={{ color: theme.textPrimary, fontSize: 12, marginTop: 4 }}>
           {tipText.length}/280 tecken
         </Text>
       </View>

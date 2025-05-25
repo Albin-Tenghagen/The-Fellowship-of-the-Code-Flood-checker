@@ -19,7 +19,10 @@ const TipsDisplayCard = ({
   errorTextPrefix = 'Error: ',
   loadingText = null,
   localTips = [],
-  useMockData = false, 
+  useMockData = false,
+  locationTextColor = null,      // New prop for location color
+  descriptionTextColor = null,   // New prop for description color
+  timestampTextColor = null,     // New prop for timestamp color
 }) => {
   const { theme } = useTheme();
   const [apiTips, setApiTips] = useState([]);
@@ -101,7 +104,7 @@ const TipsDisplayCard = ({
           {errorTextPrefix}{error}
         </Text>
       ) : sortedTips.length === 0 ? (
-        <Text style={[styles.emptyText, { color: secondaryTextColor || theme.textPrimary }]}>
+        <Text style={[styles.emptyText, { color: secondaryTextColor || theme.textSecondary || '#999' }]}>
           {emptyText}
         </Text>
       ) : (
@@ -118,16 +121,22 @@ const TipsDisplayCard = ({
           {sortedTips.map((tip, index) => (
             <View key={tip.id || index} style={[
               styles.tipItem,
-              { borderBottomColor: borderColor || '#eee' }
+              { borderBottomColor: borderColor || theme.primary }
             ]}>
-              <Text style={[styles.tipLocation, { color: textColor || theme.textPrimary }]}>
+              <Text style={[styles.tipLocation, { 
+                color: locationTextColor || textColor || theme.primary
+              }]}>
                 {tip.location}
               </Text>
-              <Text style={[styles.tipDescription, { color: textColor || theme.textPrimary }]}>
+              <Text style={[styles.tipDescription, { 
+                color: descriptionTextColor || textColor || theme.primary
+              }]}>
                 {tip.description}
               </Text>
               <View style={styles.tipFooter}>
-                <Text style={[styles.tipTimestamp, { color: secondaryTextColor || theme.textSecondary }]}>
+                <Text style={[styles.tipTimestamp, { 
+                  color: timestampTextColor || secondaryTextColor || theme.primary
+                }]}>
                   {formatTimestamp(tip.timestamp)}
                 </Text>
                 {tip.user && (
