@@ -109,10 +109,11 @@ export const fetchTips = async () => {
     console.log(":rocket: RAW API response:", text);
     const data = JSON.parse(text);
     console.log(":white_check_mark: Parsed JSON:", data);
-    return data.products ?? []; 
+    
+    // Change this line - check what field actually contains your tips
+    return data.tips ?? data.products ?? []; // Try both field names
   } catch (error) {
     console.error(":x: Fel vid hämtning av tips:", error.message);
     throw error;
   }
 };
-
