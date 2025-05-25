@@ -1,72 +1,60 @@
 import { StyleSheet, View, Text, ScrollView, ActivityIndicator } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../themes/ThemeContext';
-import { fetchInfrastructureIssues } from '../services/api';
+import { fetchMonitoring } from '../services/api';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-const InfrastructureIssuesCard = ({
-  title = 'Infrastrukturproblem',
+const MonitoringCard = ({
+  title = 'Sensorvärden',
   width = '90%',
-  maxItems = 3,
   titleColor = null,
   backgroundColor = null,
   errorColor = null,
   emptyTextColor = null,
 }) => {
   const { theme } = useTheme();
-  const [issues, setIssues] = useState([]);
+  const [latestData, setLatestData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const getInfrastructureIssues = async () => {
+    const getMonitoring = async () => {
       try {
         setLoading(true);
         setError(null);
-        const data = await fetchInfrastructureIssues();
+        const data = await fetchMonitoring();
 
+        if (!data || data.length === 0) {
+          setLatestData(null);
+        } else {
+          const latest = data[0];
 
-        const sortedIssues = data
-          .sort((a, b) => {
-            try {
-              const dateA = new Date(a.timestamp);
-              const dateB = new Date(b.timestamp);
-              return dateB - dateA;
-            } catch (err) {
-              return b.timestamp.localeCompare(a.timestamp);
-            }
-          })
-          .slice(0, maxItems);
-
-        setIssues(sortedIssues);
+          // ✅ Map backend keys to frontend-friendly names
+          setLatestData({
+            temperature: latest.temperature_c,
+            humidity: latest.humidity_percent,
+            soilMoisture: latest.soil_moisture_percent,
+            pressureLevel: latest.water_level_pressure_cm,
+            ultraSoundLevel: latest.water_level_ultrasound_cm,
+            average: latest.water_level_average_cm,
+          });
+        }
       } catch (err) {
-        console.error('Error fetching infrastructure issues:', err);
+        console.error('Error fetching monitoring data:', err);
         setError(err.message);
       } finally {
         setLoading(false);
       }
     };
 
-    getInfrastructureIssues();
-  }, [maxItems]);
-
-  const formatTimestamp = (timestamp) => {
-    if (!timestamp) return '';
-
-    return timestamp;
-  };
+    getMonitoring();
+  }, []);
 
   return (
-    <View
-      style={[
-        styles.card,
-        { backgroundColor: backgroundColor || theme.card },
-        width ? { width } : {},
-      ]}
-    >
+    <View style={[styles.card, { backgroundColor: backgroundColor || theme.card, width }]}>
       <View style={styles.header}>
         <MaterialCommunityIcons
-          name="alert-circle-outline"
+          name="chart-box-outline"
           size={24}
           color={theme.primary}
           style={{ marginRight: 8 }}
@@ -79,32 +67,39 @@ const InfrastructureIssuesCard = ({
       {loading ? (
         <ActivityIndicator size="small" color={theme.primary} style={styles.loader} />
       ) : error ? (
-        <Text style={[styles.errorText, { color: errorColor || 'red' }]}>
-          Error: {error}
-        </Text>
-      ) : issues.length === 0 ? (
+        <Text style={[styles.errorText, { color: errorColor || 'red' }]}>Fel: {error}</Text>
+      ) : !latestData ? (
         <Text style={[styles.emptyText, { color: emptyTextColor || theme.textSecondary }]}>
-          Inga aktuella infrastrukturproblem
+          Ingen data tillgänglig
         </Text>
       ) : (
-        <ScrollView style={styles.issuesContainer}>
-          {issues.map((issue) => (
-            <View key={issue.id} style={styles.issueItem}>
-              <Text style={[styles.issueProblem, { color: theme.textPrimary }]}>
-                {issue.problem}
-              </Text>
-              <Text style={[styles.issueTimestamp, { color: theme.textPrimary }]}>
-                {formatTimestamp(issue.timestamp)}
-              </Text>
-            </View>
-          ))}
+        <ScrollView style={styles.dataContainer}>
+          <Text style={[styles.dataText, { color: theme.textPrimary }]}>
+            Vattennivå (ultraljud): {latestData.ultraSoundLevel} cm
+          </Text>
+          <Text style={[styles.dataText, { color: theme.textPrimary }]}>
+            Medelvattennivå: {latestData.average} cm
+          </Text>
+          <Text style={[styles.dataText, { color: theme.textPrimary }]}>
+            Temperatur: {latestData.temperature}°C
+          </Text>
+          <Text style={[styles.dataText, { color: theme.textPrimary }]}>
+            Luftfuktighet: {latestData.humidity}%
+          </Text>
+          <Text style={[styles.dataText, { color: theme.textPrimary }]}>
+            Jordfuktighet: {latestData.soilMoisture}%
+          </Text>
+          <Text style={[styles.dataText, { color: theme.textPrimary }]}>
+            Vattennivå (tryck): {latestData.pressureLevel} cm
+          </Text>
+
         </ScrollView>
       )}
     </View>
   );
 };
 
-export default InfrastructureIssuesCard;
+export default MonitoringCard;
 
 const styles = StyleSheet.create({
   card: {
@@ -138,20 +133,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontStyle: 'italic',
   },
-  issuesContainer: {
+  dataContainer: {
     maxHeight: 200,
   },
-  issueItem: {
-    marginBottom: 16,
-    paddingBottom: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  issueProblem: {
+  dataText: {
     fontSize: 16,
-    marginBottom: 4,
-  },
-  issueTimestamp: {
-    fontSize: 12,
+    marginBottom: 8,
   },
 });

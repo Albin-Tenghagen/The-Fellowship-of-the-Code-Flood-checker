@@ -5,10 +5,10 @@ import TipInputCard from '../components/TipInputCard';
 import TipsDisplayCard from '../components/TipsDisplayCard';
 
 const TipsScreen = ({
-    backgroundColor,
-    textColor,
-    titleColor,
-    cardBackgroundColor,
+    backgroundColor = null,
+    textColor = null,
+    titleColor = null,
+    cardBackgroundColor = null,
 }) => {
     const { theme } = useTheme();
     const [refreshTrigger, setRefreshTrigger] = useState(false);
@@ -45,22 +45,15 @@ const TipsScreen = ({
                     width="90%"
                     maxItems={5}
                     refresh={refreshTrigger}
-                    useMockData={true}
+                    useMockData={false}
                     localTips={localTips}
                     backgroundColor={cardBackgroundColor}
                     textColor={theme.textPrimary}
                 />
+
             </ScrollView>
         </View>
     );
-};
-
-// Default props (optional)
-TipsScreen.defaultProps = {
-    backgroundColor: null, // Will use theme.background as fallback
-    textColor: null, // Will use theme.textColor as fallback
-    titleColor: null, // Will use textColor or theme.textColor as fallback
-    cardBackgroundColor: null, // Will pass to child components
 };
 
 export default TipsScreen;
@@ -80,5 +73,3 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
 });
-
-// npm install @react-navigation/native-stack

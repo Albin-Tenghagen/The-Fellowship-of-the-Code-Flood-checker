@@ -4,6 +4,18 @@ import { useTheme } from '../themes/ThemeContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { fetchMonitoring } from '../services/api';
 
+const getBackendKey = (frontendKey) => {
+    const keyMap = {
+        temperature: 'temperature_c',
+        humidity: 'humidity_percent',
+        soilMoisture: 'soil_moisture_percent',
+        pressureLevel: 'water_level_pressure_cm',
+        ultraSoundLevel: 'water_level_ultrasound_cm',
+        airPressure: 'air_pressure_hPa', // optional
+    };
+    return keyMap[frontendKey] || frontendKey;
+};
+
 const WaterLevelCard = ({
     title = 'Standardtitel',
     width = '45%',
@@ -89,13 +101,16 @@ const WaterLevelCard = ({
                     const latestData = monitoringData[0];
                     console.log(`Latest data entry:`, latestData);
 
-                    if (latestData[parameter] !== undefined) {
-                        const formattedValue = formatParameterValue(latestData[parameter]);
+                    const backendKey = getBackendKey(parameter);
+                    const rawValue = latestData[backendKey];
+
+                    if (rawValue !== undefined) {
+                        const formattedValue = formatParameterValue(rawValue);
                         setParamValue(formattedValue);
-                        console.log(`Set ${parameter} value to: ${formattedValue}`);
+                        console.log(`Set ${parameter} (from ${backendKey}) to: ${formattedValue}`);
                     } else {
                         setParamValue('Ej tillgänglig');
-                        console.log(`No ${parameter} value found in data`);
+                        console.log(`No ${parameter} (${backendKey}) found in data`);
                     }
 
                     if (latestData.timestamp) {
@@ -156,15 +171,6 @@ const WaterLevelCard = ({
 
             {loading ? (
                 <Text style={{ color: theme.textPrimary }}>Laddar...</Text>
-            ) : error ? (
-                <View style={styles.dataContainer}>
-                    <Text style={[styles.valueText, { color: valueColor || theme.textPrimary }]}>
-                        {paramValue} {getParameterUnit()}
-                    </Text>
-                    <Text style={[styles.timestamp, { color: timestampColor || theme.textPrimary }]}>
-                        {timestamp}
-                    </Text>
-                </View>
             ) : (
                 <View style={styles.dataContainer}>
                     <Text style={[styles.valueText, { color: valueColor || theme.textPrimary }]}>
