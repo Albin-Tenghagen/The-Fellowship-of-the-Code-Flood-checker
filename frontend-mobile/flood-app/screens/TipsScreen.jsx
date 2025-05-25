@@ -24,6 +24,14 @@ const TipsScreen = ({
         setRefreshTrigger(!refreshTrigger);
     };
 
+    const handleTipDeleted = (deletedTipId) => {
+        // Remove from local tips if it exists there
+        setLocalTips(prev => prev.filter(tip => tip.id !== deletedTipId));
+
+        // Trigger refresh to update the display
+        setRefreshTrigger(!refreshTrigger);
+    };
+
     return (
         <View style={[styles.container, { backgroundColor: backgroundColor || theme.background }]}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -49,6 +57,14 @@ const TipsScreen = ({
                     localTips={localTips}
                     backgroundColor={cardBackgroundColor}
                     textColor={theme.textPrimary}
+<<<<<<< Updated upstream
+=======
+                    secondaryTextColor="#B0B0B0"     
+                    userTextColor="#FFD700"      
+                    iconColor={theme.primary}
+                    showDelete={true}              
+                    onTipDeleted={handleTipDeleted} 
+>>>>>>> Stashed changes
                 />
             </ScrollView>
         </View>

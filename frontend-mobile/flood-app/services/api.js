@@ -108,10 +108,78 @@ export const fetchTips = async () => {
     console.log(":rocket: RAW API response:", text);
     const data = JSON.parse(text);
     console.log(":white_check_mark: Parsed JSON:", data);
+<<<<<<< Updated upstream
     return data.products ?? []; 
+=======
+    return data.tips ?? data.products ?? []; 
+>>>>>>> Stashed changes
   } catch (error) {
     console.error(":x: Fel vid hämtning av tips:", error.message);
     throw error;
   }
 };
 
+<<<<<<< Updated upstream
+=======
+// NEW: Delete tip function
+export const deleteTip = async (tipId) => {
+  try {
+    console.log(`:rocket: Deleting tip with ID: ${tipId} (type: ${typeof tipId})`);
+    console.log(`:rocket: DELETE URL: ${baseUrl}/users/tips/deleteTip/${tipId}`);
+    
+    const response = await fetch(`${baseUrl}/users/tips/deleteTip/${tipId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    
+    console.log(":rocket: Delete response status:", response.status);
+    console.log(":rocket: Delete response headers:", response.headers);
+    
+    // Try to get response text for better error details
+    const text = await response.text();
+    console.log(":rocket: RAW delete response:", text);
+    
+    if (!response.ok) {
+      let serverMessage = 'Unknown server error';
+      
+      // Try to parse server error message
+      try {
+        const errorData = JSON.parse(text);
+        serverMessage = errorData.message || errorData.error || text;
+      } catch (e) {
+        serverMessage = text || `HTTP ${response.status}`;
+      }
+      
+      if (response.status === 404) {
+        throw new Error(`Tip with ID ${tipId} not found`);
+      } else if (response.status === 500) {
+        console.error(`:x: Server error details: ${text}`);
+        throw new Error(`Server problem: ${serverMessage}`);
+      }
+      
+      console.error(`:x: Server responded with ${response.status}: ${text}`);
+      throw new Error(`Request failed: ${serverMessage}`);
+    }
+    
+    if (!text) {
+      console.log(":white_check_mark: Tip deleted successfully (empty response)");
+      return { success: true, message: "Tip deleted successfully" };
+    }
+    
+    let data;
+    try {
+      data = JSON.parse(text);
+      console.log(":white_check_mark: Parsed delete response:", data);
+      return data;
+    } catch (e) {
+      console.log(":white_check_mark: Delete successful (non-JSON response)");
+      return { success: true, message: text };
+    }
+  } catch (error) {
+    console.error(':x: Error deleting tip:', error);
+    throw error;
+  }
+};
+>>>>>>> Stashed changes
