@@ -18,8 +18,8 @@ const TipsDisplayCard = ({
   emptyText = 'Inga tips tillgängliga',
   errorTextPrefix = 'Error: ',
   loadingText = null,
-  localTips = [], // Add this prop
-  useMockData = false, // Add this prop
+  localTips = [],
+  useMockData = false, 
 }) => {
   const { theme } = useTheme();
   const [apiTips, setApiTips] = useState([]);
@@ -56,7 +56,6 @@ const TipsDisplayCard = ({
     loadTips(true);
   };
 
-  // Combine local tips and API tips, then sort and limit
   const allTips = [...localTips, ...apiTips];
   const sortedTips = allTips
     .sort((a, b) => {
@@ -65,7 +64,6 @@ const TipsDisplayCard = ({
         const dateB = new Date(b.timestamp);
         return dateB - dateA;
       } catch (err) {
-        // Fallback to string comparison
         return b.timestamp?.localeCompare(a.timestamp) || 0;
       }
     })

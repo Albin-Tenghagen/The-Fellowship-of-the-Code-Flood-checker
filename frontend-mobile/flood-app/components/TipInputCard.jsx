@@ -12,6 +12,8 @@ const TipInputCard = ({
   iconColor = null,
   backgroundColor = null,
   offlineMode = false,
+  inputTextColor = null,        // New prop for input text color
+  placeholderTextColor = null,  // New prop for placeholder color
 }) => {
   const { theme } = useTheme();
   const [tipText, setTipText] = useState('');
@@ -26,7 +28,7 @@ const TipInputCard = ({
         description: tipText.trim(),
         location: location.trim(),
         timestamp: new Date().toISOString(),
-        user: 'Anonym', // Replace with real user if logged in
+        user: 'Anonym',
       };
 
       console.log('Submitting tip:', tipData);
@@ -77,11 +79,14 @@ const TipInputCard = ({
         <Text style={[styles.label, { color: textColor || theme.textPrimary }]}>Plats</Text>
         <TextInput
           style={[
-            styles.input,
-            { backgroundColor: theme.inputBackground, color: theme.textPrimary },
+            styles.input, 
+            { 
+              backgroundColor: theme.inputBackground, 
+              color: inputTextColor || theme.placeholderText 
+            },
           ]}
           placeholder="Ange plats"
-          placeholderTextColor={theme.textSecondary}
+          placeholderTextColor={placeholderTextColor || theme.textSecondary || '#999'}
           value={location}
           onChangeText={setLocation}
         />
@@ -91,11 +96,14 @@ const TipInputCard = ({
         <Text style={[styles.label, { color: textColor || theme.textPrimary }]}>Beskrivning</Text>
         <TextInput
           style={[
-            styles.textArea,
-            { backgroundColor: theme.inputBackground, color: theme.textPrimary },
+            styles.input,
+            { 
+              backgroundColor: theme.inputBackground, 
+              color: inputTextColor || theme.placeholderText  
+            },
           ]}
           placeholder="Beskriv ditt tips här..."
-          placeholderTextColor={theme.textSecondary}
+          placeholderTextColor={placeholderTextColor || theme.placeholderText || '#999'}
           multiline
           numberOfLines={4}
           textAlignVertical="top"
@@ -111,7 +119,7 @@ const TipInputCard = ({
         style={[
           styles.submitButton,
           {
-            backgroundColor: (isSubmitDisabled || loading) ? (theme.disabled ||  theme.primary) : theme.secondary,
+            backgroundColor: (isSubmitDisabled || loading) ? (theme.disabled || theme.textPrimary) : theme.secondary,
           },
         ]}
         onPress={handleSubmitTip}
