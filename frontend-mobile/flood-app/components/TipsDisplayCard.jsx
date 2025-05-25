@@ -15,12 +15,14 @@ const TipsDisplayCard = ({
   secondaryTextColor = null,
   userTextColor = null,
   borderColor = null,
-  emptyText = 'Inga tips tillgängliga',        // Add this
-  errorTextPrefix = 'Error: ',                 // Add this
-  loadingText = null,                          // Add this (optional)
+  emptyText = 'Inga tips tillgängliga',
+  errorTextPrefix = 'Error: ',
+  loadingText = null,
+  localTips = [], // Add this prop
+  useMockData = false, // Add this prop
 }) => {
   const { theme } = useTheme();
-  const [tips, setTips] = useState([]);
+  const [apiTips, setApiTips] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
@@ -33,24 +35,10 @@ const TipsDisplayCard = ({
         setLoading(true);
       }
       setError(null);
-
       console.log('Fetching tips...');
       const data = await fetchTips();
       console.log('Got tips:', data);
-
-      const sortedTips = data
-        .sort((a, b) => {
-          try {
-            const dateA = new Date(a.timestamp);
-            const dateB = new Date(b.timestamp);
-            return dateB - dateA;
-          } catch (err) {
-            return b.timestamp.localeCompare(a.timestamp);
-          }
-        })
-        .slice(0, maxItems);
-
-      setTips(sortedTips);
+      setApiTips(data || []);
     } catch (err) {
       console.error('Error fetching tips:', err);
       setError(err.message);
@@ -67,6 +55,21 @@ const TipsDisplayCard = ({
   const onRefresh = () => {
     loadTips(true);
   };
+
+  // Combine local tips and API tips, then sort and limit
+  const allTips = [...localTips, ...apiTips];
+  const sortedTips = allTips
+    .sort((a, b) => {
+      try {
+        const dateA = new Date(a.timestamp);
+        const dateB = new Date(b.timestamp);
+        return dateB - dateA;
+      } catch (err) {
+        // Fallback to string comparison
+        return b.timestamp?.localeCompare(a.timestamp) || 0;
+      }
+    })
+    .slice(0, maxItems);
 
   const formatTimestamp = (timestamp) => {
     if (!timestamp) return '';
@@ -97,11 +100,11 @@ const TipsDisplayCard = ({
         <ActivityIndicator size="small" color={iconColor || theme.primary} style={styles.loader} />
       ) : error ? (
         <Text style={[styles.errorText, { color: 'red' }]}>
-          Error: {error}
+          {errorTextPrefix}{error}
         </Text>
-      ) : tips.length === 0 ? (
+      ) : sortedTips.length === 0 ? (
         <Text style={[styles.emptyText, { color: secondaryTextColor || theme.textPrimary }]}>
-          Inga tips tillgängliga
+          {emptyText}
         </Text>
       ) : (
         <ScrollView
@@ -114,8 +117,8 @@ const TipsDisplayCard = ({
             />
           }
         >
-          {tips.map((tip) => (
-            <View key={tip.id} style={[
+          {sortedTips.map((tip, index) => (
+            <View key={tip.id || index} style={[
               styles.tipItem,
               { borderBottomColor: borderColor || '#eee' }
             ]}>
@@ -184,7 +187,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     paddingBottom: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee', // This will be overridden in the component
+    borderBottomColor: '#eee',
   },
   tipLocation: {
     fontSize: 16,
