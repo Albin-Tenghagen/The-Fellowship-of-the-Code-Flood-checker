@@ -9,6 +9,9 @@ const TipInputCard = ({
   width = '90%',
   onTipSubmitted = null,
   textColor = null,
+  iconColor = null,
+  backgroundColor = null,
+  offlineMode = false,
 }) => {
   const { theme } = useTheme();
   const [tipText, setTipText] = useState('');
@@ -27,7 +30,10 @@ const TipInputCard = ({
       };
 
       console.log('Submitting tip:', tipData);
-      await postTip(tipData);
+      
+      if (!offlineMode) {
+        await postTip(tipData);
+      }
 
       setTipText('');
       setLocation('');
@@ -51,7 +57,7 @@ const TipInputCard = ({
     <View
       style={[
         styles.card,
-        { backgroundColor: theme.card },
+        { backgroundColor: backgroundColor || theme.card },
         width ? { width } : {},
       ]}
     >
@@ -59,7 +65,7 @@ const TipInputCard = ({
         <MaterialCommunityIcons
           name="lightbulb-outline"
           size={24}
-          color={theme.icon}
+          color={iconColor || theme.icon}
           style={{ marginRight: 8 }}
         />
         <Text style={[styles.title, { color: textColor || theme.textPrimary }]}>
@@ -96,7 +102,7 @@ const TipInputCard = ({
           value={tipText}
           onChangeText={setTipText}
         />
-        <Text style={{ color: theme.textSecondary, fontSize: 12 }}>
+        <Text style={{ color: theme.textPrimary, fontSize: 12 }}>
           {tipText.length}/280 tecken
         </Text>
       </View>
@@ -105,7 +111,7 @@ const TipInputCard = ({
         style={[
           styles.submitButton,
           {
-            backgroundColor: isSubmitDisabled || loading ? theme.disabled || '#ccc' : theme.primary,
+            backgroundColor: (isSubmitDisabled || loading) ? (theme.disabled ||  theme.primary) : theme.secondary,
           },
         ]}
         onPress={handleSubmitTip}
