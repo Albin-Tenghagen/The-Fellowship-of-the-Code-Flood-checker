@@ -14,31 +14,18 @@ type SortField =
   | "waterlevel"
   | "id";
 
-userRouter.get(
-  "/",
-  async (req: users_observation_info, res: Response): Promise<void> => {
-    const sortField = req.query.sorting || "id";
+// GET /users/safety – ger tillbaka exempeldata
+userRouter.get("/safety", (_req: Request, res: Response): void => {
+  const safetyTips = [
+    { id: 1, title: "Undvik översvämmade vägar", description: "Gå eller kör inte i vattenflöden." },
+    { id: 2, title: "Säkra elen", description: "Stäng av el i översvämmade områden." },
+    { id: 3, title: "Förbered hemmet", description: "Använd sandsäckar vid dörrar och ventiler." },
+  ];
 
-    try {
-      const { rows: user_observations } = await pool.query(
-        `SELECT * FROM user_observation ORDER BY ${sortField} ASC`
-      );
+  res.status(200).json({
+    message: "Säkerhetstips för översvämningar",
+    products: safetyTips, // Viktigt: matchar frontend som läser `data.products`
+  });
+});
 
-      if (!user_observations || user_observations.length === 0) {
-        res.status(404).json({
-          message: "No observations found.",
-        });
-        return;
-      }
-
-      res.status(200).json({
-        message: `Observations sorted by ${sortField}`,
-        user_observations,
-      });
-    } catch (error) {
-      console.error("Database error:", error);
-      res.status(500).json({ message: "Internal server error." });
-    }
-  }
-);
 export default userRouter;
