@@ -8,57 +8,45 @@ const TipInputCard = ({
   title = 'Skicka in tips',
   width = '90%',
   onTipSubmitted = null,
-  textColor = null, 
+  textColor = null,
 }) => {
   const { theme } = useTheme();
   const [tipText, setTipText] = useState('');
   const [location, setLocation] = useState('');
   const [loading, setLoading] = useState(false);
-  
+
   const handleSubmitTip = async () => {
-    if (!tipText.trim()) {
-      Alert.alert('Fel', 'Vänligen ange en beskrivning av tipset');
-      return;
-    }
-    
-    if (!location.trim()) {
-      Alert.alert('Fel', 'Vänligen ange en plats');
-      return;
-    }
-    
     try {
       setLoading(true);
-      
+
       const tipData = {
         description: tipText.trim(),
         location: location.trim(),
         timestamp: new Date().toISOString(),
+        user: 'Anonym', // Replace with real user if logged in
       };
-      
+
       console.log('Submitting tip:', tipData);
-      
       await postTip(tipData);
-      
+
       setTipText('');
       setLocation('');
 
       if (onTipSubmitted) {
         onTipSubmitted(tipData);
       }
-      
+
       Alert.alert('Framgång', 'Tack för ditt tips! Det har skickats till vårt system.');
-      
     } catch (error) {
       console.error('Error submitting tip:', error);
-
-      const errorMessage = error.message || 'Kunde inte skicka tipset. Vänligen försök igen.';
-      
-      Alert.alert('Fel', errorMessage);
+      Alert.alert('Fel', error?.message ?? 'Ett okänt fel inträffade.');
     } finally {
       setLoading(false);
     }
   };
-  
+
+  const isSubmitDisabled = !tipText.trim() || !location.trim();
+
   return (
     <View
       style={[
@@ -78,22 +66,28 @@ const TipInputCard = ({
           {title}
         </Text>
       </View>
-      
+
       <View style={styles.inputContainer}>
         <Text style={[styles.label, { color: textColor || theme.textPrimary }]}>Plats</Text>
         <TextInput
-          style={[styles.input, { backgroundColor: theme.inputBackground, color: theme.textPrimary }]}
+          style={[
+            styles.input,
+            { backgroundColor: theme.inputBackground, color: theme.textPrimary },
+          ]}
           placeholder="Ange plats"
-          placeholderTextColor={theme.textPrimary}
+          placeholderTextColor={theme.textSecondary}
           value={location}
           onChangeText={setLocation}
         />
       </View>
-      
+
       <View style={styles.inputContainer}>
         <Text style={[styles.label, { color: textColor || theme.textPrimary }]}>Beskrivning</Text>
         <TextInput
-          style={[styles.textArea, { backgroundColor: theme.inputBackground, color: theme.textPrimary }]}
+          style={[
+            styles.textArea,
+            { backgroundColor: theme.inputBackground, color: theme.textPrimary },
+          ]}
           placeholder="Beskriv ditt tips här..."
           placeholderTextColor={theme.textSecondary}
           multiline
@@ -102,12 +96,20 @@ const TipInputCard = ({
           value={tipText}
           onChangeText={setTipText}
         />
+        <Text style={{ color: theme.textSecondary, fontSize: 12 }}>
+          {tipText.length}/280 tecken
+        </Text>
       </View>
-      
+
       <TouchableOpacity
-        style={[styles.submitButton, { backgroundColor: theme.primary }]}
+        style={[
+          styles.submitButton,
+          {
+            backgroundColor: isSubmitDisabled || loading ? theme.disabled || '#ccc' : theme.primary,
+          },
+        ]}
         onPress={handleSubmitTip}
-        disabled={loading}
+        disabled={loading || isSubmitDisabled}
       >
         {loading ? (
           <ActivityIndicator size="small" color="#fff" />
