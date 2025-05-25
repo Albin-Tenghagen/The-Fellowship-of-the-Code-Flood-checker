@@ -10,13 +10,15 @@ const TipsDisplayCard = ({
   maxItems = 5,
   refresh = false,
   textColor = null,
-  iconColor = null, // Changed from icon to iconColor for clarity
-  // Add these additional color props for consistency with other components
+  iconColor = null, 
   titleColor = null,
   secondaryTextColor = null,
   userTextColor = null,
   borderColor = null,
-}) => { 
+  emptyText = 'Inga tips tillgängliga',        // Add this
+  errorTextPrefix = 'Error: ',                 // Add this
+  loadingText = null,                          // Add this (optional)
+}) => {
   const { theme } = useTheme();
   const [tips, setTips] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -98,7 +100,7 @@ const TipsDisplayCard = ({
           Error: {error}
         </Text>
       ) : tips.length === 0 ? (
-        <Text style={[styles.emptyText, { color: secondaryTextColor || theme.textSecondary }]}>
+        <Text style={[styles.emptyText, { color: secondaryTextColor || theme.textPrimary }]}>
           Inga tips tillgängliga
         </Text>
       ) : (

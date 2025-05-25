@@ -38,6 +38,7 @@ const TipsScreen = ({
                     offlineMode={true}
                     backgroundColor={cardBackgroundColor}
                     textColor={theme.textPrimary}
+                    iconColor={theme.primary}
                 />
 
                 <TipsDisplayCard
@@ -48,7 +49,8 @@ const TipsScreen = ({
                     useMockData={false}
                     localTips={localTips}
                     backgroundColor={cardBackgroundColor}
-                    textColor={theme.textPrimary}
+                    textColor={theme.primary}
+                    iconColor={theme.primary}
                 />
 
             </ScrollView>
