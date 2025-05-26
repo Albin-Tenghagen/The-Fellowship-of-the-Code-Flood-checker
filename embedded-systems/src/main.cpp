@@ -1,4 +1,4 @@
-// #define __SERVER__
+#define __SERVER__
 #ifdef __SERVER__
 
 #include <Arduino.h>
@@ -38,7 +38,7 @@ void setup()
     String str;
 
     fellowshipLoRa::readUntilValueRecv(str);
-    fellowshipLoRa::convertToInt16(str[0], str[1]);
+    water_level_mm = fellowshipLoRa::convertToInt16(str[0], str[1]);
 
     Soil::updateSoilSensorValue();
     DHTSensor::readDHTSensor();
@@ -88,9 +88,11 @@ WaterPressure::WaterPressureSensor sensor { A4 };
 
 void setup()
 {
+    Serial.begin(9600);
     fellowshipLoRa::init();
 
     WaterPressure::readWaterLevel(sensor);
+    Serial.println(sensor.depth_mm);
 
     // (16 bit) 0x4020 >> 8 = 0x0040 = (uint8_t) 0x40
     // (16 bit) 0x4020 = (uint8_t) 0x20
@@ -100,6 +102,8 @@ void setup()
         (uint8_t) (sensor.depth_mm),
         0
     };
+
+    Serial.println(fellowshipLoRa::convertToInt16(cStr[0], cStr[1]));
 
     String str { cStr };
 
