@@ -21,7 +21,7 @@ const SettingsScreen = () => {
     <ScrollView>
     <View style={styles.container}>
       <FlatListLocation/>
-    
+{/*     
       {safety.map((item) => (
         <View key={item.id} style={styles.item}>
           <Text style={styles.location}>{item.location}</Text>
@@ -46,7 +46,7 @@ const SettingsScreen = () => {
         <View style={styles.errorBox}>
           <Text style={styles.errorText}>:warning: Kunde inte hämta tips: {safetyError}</Text>
         </View>
-      )}
+      )} */}
     </View>
     </ScrollView>
   );
