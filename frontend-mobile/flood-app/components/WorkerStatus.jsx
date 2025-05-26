@@ -7,9 +7,13 @@ import StatusCard from './StatusCard';
 import ProgressControls from './ProgressControls';
 import TimeStats from './TimeStats';
 
-
-const WorkerStatus = ({ location = null }) => {
+// Updated to receive route parameters from navigation
+const WorkerStatus = ({ route }) => {
   const { theme } = useTheme();
+  
+  // Extract location and safetyData from route params
+  const { location = null, safetyData = [] } = route?.params || {};
+  
   const STATUS = {
     NOT_STARTED: 'Ej påbörjad',
     ON_SITE: 'På plats',
@@ -20,7 +24,7 @@ const WorkerStatus = ({ location = null }) => {
   const [status, setStatus] = useState(STATUS.NOT_STARTED);
   const [timeLeft, setTimeLeft] = useState(null);
   const [startTime, setStartTime] = useState(null);
-  const [safety, setSafety] = useState([]);
+  const [safety, setSafety] = useState(safetyData || []); // Use passed safetyData as initial value
   const [currentLocationIndex, setCurrentLocationIndex] = useState(0);
   const [fetchedLocationName, setFetchedLocationName] = useState('Nånstans i Sverige');
   const [estimatedTime, setEstimatedTime] = useState(60 * 60);
@@ -238,11 +242,11 @@ const WorkerStatus = ({ location = null }) => {
       }
     };
 
-    if (!location) {
+    // Only fetch safety data if we don't have location data passed from navigation
+    if (!location && safety.length === 0) {
       getSafety();
     }
   }, [location]);
-
 
   const cycleLocation = () => {
     if (safety.length > 0) {
@@ -252,16 +256,30 @@ const WorkerStatus = ({ location = null }) => {
     }
   };
 
+  // Use the passed location data or fallback to fetched data
   const displayLocationName = location?.location || fetchedLocationName;
 
   return (
     <View style={[styles.container, { backgroundColor: theme.card }]}>
-
       <View style={styles.header}>
         <Text style={[styles.title, { color: theme.inputBackground }]}>Arbetsstatus</Text>
         <Text style={[styles.subtitle, { color: theme.textTertiary }]}>
           {displayLocationName}
         </Text>
+        {/* Show additional location details if available */}
+        {location && (
+          <View style={styles.locationDetails}>
+            <Text style={[styles.locationDescription, { color: theme.textSecondary }]}>
+              {location.description}
+            </Text>
+            <Text style={[styles.locationWaterLevel, { color: getStatusColor() }]}>
+              Vattennivå: {location.waterlevel} cm
+            </Text>
+            <Text style={[styles.locationCoords, { color: theme.textTertiary }]}>
+              {location.coordinates}
+            </Text>
+          </View>
+        )}
       </View>
 
       <StatusCard
@@ -322,6 +340,27 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
     fontWeight: '500',
+  },
+  // New styles for location details
+  locationDetails: {
+    marginTop: 12,
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  locationDescription: {
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 6,
+    lineHeight: 18,
+  },
+  locationWaterLevel: {
+    fontSize: 15,
+    fontWeight: '600',
+    marginBottom: 4,
+  },
+  locationCoords: {
+    fontSize: 12,
+    opacity: 0.8,
   },
   statusCard: {
     marginHorizontal: 20,
@@ -388,10 +427,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   timeline: {
-    height: 8, // Increased from 6 to 8
+    height: 8,
     borderRadius: 4,
     overflow: 'hidden',
-    backgroundColor: '#f0f0f0', // More defined background
+    backgroundColor: '#f0f0f0',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,

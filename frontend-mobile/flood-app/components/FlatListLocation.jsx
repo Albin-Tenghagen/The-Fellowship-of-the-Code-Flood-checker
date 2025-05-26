@@ -4,11 +4,11 @@ import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CheckBox from './CheckBox';
 import AnimatedButton from './AnimatedButton';
-import { useTheme } from '../themes/ThemeContext';
+import { useNavigation } from '@react-navigation/native';
+import { useTheme } from '../themes/ThemeContext'; // Added missing import
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
-// Mock data for flood/water monitoring locations
 const mockLocationData = [
   {
     id: 1,
@@ -30,7 +30,7 @@ const mockLocationData = [
     id: 3,
     location: "Dalälven - Gävle",
     waterlevel: 9,
-    priority: "critical", 
+    priority: "critical",
     description: "Mycket hög vattennivå - översvämningsrisk",
     coordinates: "60.6749, 17.1413"
   },
@@ -62,13 +62,13 @@ const mockLocationData = [
 
 const USE_MOCK_DATA = true;
 
-const FlatListLocation = ({ 
-  onLocationSelect = null, 
-  safetyData = [], 
+const FlatListLocation = ({
+  onLocationSelect = null,
+  safetyData = [],
   loading: externalLoading = false,
-  navigation = null 
 }) => {
   const { theme } = useTheme();
+  const navigation = useNavigation();
   const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedId, setSelectedId] = useState(null);
@@ -119,27 +119,27 @@ const FlatListLocation = ({
   };
 
   const getPriorityConfig = (level) => {
-    if (level >= 8) return { 
-      color: theme.colors?.error || '#FF4444', 
-      icon: 'alert-circle', 
+    if (level >= 8) return {
+      color: theme.colors?.error || '#FF4444',
+      icon: 'alert-circle',
       text: 'KRITISK',
       bgColor: theme.colors?.errorLight || '#FFE6E6'
     };
-    if (level >= 6) return { 
-      color: theme.colors?.warning || '#FF8800', 
-      icon: 'alert', 
+    if (level >= 6) return {
+      color: theme.colors?.warning || '#FF8800',
+      icon: 'alert',
       text: 'HÖG',
       bgColor: theme.colors?.warningLight || '#FFF4E6'
     };
-    if (level >= 4) return { 
-      color: theme.colors?.info || '#2196F3', 
-      icon: 'information', 
+    if (level >= 4) return {
+      color: theme.colors?.info || '#2196F3',
+      icon: 'information',
       text: 'MEDIUM',
       bgColor: theme.colors?.infoLight || '#E3F2FD'
     };
-    return { 
-      color: theme.colors?.success || '#4CAF50', 
-      icon: 'check-circle', 
+    return {
+      color: theme.colors?.success || '#4CAF50',
+      icon: 'check-circle',
       text: 'LÅG',
       bgColor: theme.colors?.successLight || '#E8F5E8'
     };
@@ -158,10 +158,10 @@ const FlatListLocation = ({
         <View style={styles.itemContent}>
           {/* Priority Indicator */}
           <View style={[styles.priorityBadge, { backgroundColor: priorityConfig.color }]}>
-            <MaterialCommunityIcons 
-              name={priorityConfig.icon} 
-              size={16} 
-              color="white" 
+            <MaterialCommunityIcons
+              name={priorityConfig.icon}
+              size={16}
+              color="white"
             />
             <Text style={styles.priorityText}>{priorityConfig.text}</Text>
           </View>
@@ -175,17 +175,17 @@ const FlatListLocation = ({
               {item.description}
             </Text>
             <View style={styles.detailsRow}>
-              <MaterialCommunityIcons 
-                name="water" 
-                size={16} 
+              <MaterialCommunityIcons
+                name="water"
+                size={16}
                 color={priorityConfig.color}
               />
               <Text style={[styles.waterLevel, { color: priorityConfig.color }]}>
                 {item.waterlevel} cm
               </Text>
-              <MaterialCommunityIcons 
-                name="map-marker" 
-                size={14} 
+              <MaterialCommunityIcons
+                name="map-marker"
+                size={14}
                 color={theme.textSecondary}
                 style={{ marginLeft: 12 }}
               />
@@ -206,7 +206,7 @@ const FlatListLocation = ({
         </View>
 
         {/* Tap Area for Selection */}
-        <View 
+        <View
           style={styles.tapArea}
           onTouchEnd={() => onSelect(item.id)}
         />
@@ -219,26 +219,12 @@ const FlatListLocation = ({
       const chosen = locations.find(loc => loc.id === selectedId);
       console.log('Vald plats:', chosen);
       
-      // First try navigation if provided
-      if (navigation && navigation.navigate) {
-        navigation.navigate('WorkerStatus', {
-          location: chosen,
-          safetyData: safetyData
-        });
-        return;
-      }
+      // Navigate to WorkerStatus with location data
+      navigation.navigate('WorkerStatus', {
+        location: chosen,
+        safetyData: safetyData
+      });
       
-      // Then try parent callback if provided
-      if (onLocationSelect && typeof onLocationSelect === 'function') {
-        onLocationSelect(chosen);
-        return;
-      }
-      
-      // Fallback to alert if nothing else works
-      Alert.alert(
-        'Plats vald', 
-        `Du har valt: ${chosen.location}\nVattennivå: ${chosen.waterlevel} cm\n${chosen.description || ''}`
-      );
     } else {
       Alert.alert('Varning', 'Vänligen välj en plats först!');
     }
@@ -249,9 +235,9 @@ const FlatListLocation = ({
       <SafeAreaProvider>
         <SafeAreaView style={styles.container}>
           <View style={styles.loadingContainer}>
-            <MaterialCommunityIcons 
-              name="loading" 
-              size={32} 
+            <MaterialCommunityIcons
+              name="loading"
+              size={32}
               color={theme.primary}
             />
             <Text style={[styles.loadingText, { color: theme.textPrimary }]}>
@@ -268,9 +254,9 @@ const FlatListLocation = ({
       <SafeAreaView style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
-          <MaterialCommunityIcons 
-            name="map-marker-multiple" 
-            size={28} 
+          <MaterialCommunityIcons
+            name="map-marker-multiple"
+            size={28}
             color={theme.primary}
           />
           <View style={styles.headerTextContainer}>
@@ -305,7 +291,7 @@ const FlatListLocation = ({
           </View>
         </View>
 
-        {/* List */}
+        {/* Location List */}
         <FlatList
           data={locations}
           renderItem={renderItem}
@@ -318,10 +304,10 @@ const FlatListLocation = ({
 
         {/* Action Button */}
         <View style={styles.buttonContainer}>
-          <AnimatedButton 
-            title="Påbörja övervakning" 
+          <AnimatedButton
+            title="Påbörja övervakning"
             onPress={onButtonPress}
-            style={[styles.actionButton, { 
+            style={[styles.actionButton, {
               backgroundColor: selectedId ? theme.primary : theme.disabled,
               opacity: selectedId ? 1 : 0.6
             }]}
