@@ -10,7 +10,7 @@ import UserScreen from "../screens/UserScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import LocationScreen from "../screens/Location";
 import TipsScreen from "../screens/TipsScreen";
-import WorkerStatus from "../components/WorkerStatus"; // Add this import
+import WorkerStatus from "../components/WorkerStatus"; 
 
 const Tab = createBottomTabNavigator();
 
@@ -106,7 +106,6 @@ const Navigation = () => {
             headerTitle: "Tips för översvämningsskydd",
           }}
         />
-        {/* Add WorkerStatus as hidden tab screen */}
         <Tab.Screen
           name="WorkerStatus"
           component={WorkerStatus}
