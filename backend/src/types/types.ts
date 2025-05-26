@@ -14,20 +14,20 @@ export interface TipRequest
 
 // Your base observation data type
 export interface user_observation {
-  id: number;
-  timestamp: string;
+  id?: number;
+  timestamp?: string;
   location: string;
   warning: string;
   waterlevel: number;
-  riskAssesment: string;
+  risk_assesment: string;
   description: string;
-  proactiveActions: boolean;
+  proactive_actions: boolean;
 }
 
 // Allowed sorting fields
 export type ObservationSortField = keyof Pick<
   user_observation,
-  "id" | "timestamp" | "location" | "riskAssesment" | "waterlevel"
+  "id" | "timestamp" | "location" | "risk_assesment" | "waterlevel"
 >;
 
 // Typed request for query params (e.g. ?sorting=timestamp)
@@ -42,10 +42,10 @@ export interface users_observation_info
 
 //* infrastructure
 export interface infrastructureBody {
-  id: number;
-  timestamp: string;
-  problem: string;
+  id?: number;
   location: string;
+  problem: string;
+  timestamp: string;
 }
 
 export type infrastructureRequest = Request<

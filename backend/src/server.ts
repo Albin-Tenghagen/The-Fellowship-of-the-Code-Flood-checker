@@ -15,7 +15,26 @@ dotenv.config();
 
 const app = express();
 
-// Swagger setup (optional)
+//-------------------
+//Swagger inställning för att att generera en api dokumentation
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "The Fellowship of the Codes Restful API",
+      description: "API-dokumentation med swagger",
+      version: "1.0.0",
+    },
+    servers: [
+      {
+        url: "http://localhost:5001",
+        description: "local dev server",
+      },
+    ],
+  },
+  //stjärna för alla filer i routes.
+  apis: ["./dist/routes/adminRoutes/*.js", "./dist/routes/userRoutes/*.js"],
+};
 const swaggerDocs = YAML.load(path.resolve("./src/swagger/swagger.yaml"));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 

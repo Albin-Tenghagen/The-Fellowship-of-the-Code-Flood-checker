@@ -1,6 +1,6 @@
 console.log("tips router running....");
 import express, { Request, Response, Router } from "express";
-import path from "path";
+
 import { TipRequest, userTipObject } from "../../types/types.ts";
 import { validateUserTips } from "../../validators/tipsValidation.ts";
 import { timestampCreation } from "../../middleware/timestampCreation.ts";
@@ -132,11 +132,8 @@ userTipsRouter.delete(
   "/deleteTip/:id",
   async (req: TipRequest, res: Response): Promise<void> => {
     const id = Number(req.params.id);
-    const filePath = path.resolve("Database/tips.json");
 
     try {
-      // const jsonData = await readFile(filePath, "utf-8");
-      // const tips = JSON.parse(jsonData);
       const { rows } = await pool.query(`SELECT * FROM "userTips"`);
       const index = rows.findIndex((tip: userTipObject) => tip.id === id);
       if (index === -1) {
@@ -155,7 +152,6 @@ userTipsRouter.delete(
       const values = [id];
       console.log(query);
       const result = await pool.query(query, values);
-      // fs.writeFileSync(filePath, JSON.stringify(tips, null, 2), "utf-8");
       res.status(200).json({ message: "Tip deleted!", lessTips: result });
       return;
     } catch (error) {

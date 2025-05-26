@@ -27,15 +27,37 @@ paths:
                     type: string
                     example: Welcome to the internet, have a look around
 
-  /users/:
+  /users:
     get:
       tags:
-        - Users
-      summary: Welcome to the user endpoint
-      description: Returns a welcome message for the user endpoint
+        - User observation
+      summary: Get all user observations with optional sorting
+      description: |
+        Returns all user-submitted observations, optionally sorted by a valid field.
+        If the `sorting` parameter is not provided or invalid, the default sort is by `id`.
+
+        Allowed sort fields:
+          - id
+          - location
+          - timestamp
+          - riskAssesment
+          - waterlevel
+      parameters:
+        - in: query
+          name: sorting
+          required: false
+          schema:
+            type: string
+            enum:
+              - id
+              - location
+              - timestamp
+              - riskAssesment
+              - waterlevel
+          description: Field to sort results by (default is `id`)
       responses:
         "200":
-          description: Endpoint is reachable and returning welcome message
+          description: Observations successfully retrieved and sorted
           content:
             application/json:
               schema:
@@ -43,7 +65,31 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: Welcome to the user Endpoint.
+                    example: Observations sorted by timestamp
+                  user_observations:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/user_observation"
+        "404":
+          description: No observations found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: No observations found.
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Internal server error.
 
   /users/tips:
     get:
@@ -59,20 +105,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                      description: The tip's unique ID
-                    timestamp:
-                      type: string
-                      description: The time and date when the tip was registered
-                    location:
-                      type: string
-                      description: Where the tip originates from
-                    description:
-                      type: string
-                      description: Description of the current alert/tip
+                  $ref: "#/components/schemas/userTipsObject"
 
   /users/tips/postTip:
     post:
@@ -85,20 +118,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                id:
-                  type: integer
-                  description: The tip's unique ID
-                timestamp:
-                  type: string
-                  description: The time and date when the tip was registered
-                location:
-                  type: string
-                  description: Where the tip originates from
-                description:
-                  type: string
-                  description: Description of the current alert/tip
+              $ref: "#/components/schemas/userTipsObject"
       responses:
         "200":
           description: Tip created!
@@ -109,19 +129,8 @@ paths:
                 properties:
                   message:
                     type: string
-                    description: Confirmation message
                   tip:
-                    type: object
-                    description: The created tip
-                    properties:
-                      id:
-                        type: integer
-                      timestamp:
-                        type: string
-                      location:
-                        type: string
-                      description:
-                        type: string
+                    $ref: "#/components/schemas/userTipsObject"
 
   /users/tips/putTip/{id}:
     put:
@@ -141,20 +150,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                timestamp:
-                  type: string
-                  description: The time and date when the tip was registered
-                location:
-                  type: string
-                  description: Where the tip originates from
-                description:
-                  type: string
-                  description: Description of the current alert/tip
-                user:
-                  type: string
-                  description: The user who submitted the tip
+              $ref: "#/components/schemas/userTipsObject"
       responses:
         "200":
           description: Tip updated successfully
@@ -168,22 +164,11 @@ paths:
                   tips:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        id:
-                          type: integer
-                        timestamp:
-                          type: string
-                        location:
-                          type: string
-                        description:
-                          type: string
-                        user:
-                          type: string
+                      $ref: "#/components/schemas/userTipsObject"
 
   /users/tips/deleteTip/{id}:
     delete:
-      tags: 
+      tags:
         - tips
       summary: Delete a tip
       parameters:
@@ -197,130 +182,27 @@ paths:
         "200":
           description: Tip deleted
           content:
-            applicat:
-              type: object
-              properties:
-                message:
-                  type: string
-                tipsToDelete:
-                  type: array
-                  items:
-                    $ref: "#/components/schemas/tipbody"
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  tipsToDelete:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/userTipsObject"
         "404":
           description: Tip not found
         "500":
           description: Internal server error
 
-  /users/risks:
-    get:
-      tags:
-        - User Risks
-      summary: Get all user risks
-      responses:
-        "200":
-          description: A list of user risks
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: These are the risks.
-                  risks:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/riskAssesment"
-        "404":
-          description: Risks not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: The server could not find the risks, please try again later
-        "500":
-          description: Server error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: SERVER SERVER ERROR
-
-  /users/safety:
-    get:
-      tags:
-        - User Safety
-      summary: Get user safety data
-      description: >
-        Retrieves safety-related information from a JSON file. 
-        Optionally sorts the data based on query parameter 'sorting' 
-        by 'location' or 'time'.
-      operationId: getUserSafety
-      parameters:
-        - name: sorting
-          in: query
-          required: false
-          description: Sort results by 'location' or 'time'
-          schema:
-            type: string
-            enum: [location, time]
-      responses:
-        "200":
-          description: Successfully retrieved and optionally sorted safety info
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: sorted by location shown below:
-                  products:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        location:
-                          type: string
-                          example: "New York"
-                        timestamp:
-                          type: string
-                          format: date-time
-                          example: "2024-12-01T14:22:00Z"                 
-        "404":
-          description: No safety information found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: There were no safety risks or advice to adhere to
-        "500":
-          description: Server error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-
   /admins/:
     get:
-      tags:  
+      tags:
         - Admin
       summary: Welcome to the admin auth endpoint
       description: Returns a message prompting the admin to log in to access the admin portal
-      tags:
-        - Admins
       responses:
         "200":
           description: Endpoint is reachable and returning welcome message
@@ -331,14 +213,77 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: Welcome to
+                    example: Welcome to the admin endpoint
+
+  /admins/register:
+    post:
+      summary: Register a new admin
+      tags:
+        - Admin registration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - email
+                - password
+                - acces_key
+              properties:
+                message:
+                  type: string
+                  example: This is the recent registration data
+                registration_data:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/loginData"
+      responses:
+        "201":
+          description: Admin successfully registered and logged in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Admin registered and logged in
+                  token:
+                    type: string
+        "400":
+          description: Bad Request - Invalid input or access key
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "409":
+          description: Conflict - Email already registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
 
   /admins/login:
     post:
       tags:
         - Admins Login
-      tips: 
-        - admin login
       summary: Admin login
       requestBody:
         required: true
@@ -346,17 +291,18 @@ paths:
           application/json:
             schema:
               type: object
-              properties:
-                name:
-                  type: string
-                email:
-                  type: string
-                password:
-                  type: string
               required:
                 - name
                 - email
                 - password
+              properties:
+                message:
+                  type: string
+                  example: This is the recent registration data
+                Registration_data:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/loginData"
       responses:
         "200":
           description: Login successful
@@ -440,7 +386,7 @@ paths:
                     type: string
                     example: SERVER monitoring ERROR
 
-  /admins/authenticated/monitoring/historicalMonitoring:
+  /admins/authenticated/historicalMonitoring:
     get:
       summary: Get historical monitoring data
       tags:
@@ -480,6 +426,65 @@ paths:
                   message:
                     type: string
                     example: SERVER Monitoring ERROR
+
+  /postmonitoring:
+    post:
+      summary: Submit a new monitoring entry
+      tags:
+        - Admin Monitoring
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - station_id
+                - soil_moisture_percent
+                - temperature_c
+                - humidity_percent
+                - water_level_pressure_cm
+                - water_level_ultrasound_cm
+                - water_level_average_cm
+              properties:
+                message:
+                  type: string
+                  example: This is the monitored Data
+                monitoredData:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/MonitoringEntry"
+      responses:
+        "201":
+          description: Monitoring entry successfully added
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Monitoring entry added successfully."
+        "400":
+          description: Bad Request - Missing required fields
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "One or more required fields are missing. Please try again."
+        "500":
+          description: Server Error - Database insertion failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Server error while inserting data."
 
   /admins/authenticated/infrastructureIssues:
     get:
@@ -600,14 +605,14 @@ paths:
                 location:
                   type: string
                   example: "Main Street, City Center"
-      responses: 
-        "200": 
+      responses:
+        "200":
           description: Problem updated successfully
           content:
             application/json:
               schema:
                 type: object
-                properties: 
+                properties:
                   message:
                     type: string
                     example: "Problem updated successfully"
@@ -634,7 +639,7 @@ paths:
                   message:
                     type: string
                     example: "Internal server error"
-  
+
   /admins/authenticated/infrastructureIssues/deleteInfrastructure/{id}:
     delete:
       tags:
@@ -686,7 +691,7 @@ paths:
 
   /admins/authenticated/issueUpkeep/:
     get:
-      tags: 
+      tags:
         - Admin IssueUpkeep
       summary: Welcome to the admin issue upkeep endpoint
       description: Returns a welcome message confirming the adminIssueUpkeep endpoint is active
@@ -704,7 +709,7 @@ paths:
 
   /admins/authenticated/issueUpkeep/publicWarning:
     post:
-      tags: 
+      tags:
         - Admin IssueUpkeep
       summary: Create a new public safety issue
       requestBody:
@@ -712,7 +717,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UserSafetyBodyInput"
+              $ref: "#/components/schemas/user_observation"
       responses:
         "201":
           description: New safety issue added successfully
@@ -729,13 +734,15 @@ paths:
 
   /admins/authenticated/issueUpkeep/publicWarning/{id}:
     put:
-      tags: 
+      tags:
         - Admin IssueUpkeep
       summary: Update an existing public safety issue
+      description: Updates a public warning record by its unique ID.
       parameters:
         - in: path
           name: id
           required: true
+          description: ID of the public warning to update
           schema:
             type: integer
       requestBody:
@@ -743,7 +750,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UserSafetyBodyInput"
+              $ref: "#/components/schemas/user_observation"
       responses:
         "200":
           description: Issue updated
@@ -758,7 +765,7 @@ paths:
                   issues:
                     type: array
                     items:
-                      $ref: "#/components/schemas/UserSafetyBody"
+                      $ref: "#/components/schemas/user_observation"
         "404":
           description: Issue not found
           content:
@@ -803,7 +810,7 @@ paths:
                   lessIssues:
                     type: array
                     items:
-                      $ref: "#/components/schemas/UserSafetyBody"
+                      $ref: "#/components/schemas/user_observation"
         "404":
           description: Issue not found
           content:
@@ -825,73 +832,172 @@ paths:
                     type: string
                     example: "Internal server error"
 
+  /admins/authenticated/maintenance:
+    get:
+      summary: Get all maintenance records
+      tags:
+        - Admin Maintenance
+      responses:
+        200:
+          description: List of maintenance entries
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Admin maintenance data
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/admin_maintenance"
+        500:
+          description: Internal server error
+
+    post:
+      summary: Create a new maintenance entry
+      tags:
+        - Admin Maintenance
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - location
+                - station_id
+                - work_issue
+                - work_duration
+                - work_status
+              properties:
+                location:
+                  type: string
+                  example: Malmö Central
+                station_id:
+                  type: integer
+                  example: 2
+                work_issue:
+                  type: string
+                  example: Broken escalator
+                work_duration:
+                  type: string
+                  example: 2 hours
+                work_status:
+                  type: string
+                  example: In progress
+      responses:
+        201:
+          description: Maintenance entry created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Maintenance entry created
+                  data:
+                    $ref: "#/components/schemas/admin_maintenance"
+        400:
+          description: Missing required fields
+        500:
+          description: Could not create maintenance entry
+
+  /admins/authenticated/maintenance/{id}:
+    put:
+      summary: Update a maintenance entry
+      tags:
+        - Admin Maintenance
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - location
+                - station_id
+                - work_issue
+                - work_duration
+                - work_status
+              properties:
+                location:
+                  type: string
+                  example: Malmö Central
+                station_id:
+                  type: integer
+                  example: 2
+                work_issue:
+                  type: string
+                  example: Repaired escalator
+                work_duration:
+                  type: string
+                  example: 3 hours
+                work_status:
+                  type: string
+                  example: Completed
+      responses:
+        200:
+          description: Maintenance entry updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Maintenance entry updated
+                  data:
+                    $ref: "#/components/schemas/admin_maintenance"
+        400:
+          description: Missing ID
+        404:
+          description: Maintenance entry not found
+        500:
+          description: Could not update maintenance entry
+
+    delete:
+      summary: Delete a maintenance entry
+      tags:
+        - Admin Maintenance
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Maintenance entry deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Maintenance entry deleted
+                  data:
+                    $ref: "#/components/schemas/admin_maintenance"
+        400:
+          description: Missing ID
+        404:
+          description: Maintenance entry not found
+        500:
+          description: Could not delete maintenance entry
 
 components:
   schemas:
     userTipsObject:
-      type:: object
-      properties: 
-        id: 
-          type: integer
-        timestamp:
-          type: string
-        location:
-          type: string
-        description: 
-          type: string
-    tipBody:
       type: object
-      properties:
-        id:
-          type: integer
-        timestamp:
-          type: string
-        location:
-          type: string
-        description: 
-          type: string  
-        user:
-          type: string
-    MonitoringEntry:
-      type: object
-      properties:
-        id:
-          type: integer
-        timestamp:
-          type: string
-        data:
-          type: object
-    InfrastructureIssue:
-      type: object
-      properties:
-        id:
-          type: integer
-        timestamp:
-          type: string
-        problem:
-          type: string
-        location: 
-          type: string
-    UserSafetyBodyInput:
-      type: object
-      required:
-        - location
-        - description
-      properties:
-        location:
-          type: string
-        description:
-          type: string
-        proactiveActions:
-          type: boolean
-    UserSafetyBody:
-      type: object
-      required:
-        - id
-        - timestamp
-        - location
-        - description
-        - proactiveActions
       properties:
         id:
           type: integer
@@ -902,13 +1008,107 @@ components:
           type: string
         description:
           type: string
-        proactiveActions:
-          type: boolean
-    riskAssesment :
-        type: object
-        required:
-          - id
-          - timestamp
-          - warning
-          - waterlevel
-          - riskAssesment
+
+    user_observation:
+      type: object
+      properties:
+        id:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time
+        location:
+          type: string
+        warning:
+          type: string
+        waterlevel:
+          type: string
+        risk_assesment:
+          type: string
+        description:
+          type: string
+        proactive_actions:
+          type: string
+
+    MonitoringEntry:
+      type: object
+      properties:
+        id:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time
+        station_id:
+          type: integer
+        soil_moisture_level:
+          type: integer
+        temperature_c:
+          type: integer
+        humidity_percent:
+          type: integer
+        water_level_pressure_cm:
+          type: integer
+        water_level_ultrasound_cm:
+          type: integer
+        water_level_average_cm:
+          type: integer
+
+    InfrastructureIssue:
+      type: object
+      properties:
+        id:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time
+        problem:
+          type: string
+        location:
+          type: string
+
+    admin_maintenance:
+      type: object
+      properties:
+        id:
+          type: integer
+        worker_id:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time
+        location:
+          type: string
+        station_id:
+          type: integer
+        work_issue:
+          type: string
+        work_duration:
+          type: string
+        work_status:
+          type: string
+
+    station:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        location:
+          type: string
+
+    loginData:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+        token:
+          type: string

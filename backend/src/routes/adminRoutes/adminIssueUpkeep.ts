@@ -1,10 +1,12 @@
 console.log("Issue upkeep router running....");
 import express, { Request, Response } from "express";
-import { readFile, writeFile } from "fs/promises";
-import path from "path";
-import { user_observation, users_observation_info } from "types/types";
+import { user_observation } from "types/types";
 import { validateIssueUpkeep } from "../../validators/issueUpkeepValidation.ts";
 import { timestampCreation } from "../../middleware/timestampCreation.ts";
+
+import authenticateToken from "../../middleware/jwtAuth.ts";
+import db from "../../../Database/db.ts";
+const pool = db.pool;
 
 const authIssueUpkeepRouter = express.Router();
 
@@ -13,44 +15,52 @@ authIssueUpkeepRouter.get("/", (_req, res) => {
     .status(200)
     .json({ message: "Welcome to the adminIssueUpkeep Endpoint " });
 });
-// * potential additional endpoints
-// //GET for seeing the current issues or potenial issues based on the monitoring of the water
-
-// //POST the current status of the potential issues
-
 //POST Creating status or warnings for the public eye to see
 authIssueUpkeepRouter.post(
   "/publicWarning",
+  authenticateToken,
   async (req: Request, res: Response): Promise<void> => {
-    const filePath = path.resolve("Database/userSafety.json");
-
-    const new_user_observation = {
+    const new_user_observation: user_observation = {
       location: req.body.location,
       description: req.body.description,
-      proactiveActions: req.body.proactiveActions,
+      proactive_actions: req.body.proactiveActions,
       warning: req.body.warning,
       waterlevel: req.body.waterlevel,
-      riskAssesment: req.body.riskAssesment
+      risk_assesment: req.body.riskAssesment,
     };
 
-    if (typeof req.body.proactiveActions !== "boolean") {
-      res.status(400).send({ error: "ProactiveActions must be a boolean" });
+    if (
+      !new_user_observation.location ||
+      !new_user_observation.description ||
+      !new_user_observation.proactive_actions ||
+      !new_user_observation.warning ||
+      !new_user_observation.waterlevel ||
+      !new_user_observation.risk_assesment
+    ) {
+      res.status(400).json({
+        error: "One or more required fields are missing. Please try again.",
+      });
       return;
     }
 
     try {
-      const jsonData = await readFile(filePath, "utf-8");
-      const issues = JSON.parse(jsonData);
-
       const publicIssue: user_observation = {
-        id: issues.length + 1001,
         timestamp: timestampCreation(),
         ...new_user_observation,
       };
-
+      const query = `INSERT INTO user_observation (timestamp, location, warning, waterlevel, risk_assesment, description, proactive_actions) VALUES($1, $2, $3, $4, $5, $6, $7)`;
+      const values = [
+        publicIssue.timestamp,
+        publicIssue.location,
+        publicIssue.warning,
+        publicIssue.waterlevel,
+        publicIssue.risk_assesment,
+        publicIssue.description,
+        publicIssue.proactive_actions,
+      ];
+      console.log("publicIssue posting:", publicIssue);
       try {
         const validatedIssueUpkeep = await validateIssueUpkeep(publicIssue);
-        issues.push(validatedIssueUpkeep);
       } catch (error) {
         console.error("Error:", error);
         res.status(400).json({
@@ -59,9 +69,11 @@ authIssueUpkeepRouter.post(
         });
       }
 
-      await writeFile(filePath, JSON.stringify(issues, null, 2));
+      const result = await pool.query(query, values);
 
-      res.status(201).json({ message: "New user observation issue added successfully" });
+      res
+        .status(201)
+        .json({ message: "New user observation issue added successfully" });
     } catch (error) {
       console.error("Error reading or writing the file:", error);
       res.status(500).json({ message: "Internal server error" });
@@ -72,33 +84,72 @@ authIssueUpkeepRouter.post(
 //PUT Modifying current issue
 authIssueUpkeepRouter.put(
   "/publicWarning/:id",
+  authenticateToken,
   async (req: Request, res: Response): Promise<void> => {
     const id = Number(req.params.id);
-    const filePath = path.resolve("Database/userSafety.json");
-    const { location, description, proactiveActions } = req.body;
+
+    const updatedIssue: user_observation = {
+      location: req.body.location,
+      description: req.body.description,
+      proactive_actions: req.body.proactiveActions,
+      warning: req.body.warning,
+      waterlevel: req.body.waterlevel,
+      risk_assesment: req.body.riskAssesment,
+      timestamp: timestampCreation(), // Optional: update timestamp if needed
+    };
+
+    if (
+      !updatedIssue.location ||
+      !updatedIssue.description ||
+      !updatedIssue.proactive_actions ||
+      !updatedIssue.warning ||
+      !updatedIssue.waterlevel ||
+      !updatedIssue.risk_assesment
+    ) {
+      res.status(400).json({
+        error: "One or more required fields are missing. Please try again.",
+      });
+      return;
+    }
 
     try {
-      const jsonData = await readFile(filePath, "utf-8");
-      const issues: user_observation[] = JSON.parse(jsonData);
+      await validateIssueUpkeep(updatedIssue);
 
-      const index = issues.findIndex((issue) => issue.id === id);
-      if (index == -1) {
-        res.status(404).json({ message: "issue not found " });
+      const query = `
+        UPDATE user_observation
+        SET location = $1,
+            description = $2,
+            proactive_actions = $3,
+            warning = $4,
+            waterlevel = $5,
+            risk_assesment = $6,
+            timestamp = $7
+        WHERE id = $8
+      `;
+
+      const values = [
+        updatedIssue.location,
+        updatedIssue.description,
+        updatedIssue.proactive_actions,
+        updatedIssue.warning,
+        updatedIssue.waterlevel,
+        updatedIssue.risk_assesment,
+        updatedIssue.timestamp,
+        id,
+      ];
+
+      const result = await pool.query(query, values);
+
+      if (result.rowCount === 0) {
+        res.status(404).json({ message: "Issue not found." });
+        return;
+      } else {
+        res.status(200).json({ message: "Issue updated successfully." });
         return;
       }
-
-      issues[index].location = location;
-      issues[index].description = description;
-      issues[index].proactiveActions = proactiveActions;
-
-      await writeFile(filePath, JSON.stringify(issues, null, 2), "utf-8");
-      res.status(200).json({ message: "issue updated!", issues: issues });
-      return;
     } catch (error) {
-      console.error("server error", error);
-      res
-        .status(500)
-        .json({ message: "There was a major internet breakdown, sorry..." });
+      console.error("Error updating issue:", error);
+      res.status(500).json({ message: "Internal server error." });
       return;
     }
   }
@@ -106,39 +157,29 @@ authIssueUpkeepRouter.put(
 //DELETE for deleting irrelevant issues
 authIssueUpkeepRouter.delete(
   "/publicWarning/:id",
+  authenticateToken,
   async (req: Request, res: Response): Promise<void> => {
     const id = Number(req.params.id);
-    const filePath = path.resolve("Database/userSafety.json");
-
+    if (!id) {
+      res
+        .status(40)
+        .json({ message: "Id needs to be filled in to delete an item" });
+      return;
+    }
     try {
-      const jsonData = await readFile(filePath, "utf-8");
-      const issues: user_observation[] = JSON.parse(jsonData);
+      const query = `DELETE FROM user_observation WHERE id = $1`;
+      const result = await pool.query(query, [id]);
 
-      const index = issues.findIndex((issue) => issue.id === id);
-      if (index === -1) {
-        res.status(404).json({ message: "Issue not found..." });
+      if (result.rowCount === 0) {
+        res.status(404).json({ message: "Issue not found." });
+        return;
+      } else {
+        res.status(200).json({ message: "Issue deleted successfully." });
         return;
       }
-      if (!issues) {
-        res.status(404).json({
-          message:
-            "The server could not find the issues, please try again later",
-        });
-        return;
-      }
-      const lessIssues = issues.splice(index, 1);
-      console.log(lessIssues);
-      await writeFile(filePath, JSON.stringify(issues, null, 2), "utf-8");
-      res
-        .status(200)
-        .json({ message: "Issue deleted!", lessIssues: lessIssues });
-      return;
     } catch (error) {
-      console.error("server error", error);
-      res
-        .status(500)
-        .json({ message: "There was a major internet breakdown, sorry..." });
-      return;
+      console.error("Error deleting issue:", error);
+      res.status(500).json({ message: "Internal server error." });
     }
   }
 );

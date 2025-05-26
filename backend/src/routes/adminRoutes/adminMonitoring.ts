@@ -1,14 +1,13 @@
 console.log(" Monitoring router running....");
 import express, { Request, Response, Router } from "express";
-import { readFile } from "fs/promises";
-import path from "path";
 
 import { StationRequest } from "types/types.ts";
 import { MonitoringEntry } from "types/types.ts";
 
 import { timestampCreation } from "../../middleware/timestampCreation.ts";
+import authenticateToken from "../../middleware/jwtAuth.ts";
 import db from "../../../Database/db.ts";
-import { Query } from "pg";
+
 const pool = db.pool;
 
 const authMonitoringRouter = express.Router();
@@ -83,6 +82,7 @@ authMonitoringRouter.get(
 );
 authMonitoringRouter.post(
   "/postmonitoring",
+  authenticateToken,
   async (req: Request, res: Response): Promise<void> => {
     const {
       station_id,
@@ -94,7 +94,6 @@ authMonitoringRouter.post(
       water_level_average_cm,
     } = req.body;
 
-    // Create new monitoring entry object
     const newEntry: MonitoringEntry = {
       timestamp: timestampCreation(),
       station_id,
@@ -106,7 +105,6 @@ authMonitoringRouter.post(
       water_level_average_cm,
     };
 
-    // Input validation (FIXED): Now properly checks for missing values
     if (
       !newEntry.timestamp ||
       !newEntry.station_id ||
