@@ -5,35 +5,43 @@ const mockSafetyData = {
   products: [
     {
       id: 1,
-      title: "Hem säkerhet",
-      description: "Kontrollera lås och säkerhetssystem regelbundet",
-      category: "home",
-      priority: "high",
-      icon: "🏠"
+      title: "Översvämningsvarning",
+      description: "Kontrollera vattennivåer och ha en evakueringsplan redo",
+      category: "flood",
+      priority: "critical",
+      icon: "🌊"
     },
     {
       id: 2,
-      title: "Brandsäkerhet",
-      description: "Testa brandvarnare månadsvis och byt batterier årligen",
-      category: "fire",
-      priority: "critical",
-      icon: "🔥"
+      title: "Källarsäkerhet",
+      description: "Installera vattenlarm och backventiler för att skydda mot vattenintrång",
+      category: "basement",
+      priority: "high",
+      icon: "💧"
     },
     {
       id: 3,
-      title: "Personlig säkerhet",
-      description: "Var medveten om din omgivning när du går ute",
-      category: "personal",
-      priority: "medium",
-      icon: "👤"
+      title: "Bil i vatten",
+      description: "Kör aldrig genom översvämmade områden - vänd om vid vattenhinder",
+      category: "vehicle",
+      priority: "critical",
+      icon: "🚗"
     },
     {
       id: 4,
-      title: "Cybersäkerhet",
-      description: "Använd starka lösenord och tvåfaktorsautentisering",
-      category: "cyber",
+      title: "Nödutrustning",
+      description: "Förvara ficklampa, radio och första hjälpen-kit på säker höjd",
+      category: "emergency",
       priority: "high",
-      icon: "🔒"
+      icon: "🆘"
+    },
+    {
+      id: 5,
+      title: "Elstängning",
+      description: "Lär dig stänga av el och vatten vid översvämningsrisk",
+      category: "utilities",
+      priority: "high",
+      icon: "⚡"
     }
   ]
 };
@@ -130,33 +138,43 @@ const mockTipsData = {
   tips: [
     {
       id: 1,
-      title: "Spara energi hemma",
-      content: "Stäng av elektronik när den inte används för att minska elräkningen",
-      category: "hem",
-      author: "Anna S.",
-      likes: 15,
+      title: "Översvämningsrisk vid snösmältning",
+      content: "Håll koll på väderprognoser i mars-april när snön smälter snabbt - risk för översvämning",
+      category: "varning",
+      author: "Meteorolog S.",
+      likes: 42,
       createdAt: "2025-05-25T14:30:00Z",
-      tags: ["energi", "ekonomi", "miljö"]
+      tags: ["översvämning", "snösmältning", "varning"]
     },
     {
       id: 2,
-      title: "Snabb frukost",
-      content: "Förbered havregrynsgröt kvällen innan för en näringsrik morgon",
-      category: "mat",
-      author: "Erik L.",
-      likes: 23,
+      title: "Skydda källaren",
+      content: "Installera backventiler i källarens avlopp för att förhindra att vatten strömmar tillbaka",
+      category: "skydd",
+      author: "Byggexpert M.",
+      likes: 28,
       createdAt: "2025-05-24T19:45:00Z",
-      tags: ["mat", "hälsa", "tid"]
+      tags: ["källare", "skydd", "backventil"]
     },
     {
       id: 3,
-      title: "Organisera ditt hem",
-      content: "Använd genomskinliga lådor för att enkelt hitta saker i förrådet",
-      category: "organisation",
-      author: "Maria K.",
-      likes: 8,
+      title: "Flytta värdesaker högt upp",
+      content: "Vid översvämningsvarning - flytta elektronik och viktiga dokument till övre våningar",
+      category: "beredskap",
+      author: "Försäkringsrådgivare K.",
+      likes: 35,
       createdAt: "2025-05-23T11:20:00Z",
-      tags: ["organisation", "hem", "produktivitet"]
+      tags: ["beredskap", "värdesaker", "skydd"]
+    },
+    {
+      id: 4,
+      title: "Kör inte genom översvämmade vägar",
+      content: "Redan 30cm vatten kan lyfta en bil - vänd om och hitta alternativ väg",
+      category: "säkerhet",
+      author: "Trafikpolis L.",
+      likes: 67,
+      createdAt: "2025-05-22T16:15:00Z",
+      tags: ["bilkörning", "säkerhet", "varning"]
     }
   ]
 };
@@ -178,7 +196,7 @@ export const fetchSafety = async () => {
     console.log(":rocket: RAW API response:", text);
     const data = JSON.parse(text);
     console.log(":white_check_mark: Parsed JSON:", data);
-    return data.products ?? []; 
+    return data.products ?? [];
   } catch (error) {
     console.error(":x: Fel vid hämtning av tips:", error.message);
     throw error;
@@ -195,17 +213,17 @@ export const fetchMonitoring = async () => {
 
   try {
     const response = await fetch(`${baseUrl}/admins/authenticated/monitoring`);
-    
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    
+
     const text = await response.text();
     console.log(":rocket: RAW monitoring response:", text);
-    
+
     const data = JSON.parse(text);
     console.log(":white_check_mark: Parsed monitoring JSON:", data);
-    
+
     return data.data || [];
   } catch (error) {
     console.error(":x: Error fetching monitoring data:", error.message);
@@ -223,14 +241,14 @@ export const fetchInfrastructureIssues = async () => {
 
   try {
     const response = await fetch(`${baseUrl}/admins/authenticated/infrastructureIssues`);
-    
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    
+
     const text = await response.text();
     console.log(":rocket: RAW infrastructure response:", text);
-    
+
     const data = JSON.parse(text);
     console.log(":white_check_mark: Parsed infrastructure JSON:", data);
     return data.infrastructureData || [];
@@ -244,7 +262,7 @@ export const postTip = async (tipData) => {
   if (USE_MOCK_DATA) {
     console.log(":test_tube: Using mock post tip response");
     console.log(":rocket: Mock posting tip data:", tipData);
-    
+
     return new Promise(resolve => {
       setTimeout(() => {
         resolve({
@@ -266,7 +284,7 @@ export const postTip = async (tipData) => {
   try {
     console.log(":rocket: Posting tip data:", tipData);
     console.log(`:rocket: POST request to ${baseUrl}/users/tips/postTip`);
-    
+
     const response = await fetch(`${baseUrl}/users/tips/postTip`, {
       method: 'POST',
       headers: {
@@ -274,23 +292,23 @@ export const postTip = async (tipData) => {
       },
       body: JSON.stringify(tipData),
     });
-    
+
     console.log(":rocket: Response status:", response.status);
-    
+
     if (!response.ok) {
       const errorText = await response.text();
       console.error(`:x: Server responded with ${response.status}: ${errorText}`);
       throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
     }
-    
+
     const text = await response.text();
     console.log(":rocket: RAW API response for posting tip:", text);
-    
+
     if (!text) {
       console.log(":warning: Server returned empty response");
       return { success: true, message: "Tip submitted successfully" };
     }
-    
+
     let data;
     try {
       data = JSON.parse(text);
@@ -320,9 +338,9 @@ export const fetchTips = async () => {
     console.log(":rocket: RAW API response:", text);
     const data = JSON.parse(text);
     console.log(":white_check_mark: Parsed JSON:", data);
-    
-    // Change this line - check what field actually contains your tips
-    return data.tips ?? data.products ?? []; // Try both field names
+
+
+    return data.tips ?? data.products ?? [];
   } catch (error) {
     console.error(":x: Fel vid hämtning av tips:", error.message);
     throw error;
