@@ -6,6 +6,7 @@ import { fetchSafety } from '../services/api';
 import StatusCard from './StatusCard';
 import ProgressControls from './ProgressControls';
 import TimeStats from './TimeStats';
+import SelectedLocationCard from './SelectedLocationCard'
 
 
 import { formatTime, getElapsedTime, getStatusColor } from '../components/RenderTimelineProgress';

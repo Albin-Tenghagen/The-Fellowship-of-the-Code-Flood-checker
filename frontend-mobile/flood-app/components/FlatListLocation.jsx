@@ -85,7 +85,7 @@ const FlatListLocation = ({ onSend }) => {
       />
       <AnimatedButton
         style={styles.button}
-        title="Påbörja arbete"
+        title="Läs mer"
         onPress={handleButtonPress}
       />
     </SafeAreaView>
