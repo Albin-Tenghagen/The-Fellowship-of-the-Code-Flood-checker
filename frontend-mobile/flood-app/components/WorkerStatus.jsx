@@ -6,7 +6,6 @@ import { fetchSafety } from '../services/api';
 import StatusCard from './StatusCard';
 import ProgressControls from './ProgressControls';
 import TimeStats from './TimeStats';
-import { formatTime, getElapsedTime, getStatusColor } from '../utils/workerHelpers';
 
 
 const WorkerStatus = ({ location = null }) => {

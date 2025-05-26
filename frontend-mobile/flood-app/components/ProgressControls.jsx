@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import RenderTimelineProgress from './RenderTimelineProgress';
+import RenderTimelineProgress from "../components/RenderTimeLineProgress";
 import { useTheme } from '../themes/ThemeContext';
 
 const ProgressControls = ({
