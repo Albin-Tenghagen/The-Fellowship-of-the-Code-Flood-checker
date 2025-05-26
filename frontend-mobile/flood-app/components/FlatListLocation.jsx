@@ -5,6 +5,7 @@ import CheckBox from './CheckBox';
 import AnimatedButton from './AnimatedButton';
 import { useTheme } from '../themes/ThemeContext';
 
+
 const FlatListLocation = ({ onSend }) => {
   if (!onSend) {
     console.warn("Prop 'onLocationSelect' saknas i FlatListLocation");
