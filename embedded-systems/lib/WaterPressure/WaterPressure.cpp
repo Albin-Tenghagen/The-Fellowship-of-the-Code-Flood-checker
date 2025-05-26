@@ -16,13 +16,13 @@ void WaterPressure::readWaterLevel(WaterPressureSensor& sensor_object)
     for (uint8_t i = 0; i < sensor_object.MEASURING_POINTS; i++)
     {
         sensor_object.sensor_value = analogRead(sensor_object.SENSOR_PIN);
-        sensor_object.depth_mm = (float(map(sensor_object.sensor_value, 600, 3840, 0, 2000)) * 1.20f) / 10;
+        sensor_object.depth_cm = (float(map(sensor_object.sensor_value, 600, 3840, 0, 2000)) * 1.20f) / 10;
 
         delay(100);
     }
 
     Serial.print("Sensor value: ");
     Serial.print(sensor_object.sensor_value);
-    Serial.print(", Depth in mm: ");
-    Serial.println(sensor_object.depth_mm);
+    Serial.print(", Depth in cm: ");
+    Serial.println(sensor_object.depth_cm);
 }

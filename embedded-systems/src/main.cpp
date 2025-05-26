@@ -1,4 +1,4 @@
-#define __SERVER__
+// #define __SERVER__
 #ifdef __SERVER__
 
 #include <Arduino.h>
@@ -71,7 +71,7 @@ void setup()
 void loop()
 {
     // WaterPressure::readWaterLevel(water_pressure_sensor);
-    // fellowshipLoRa::write(water_pressure_sensor.depth_mm);
+    // fellowshipLoRa::write(water_pressure_sensor.depth_cm);
     
     // delay(1000);
 }
@@ -84,7 +84,7 @@ void loop()
 #include "lora/fellowship_lora.h"
 #include "WaterPressure.h"
 
-WaterPressure::WaterPressureSensor sensor { A4 };
+WaterPressure::WaterPressureSensor sensor { 19 };
 
 void setup()
 {
@@ -92,14 +92,14 @@ void setup()
     fellowshipLoRa::init();
 
     WaterPressure::readWaterLevel(sensor);
-    Serial.println(sensor.depth_mm);
+    Serial.println(sensor.depth_cm);
 
     // (16 bit) 0x4020 >> 8 = 0x0040 = (uint8_t) 0x40
     // (16 bit) 0x4020 = (uint8_t) 0x20
 
     char cStr[3] { 
-        (uint8_t) (sensor.depth_mm >> 8),
-        (uint8_t) (sensor.depth_mm),
+        (uint8_t) (sensor.depth_cm >> 8),
+        (uint8_t) (sensor.depth_cm),
         0
     };
 
@@ -107,15 +107,18 @@ void setup()
 
     String str { cStr };
 
-    fellowshipLoRa::write( str );
+    // fellowshipLoRa::write( str );
 }
 
 void loop()
 {
-    String msg;
-    fellowshipLoRa::readUntilValueRecv(msg);
+    // String msg;
+    // fellowshipLoRa::readUntilValueRecv(msg);
 
-    Serial.printf("[SX1262] Message received: %li\n", fellowshipLoRa::convertToInt16(msg[0], msg[1]));
+    // Serial.printf("[SX1262] Message received: %li\n", fellowshipLoRa::convertToInt16(msg[0], msg[1]));
+
+    // Serial.println(analogRead(19));
+    // delay(500);
 }
 
 #endif

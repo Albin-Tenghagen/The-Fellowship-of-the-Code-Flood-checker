@@ -19,7 +19,7 @@ namespace WaterPressure
         /* data */
     public:
         uint16_t sensor_value;
-        uint16_t depth_mm;
+        uint32_t depth_cm;
         uint16_t sensor_value_sum;
         uint16_t sensor_average_value;
         const uint8_t SENSOR_PIN;
