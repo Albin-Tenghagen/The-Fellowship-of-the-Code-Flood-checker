@@ -7,11 +7,9 @@ import StatusCard from './StatusCard';
 import ProgressControls from './ProgressControls';
 import TimeStats from './TimeStats';
 
-// Updated to receive route parameters from navigation
 const WorkerStatus = ({ route }) => {
   const { theme } = useTheme();
-  
-  // Extract location and safetyData from route params
+
   const { location = null, safetyData = [] } = route?.params || {};
   
   const STATUS = {
@@ -111,7 +109,6 @@ const WorkerStatus = ({ route }) => {
     }).start();
   }, [timeLeft, estimatedTime]);
 
-  // Add pulse animation for progress bar
   useEffect(() => {
     if (status === STATUS.IN_PROGRESS && !isPaused) {
       const pulse = Animated.loop(
@@ -256,7 +253,6 @@ const WorkerStatus = ({ route }) => {
     }
   };
 
-  // Use the passed location data or fallback to fetched data
   const displayLocationName = location?.location || fetchedLocationName;
 
   return (
@@ -266,7 +262,7 @@ const WorkerStatus = ({ route }) => {
         <Text style={[styles.subtitle, { color: theme.textTertiary }]}>
           {displayLocationName}
         </Text>
-        {/* Show additional location details if available */}
+
         {location && (
           <View style={styles.locationDetails}>
             <Text style={[styles.locationDescription, { color: theme.textSecondary }]}>

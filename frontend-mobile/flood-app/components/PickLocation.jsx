@@ -20,9 +20,9 @@ const PickLocation = ({ navigation }) => {
         setLoading(true);
         const safetyData = await fetchSafety();
         setSafety(safetyData);
-        console.log('📊 Safety data loaded:', safetyData);
+        console.log('Safety data loaded:', safetyData);
       } catch (error) {
-        console.error('❌ Kunde inte hämta säkerhetsdata:', error);
+        console.error('Kunde inte hämta säkerhetsdata:', error);
       } finally {
         setLoading(false);
       }
@@ -33,16 +33,12 @@ const PickLocation = ({ navigation }) => {
 
   const handleLocationSelect = (selectedLocation) => {
     console.log('📍 Location selected:', selectedLocation);
-    
-    // Navigate to the next screen with selected location data
+    a
     navigation.navigate('SelectedLocationCard', {
       location: selectedLocation,
       safetyData: safety
     });
-    
-    // Alternative navigation options:
-    // navigation.navigate('WorkerStatus', { location: selectedLocation });
-    // navigation.push('LocationDetails', { location: selectedLocation });
+
   };
 
   return (

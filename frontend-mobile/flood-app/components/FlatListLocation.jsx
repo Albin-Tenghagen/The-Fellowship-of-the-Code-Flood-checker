@@ -80,7 +80,6 @@ const FlatListLocation = ({
       try {
         let data;
         
-        // Use external loading state if provided
         if (externalLoading) {
           setLoading(true);
           return;
@@ -156,7 +155,7 @@ const FlatListLocation = ({
         { backgroundColor: isSelected ? priorityConfig.bgColor : theme.card }
       ]}>
         <View style={styles.itemContent}>
-          {/* Priority Indicator */}
+
           <View style={[styles.priorityBadge, { backgroundColor: priorityConfig.color }]}>
             <MaterialCommunityIcons
               name={priorityConfig.icon}
@@ -166,7 +165,6 @@ const FlatListLocation = ({
             <Text style={styles.priorityText}>{priorityConfig.text}</Text>
           </View>
 
-          {/* Location Info */}
           <View style={styles.locationInfo}>
             <Text style={[styles.locationTitle, { color: theme.textPrimary }]}>
               {item.location}
@@ -195,7 +193,6 @@ const FlatListLocation = ({
             </View>
           </View>
 
-          {/* Selection Indicator */}
           <View style={styles.selectionArea}>
             <MaterialCommunityIcons
               name={isSelected ? "radiobox-marked" : "radiobox-blank"}
@@ -205,7 +202,6 @@ const FlatListLocation = ({
           </View>
         </View>
 
-        {/* Tap Area for Selection */}
         <View
           style={styles.tapArea}
           onTouchEnd={() => onSelect(item.id)}
@@ -371,7 +367,6 @@ const createStyles = (theme) =>
       marginTop: 2,
     },
 
-    // List Styles
     flatList: {
       flex: 1,
     },
@@ -411,7 +406,6 @@ const createStyles = (theme) =>
       bottom: 0,
     },
 
-    // Priority Badge
     priorityBadge: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -427,7 +421,6 @@ const createStyles = (theme) =>
       marginLeft: 4,
     },
 
-    // Location Info
     locationInfo: {
       flex: 1,
       marginLeft: 12,
@@ -457,14 +450,12 @@ const createStyles = (theme) =>
       marginLeft: 4,
     },
 
-    // Selection Area
     selectionArea: {
       justifyContent: 'center',
       alignItems: 'center',
       width: 40,
     },
 
-    // Loading Styles
     loadingContainer: {
       flex: 1,
       justifyContent: 'center',
@@ -476,7 +467,6 @@ const createStyles = (theme) =>
       textAlign: 'center',
     },
 
-    // Button Styles
     buttonContainer: {
       paddingVertical: 16,
       paddingBottom: Platform.OS === 'ios' ? 32 : 16,
