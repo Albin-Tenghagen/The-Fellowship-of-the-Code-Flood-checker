@@ -19,9 +19,7 @@ const UserScreen = () => {
     </ScrollView>
   );
 };
-
 export default UserScreen
-
 const styles = StyleSheet.create({
 
   scroll: {
