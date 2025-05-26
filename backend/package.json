@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --loader ts-node/esm src/server.ts",
+    "mon": "nodemon --loader ts-node/esm src/server.ts",
     "start": "node dist/server.js",
     "build": "tsc"
   },
