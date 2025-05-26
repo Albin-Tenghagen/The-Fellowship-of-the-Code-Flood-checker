@@ -1,5 +1,5 @@
-// #define __SERVER__
-#ifndef __SERVER__
+#define __SERVER__
+#ifdef __SERVER__
 
 #include <Arduino.h>
 #include <ArduinoJson.h>
