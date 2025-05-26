@@ -84,7 +84,7 @@ void loop()
 #include "lora/fellowship_lora.h"
 #include "WaterPressure.h"
 
-WaterPressure::WaterPressureSensor sensor { 19 };
+WaterPressure::WaterPressureSensor sensor { A4 };
 
 void setup()
 {
