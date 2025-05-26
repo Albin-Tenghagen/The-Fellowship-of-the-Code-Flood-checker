@@ -52,10 +52,10 @@ void setup()
     json["water_level_pressure_cm"] = (double) water_level_mm / 10;
     json["water_level_average_cm"] = (double) (distance_us + (double) water_level_mm / 10) / 2.0;
 
-    String str;
-    serializeJson(json, str);
+    String jsonStr;
+    serializeJson(json, jsonStr);
 
-    Serial.println(str);
+    Serial.println(jsonStr);
 
 
     // int16_t status = fellowshipLoRa::init();
