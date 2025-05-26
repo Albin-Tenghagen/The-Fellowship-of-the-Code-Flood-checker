@@ -1,25 +1,30 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import { AntDesign, MaterialIcons, Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTheme } from '../themes/ThemeContext';
 import { fetchSafety } from '../services/api';
+import StatusCard from './StatusCard';
+import ProgressControls from './ProgressControls';
+import TimeStats from './TimeStats';
+import { formatTime, getElapsedTime, getStatusColor } from '../utils/workerHelpers';
 
-const WorkerStatus = ({ locationName = null }) => {
+
+const WorkerStatus = ({ location = null }) => {
   const { theme } = useTheme();
   const STATUS = {
-    // NOT_STARTED: 'Ej påbörjad',
+    NOT_STARTED: 'Ej påbörjad',
     ON_SITE: 'På plats',
     IN_PROGRESS: 'Arbete pågår',
     COMPLETED: 'Klart'
   };
-  const STATUS_ORDER = [STATUS.ON_SITE, STATUS.IN_PROGRESS, STATUS.COMPLETED];
-  const [status, setStatus] = useState(STATUS.ON_SITE);
+  const STATUS_ORDER = [STATUS.NOT_STARTED, STATUS.ON_SITE, STATUS.IN_PROGRESS, STATUS.COMPLETED];
+  const [status, setStatus] = useState(STATUS.NOT_STARTED);
   const [timeLeft, setTimeLeft] = useState(null);
   const [startTime, setStartTime] = useState(null);
   const [safety, setSafety] = useState([]);
   const [currentLocationIndex, setCurrentLocationIndex] = useState(0);
   const [fetchedLocationName, setFetchedLocationName] = useState('Nånstans i Sverige');
-  const [estimatedTime, setEstimatedTime] = useState(60 * 60); 
+  const [estimatedTime, setEstimatedTime] = useState(60 * 60);
   const [isPaused, setIsPaused] = useState(false);
   const progressAnimation = useRef(new Animated.Value(0)).current;
   const statusFade = useRef(new Animated.Value(1)).current;
@@ -62,13 +67,13 @@ const WorkerStatus = ({ locationName = null }) => {
         setStartTime(new Date());
       }
       setTimeLeft(estimatedTime);
-      setIsPaused(false); 
+      setIsPaused(false);
     } else if (status === STATUS.ON_SITE) {
       setTimeLeft(null);
       setStartTime(null);
       setIsPaused(false);
     } else if (status === STATUS.COMPLETED) {
-      setIsPaused(false); 
+      setIsPaused(false);
       if (timeLeft > 0) {
       }
     } else {
@@ -80,7 +85,7 @@ const WorkerStatus = ({ locationName = null }) => {
 
   useEffect(() => {
     if (status !== STATUS.IN_PROGRESS || timeLeft === null || isPaused) return;
-    
+
     const timer = setInterval(() => {
       setTimeLeft(prev => {
         if (prev <= 1) {
@@ -145,14 +150,14 @@ const WorkerStatus = ({ locationName = null }) => {
     setTimeLeft(null);
     setStartTime(null);
     setIsPaused(false);
-    setEstimatedTime(60 * 60); 
-    
+    setEstimatedTime(60 * 60);
+
     Animated.timing(progressAnimation, {
       toValue: 0,
       duration: 300,
       useNativeDriver: false
     }).start();
-    
+
     Animated.sequence([
       Animated.timing(cardScale, {
         toValue: 0.98,
@@ -192,8 +197,8 @@ const WorkerStatus = ({ locationName = null }) => {
 
   const getStatusColor = () => {
     switch (status) {
-      // case STATUS.NOT_STARTED:
-      //   return '#4e535d';
+      case STATUS.NOT_STARTED:
+        return '#4e535d';
       case STATUS.ON_SITE:
         return '#0e2c5c';
       case STATUS.IN_PROGRESS:
@@ -208,8 +213,8 @@ const WorkerStatus = ({ locationName = null }) => {
   const getStatusIcon = () => {
     const iconColor = getStatusColor();
     switch (status) {
-      // case STATUS.NOT_STARTED:
-      //   return <AntDesign name="clockcircle" size={28} color={iconColor} />;
+      case STATUS.NOT_STARTED:
+        return <AntDesign name="clockcircle" size={28} color={iconColor} />;
       case STATUS.ON_SITE:
         return <MaterialIcons name="place" size={28} color={iconColor} />;
       case STATUS.IN_PROGRESS:
@@ -233,10 +238,12 @@ const WorkerStatus = ({ locationName = null }) => {
         console.log('Could not fetch safety data:', error);
       }
     };
-    if (!locationName) {
+
+    if (!location) {
       getSafety();
     }
-  }, [locationName]);
+  }, [location]);
+
 
   const cycleLocation = () => {
     if (safety.length > 0) {
@@ -246,62 +253,7 @@ const WorkerStatus = ({ locationName = null }) => {
     }
   };
 
-  const displayLocationName = locationName || fetchedLocationName;
-
-  const renderTimelineProgress = () => {
-    const progressColor = getStatusColor();
-    
-    return (
-      <View style={styles.progressBarContainer}>
-        <View style={[styles.timeline, { backgroundColor: theme.backgroundTertiary }]}>
-          {/* Optional glow effect */}
-          {status === STATUS.IN_PROGRESS && !isPaused && (
-            <Animated.View
-              style={[
-                styles.timelineGlow,
-                {
-                  backgroundColor: `${progressColor}20`,
-                  transform: [{ scale: pulseAnimation }],
-                }
-              ]}
-            />
-          )}
-          
-          <Animated.View
-            style={[
-              styles.timelineProgress,
-              {
-                backgroundColor: progressColor,
-                width: progressAnimation.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: ['0%', '100%']
-                }),
-                // Add a subtle gradient effect using a secondary color
-                borderRightWidth: 2,
-                borderRightColor: `${progressColor}AA`,
-              }
-            ]}
-          />
-          
-          {/* Add percentage markers */}
-          {[0.25, 0.5, 0.75].map((percent, index) => (
-            <View
-              key={index}
-              style={{
-                position: 'absolute',
-                left: `${percent * 100}%`,
-                top: 0,
-                bottom: 0,
-                width: 1,
-                backgroundColor: theme.backgroundSecondary,
-                opacity: 0.3,
-              }}
-            />
-          ))}
-        </View>
-      </View>
-    );
-  };
+  const displayLocationName = location?.location || fetchedLocationName;
 
   return (
     <View style={[styles.container, { backgroundColor: theme.card }]}>
@@ -313,155 +265,34 @@ const WorkerStatus = ({ locationName = null }) => {
         </Text>
       </View>
 
-      <Animated.View
-        style={[
-          styles.statusCard,
-          {
-            transform: [{ scale: cardScale }],
-            backgroundColor: theme.background,
-            borderColor: theme.primary,
-          }
-        ]}
-      >
-        <TouchableOpacity
-          style={styles.cardTouchable}
-          onPress={handleStatusChange}
-          activeOpacity={0.9}
-        >
-          <Animated.View style={[styles.cardContent, { opacity: statusFade }]}>
-            <View style={[styles.iconContainer, { backgroundColor: getStatusColor() + '15' }]}>
-              {getStatusIcon()}
-            </View>
-            <Text style={[styles.statusTitle, { color: getStatusColor() }]}>
-              {status}
-            </Text>
-            <Text style={[styles.tapInstruction, { color: theme.textSecondary }]}>
-              Tryck för att ändra status
-            </Text>
-          </Animated.View>
-        </TouchableOpacity>
-      </Animated.View>
+      <StatusCard
+        status={status}
+        getStatusColor={getStatusColor}
+        getStatusIcon={getStatusIcon}
+        statusFade={statusFade}
+        cardScale={cardScale}
+        handleStatusChange={handleStatusChange}
+      />
 
       {status === STATUS.IN_PROGRESS && (
-        <View style={[styles.progressSection, { backgroundColor: theme.background }]}>
-          {/* Progress bar and timer in one row */}
-          <View style={styles.progressHeader}>
-            {renderTimelineProgress()}
-            <Text style={[styles.timerTextCompact, { color: theme.textColor }]}>
-              {formatTime(timeLeft)}
-            </Text>
-          </View>
-
-          <View style={styles.controlsRow}>
-            <TouchableOpacity
-              style={[
-                styles.pauseButton, 
-                { 
-                  backgroundColor: isPaused ? '#007b52' : '#c27c03',
-                  borderColor: isPaused ? '#007b52' : '#c27c03'
-                }
-              ]}
-              onPress={togglePause}
-            >
-              <MaterialIcons 
-                name={isPaused ? "play-arrow" : "pause"} 
-                size={20} 
-                color="white" 
-              />
-              <Text style={styles.controlButtonText}>
-                {isPaused ? 'Fortsätt' : 'Paus'}
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[
-                styles.stopButton,
-                { 
-                  backgroundColor: '#d32f2f',
-                  borderColor: '#d32f2f'
-                }
-              ]}
-              onPress={stopWork}
-            >
-              <MaterialIcons 
-                name="stop" 
-                size={20} 
-                color="white" 
-              />
-              <Text style={styles.controlButtonText}>
-                Stoppa
-              </Text>
-            </TouchableOpacity>
-          </View>
-
-          {isPaused && (
-            <Text style={[styles.pausedText, { color: theme.textSecondary }]}>
-              Arbetet är pausat
-            </Text>
-          )}
-
-          <View style={styles.timeControlsCompact}>
-            <TouchableOpacity
-              style={[styles.timeButtonCompact, { backgroundColor: theme.backgroundSecondary, borderColor: theme.border }]}
-              onPress={() => adjustTime(-30)}
-            >
-              <Text style={[styles.timeButtonTextCompact, { color: theme.textColor }]}>-30m</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity
-              style={[styles.timeButtonCompact, { backgroundColor: theme.backgroundSecondary, borderColor: theme.border }]}
-              onPress={() => adjustTime(-60)}
-            >
-              <Text style={[styles.timeButtonTextCompact, { color: theme.textColor }]}>-1h</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity
-              style={[styles.timeButtonCompact, { backgroundColor: theme.backgroundSecondary, borderColor: theme.border }]}
-              onPress={() => adjustTime(30)}
-            >
-              <Text style={[styles.timeButtonTextCompact, { color: theme.textColor }]}>+30m</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity
-              style={[styles.timeButtonCompact, { backgroundColor: theme.backgroundSecondary, borderColor: theme.border }]}
-              onPress={() => adjustTime(60)}
-            >
-              <Text style={[styles.timeButtonTextCompact, { color: theme.textColor }]}>+1h</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        <ProgressControls
+          status={status}
+          timeLeft={timeLeft}
+          isPaused={isPaused}
+          togglePause={togglePause}
+          stopWork={stopWork}
+          adjustTime={adjustTime}
+          formatTime={formatTime}
+          progressAnimation={progressAnimation}
+          pulseAnimation={pulseAnimation}
+          getStatusColor={getStatusColor}
+        />
       )}
-
-      {/* Time Stats */}
-      {startTime && status !== STATUS.ON_SITE && (
-        <View style={[styles.timeStats, { backgroundColor: theme.backgroundSecondary }]}>
-          <View style={styles.statItem}>
-            <Text style={[styles.statLabel, { color: theme.textTertiary }]}>Startad</Text>
-            <Text style={[styles.statValue, { color: theme.textTertiary }]}>
-              {startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-            </Text>
-          </View>
-          {status !== STATUS.ON_SITE && getElapsedTime() && (
-            <View style={styles.statItem}>
-              <Text style={[styles.statLabel, { color: theme.textTertiary }]}>Tid aktiv</Text>
-              <Text style={[styles.statValue, { color: theme.textTertiary }]}>
-                {getElapsedTime()}
-              </Text>
-            </View>
-          )}
-        </View>
-      )}
-      
-      {status === STATUS.ON_SITE && (
-        <View style={[styles.instructionContainer, { backgroundColor: theme.backgroundTertiary }]}>
-          <View style={styles.instructionContent}>
-            <MaterialIcons name="info-outline" size={20} color={theme.primary} />
-            <Text style={[styles.instructionText, { color: theme.primary }]}>
-              Tryck på kortet för att börja med "På plats" när du anländer till arbetsplatsen.
-            </Text>
-          </View>
-        </View>
-      )}
+      <TimeStats
+        startTime={startTime}
+        status={status}
+        getElapsedTime={getElapsedTime}
+      />
     </View>
   );
 };
@@ -474,6 +305,9 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 4,
     overflow: 'hidden',
+    marginTop: 25,
+    marginHorizontal: 8,
+    borderRadius: 8,
   },
   header: {
     padding: 20,
@@ -552,7 +386,7 @@ const styles = StyleSheet.create({
   },
   progressBarContainer: {
     flex: 1,
-    position: 'relative',
+    position: 'absolute',
   },
   timeline: {
     height: 8, // Increased from 6 to 8
