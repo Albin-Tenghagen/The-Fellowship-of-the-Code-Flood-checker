@@ -1,4 +1,4 @@
-#define __SERVER__
+// #define __SERVER__
 #ifdef __SERVER__
 
 #include <Arduino.h>
@@ -50,7 +50,7 @@ void setup()
     json["humidity_percent"] = DHTSensor::humidity;
     json["water_level_ultrasound_cm"] = distance_us;
     json["water_level_pressure_cm"] = (double) water_level_mm / 10;
-    json["water_level_average_cm"] = (double) (distance_us + (double) water_level_mm / 10) / 2.0;
+    json["water_level_average_cm"] = (double) (distance_us + (double) water_level_mm / 10) / 2.0; 
 
     String jsonStr;
     serializeJson(json, jsonStr);
@@ -95,13 +95,15 @@ void setup()
     // (16 bit) 0x4020 >> 8 = 0x0040 = (uint8_t) 0x40
     // (16 bit) 0x4020 = (uint8_t) 0x20
 
-    String str { (char[3]) { 
+    char cStr[3] { 
         (uint8_t) (sensor.depth_mm >> 8),
         (uint8_t) (sensor.depth_mm),
         0
-    }};
+    };
 
-    fellowshipLoRa::write(str);
+    String str { cStr };
+
+    fellowshipLoRa::write( str );
 }
 
 void loop()
