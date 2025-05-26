@@ -15,8 +15,6 @@
 #include <WString.h>
 #include <WiFi.h>
 
-#include "fellowship_wifi_config.h"
-
 namespace fellowshipWiFi
 {
     static WiFiClient client{};
