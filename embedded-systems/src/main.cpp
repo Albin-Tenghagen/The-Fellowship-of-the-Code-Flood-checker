@@ -31,7 +31,7 @@ void setup()
     fellowshipWiFi::connectWiFi({192, 168, 8, 201}, {192, 168, 8, 1});
 
     // Configure for debugging
-    hcsr04::setMockMode(true);
+    hcsr04::setMockMode(false);
     hcsr04::setMockDuration(hcsr04::simulateEchoDurationFromCM(10));
     
     // Read values
@@ -84,7 +84,7 @@ void loop()
 #include "lora/fellowship_lora.h"
 #include "WaterPressure.h"
 
-WaterPressure::WaterPressureSensor sensor { A5 };
+WaterPressure::WaterPressureSensor sensor { A4 };
 
 void setup()
 {
