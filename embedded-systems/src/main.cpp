@@ -1,34 +1,115 @@
-// #include <Arduino.h>
-// #include "SoilSensor.h"
-// #include "hcsr04.h"
-// #include <DHTSensor.h>
+// #define __SERVER__
+#ifndef __SERVER__
 
-// //Delete these variables in the real program
-// unsigned long previous_reading = 0;
-// unsigned long interval_reading = 10000;
-// float HCSR04distance = 0.0;
+#include <Arduino.h>
+#include <ArduinoJson.h>
 
-// void setup() 
-// {
-//   Soil::InitiateSoilSensor();
-//   DHTSensor::InitDHTSensor();
-//   hcsr04::begin(20, 19);
-//   hcsr04::calibrateZero(20.0);
-// }
+#include "WaterPressure.h"
+#include "lora/fellowship_lora.h"
+#include "wifi/fellowship_wifi.h"
+#include "SoilSensor.h"
+#include "hcsr04.h"
+#include "DHTSensor.h"
 
-// void loop() 
-// {
-//   //Delete if statement and previous_reading code and only run Soil::updateSoilSensorValue() 
-//   //in the real program
-//   if(millis() - previous_reading >= interval_reading) 
-//     {
-//       Soil::updateSoilSensorValue();
-//       HCSR04distance = hcsr04::readDistance();
-//       Serial.print("Distance: ");
-//       Serial.print(HCSR04distance);
-//       Serial.println(" cm");
-//       DHTSensor::ReadDHTSensor();
-//       DHTSensor::PrintDHTSensor();
-//       previous_reading = millis();
-//     }
-// }
+int16_t water_level_mm = 0;
+
+JsonDocument json;
+
+void setup()
+{
+    Serial.begin(9600);
+
+    while (!Serial);
+
+    fellowshipLoRa::init();
+
+    // Initialize all sensors
+    Soil::initiateSoilSensor(4, 5);
+    hcsr04::begin(6, 7);
+    DHTSensor::initDHTSensor(8);
+
+    fellowshipWiFi::connectWiFi({192, 168, 8, 201}, {192, 168, 8, 1});
+
+    // Configure for debugging
+    hcsr04::setMockMode(true);
+    hcsr04::setMockDuration(hcsr04::simulateEchoDurationFromCM(10));
+    
+    // Read values
+    String str;
+
+    fellowshipLoRa::readUntilValueRecv(str);
+    fellowshipLoRa::convertToInt16(str[0], str[1]);
+
+    Soil::updateSoilSensorValue();
+    DHTSensor::readDHTSensor();
+    float distance_us = hcsr04::readDistance();
+
+    json["station_id"] = 1;
+    json["soil_moisture_percent"] = Soil::soil_reading_value_in_precentage;
+    json["temperature_c"] = DHTSensor::temperature;
+    json["humidity_percent"] = DHTSensor::humidity;
+    json["water_level_ultrasound_cm"] = distance_us;
+    json["water_level_pressure_cm"] = (double) water_level_mm / 10;
+    json["water_level_average_cm"] = (double) (distance_us + (double) water_level_mm / 10) / 2.0;
+
+    String str;
+    serializeJson(json, str);
+
+    Serial.println(str);
+
+
+    // int16_t status = fellowshipLoRa::init();
+    // if (status != RADIOLIB_ERR_NONE)
+    // {
+    //     Serial.print("Unable to initialize LoRa! Error "); 
+    //     Serial.println(status);
+
+    //     while ( true ) { }
+    // }
+}
+
+void loop()
+{
+    // WaterPressure::readWaterLevel(water_pressure_sensor);
+    // fellowshipLoRa::write(water_pressure_sensor.depth_mm);
+    
+    // delay(1000);
+}
+
+#else
+
+#include <Arduino.h>
+#include <RTOS.h>
+
+#include "lora/fellowship_lora.h"
+#include "WaterPressure.h"
+
+WaterPressure::WaterPressureSensor sensor { A5 };
+
+void setup()
+{
+    fellowshipLoRa::init();
+
+    WaterPressure::readWaterLevel(sensor);
+
+    // (16 bit) 0x4020 >> 8 = 0x0040 = (uint8_t) 0x40
+    // (16 bit) 0x4020 = (uint8_t) 0x20
+
+    String str { (char[3]) { 
+        (uint8_t) (sensor.depth_mm >> 8),
+        (uint8_t) (sensor.depth_mm),
+        0
+    }};
+
+    fellowshipLoRa::write(str);
+}
+
+void loop()
+{
+    String msg;
+    fellowshipLoRa::readUntilValueRecv(msg);
+
+    Serial.printf("[SX1262] Message received: %li\n", fellowshipLoRa::convertToInt16(msg[0], msg[1]));
+}
+
+#endif
