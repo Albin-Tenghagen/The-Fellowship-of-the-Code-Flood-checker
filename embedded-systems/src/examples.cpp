@@ -1,5 +1,5 @@
-#include "lora/fellowship_lora.h"
-#include "wifi/fellowship_wifi.h"
+#include <fellowship_lora.h>
+#include <fellowship_wifi.h>
 
 void WiFiExample()
 {

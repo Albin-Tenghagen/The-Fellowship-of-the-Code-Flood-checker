@@ -51,7 +51,8 @@ app.use(express.json());
 app.use("/users", userRouter);
 app.use("/admins", adminRouter);
 // Local server adress
-const PORT = process.env.PORT || 5050;
+//removed || 5050
+const PORT = process.env.PORT;
 
 app.get("/", (_req, res) => {
   res
