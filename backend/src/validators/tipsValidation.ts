@@ -9,7 +9,6 @@ const userTipsSchema = Joi.object({
   ),
   location: Joi.string().min(1).max(50).required(),
   description: Joi.string().min(8).max(150).required(),
-  username: Joi.string().min(5).max(50).required(),
 }).options({ abortEarly: false });
 
 export async function validateUserTips(tips: userTipObject) {

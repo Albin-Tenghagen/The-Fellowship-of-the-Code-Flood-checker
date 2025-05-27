@@ -4,14 +4,14 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
 
-#include "WaterPressure.h"
-#include "lora/fellowship_lora.h"
-#include "wifi/fellowship_wifi.h"
+#include <WaterPressure.h>
+#include <fellowship_lora.h>
+#include <fellowship_wifi.h>
 #include "SoilSensor.h"
 #include "hcsr04.h"
 #include "DHTSensor.h"
 
-int16_t water_level_mm = 0;
+int16_t water_level_cm = 0;
 
 JsonDocument json;
 
@@ -28,34 +28,12 @@ void setup()
     hcsr04::begin(6, 7);
     DHTSensor::initDHTSensor(8);
 
-    fellowshipWiFi::connectWiFi({192, 168, 8, 201}, {192, 168, 8, 1});
+    fellowshipWiFi::connectWiFi();
 
     // Configure for debugging
     hcsr04::setMockMode(false);
     hcsr04::setMockDuration(hcsr04::simulateEchoDurationFromCM(10));
     
-    // Read values
-    String str;
-
-    fellowshipLoRa::readUntilValueRecv(str);
-    water_level_mm = fellowshipLoRa::convertToInt16(str[0], str[1]);
-
-    Soil::updateSoilSensorValue();
-    DHTSensor::readDHTSensor();
-    float distance_us = hcsr04::readDistance();
-
-    json["station_id"] = 1;
-    json["soil_moisture_percent"] = Soil::soil_reading_value_in_precentage;
-    json["temperature_c"] = DHTSensor::temperature;
-    json["humidity_percent"] = DHTSensor::humidity;
-    json["water_level_ultrasound_cm"] = distance_us;
-    json["water_level_pressure_cm"] = (double) water_level_mm / 10;
-    json["water_level_average_cm"] = (double) (distance_us + (double) water_level_mm / 10) / 2.0; 
-
-    String jsonStr;
-    serializeJson(json, jsonStr);
-
-    Serial.println(jsonStr);
 
 
     // int16_t status = fellowshipLoRa::init();
@@ -70,6 +48,39 @@ void setup()
 
 void loop()
 {
+    // Read values
+    String str;
+
+    fellowshipLoRa::readUntilValueRecv(str);
+
+    if (str.length() == 2)
+        water_level_cm = fellowshipLoRa::convertToInt16(str[0], str[1]);
+    else
+        water_level_cm = str[0];
+
+    Serial.print("water_level_mm: ");
+    Serial.println(water_level_cm);
+
+    Serial.printf("String water_level: %s\n", str);
+
+    Soil::updateSoilSensorValue();
+    DHTSensor::readDHTSensor();
+    float distance_us = hcsr04::readDistance();
+
+    json["station_id"] = 1;
+    json["soil_moisture_percent"] = Soil::soil_reading_value_in_precentage;
+    json["temperature_c"] = DHTSensor::temperature;
+    json["humidity_percent"] = DHTSensor::humidity;
+    json["water_level_ultrasound_cm"] = distance_us;
+    json["water_level_pressure_cm"] = water_level_cm;
+    json["water_level_average_cm"] = (double) (distance_us + (double) water_level_cm) / 2.0; 
+
+    String jsonStr;
+    serializeJson(json, jsonStr);
+
+    Serial.println(jsonStr);
+
+    fellowshipWiFi::sendRequest("12345", 5001, "/admins/authenticated/monitoring/postmonitoring", jsonStr);
     // WaterPressure::readWaterLevel(water_pressure_sensor);
     // fellowshipLoRa::write(water_pressure_sensor.depth_cm);
     
@@ -81,44 +92,41 @@ void loop()
 #include <Arduino.h>
 #include <RTOS.h>
 
-#include "lora/fellowship_lora.h"
+#include <fellowship_lora.h>
 #include "WaterPressure.h"
 
-WaterPressure::WaterPressureSensor sensor { A4 };
+uint64_t first_millis = 0;
+uint64_t second_millis = 0;
+const uint64_t DELAY_TIME = 1800000;
+
+WaterPressure::WaterPressureSensor sensor { 7 };
 
 void setup()
 {
     Serial.begin(9600);
     fellowshipLoRa::init();
+}
+
+void loop()
+{
+
+    first_millis = millis();
 
     WaterPressure::readWaterLevel(sensor);
+
+    // sensor.depth_cm = 'A';
+
     Serial.println(sensor.depth_cm);
 
     // (16 bit) 0x4020 >> 8 = 0x0040 = (uint8_t) 0x40
     // (16 bit) 0x4020 = (uint8_t) 0x20
 
-    char cStr[3] { 
-        (uint8_t) (sensor.depth_cm >> 8),
-        (uint8_t) (sensor.depth_cm),
-        0
-    };
+    fellowshipLoRa::write( sensor.depth_cm );
 
-    Serial.println(fellowshipLoRa::convertToInt16(cStr[0], cStr[1]));
+    second_millis = millis();
 
-    String str { cStr };
+    delay(DELAY_TIME - (second_millis - first_millis));
 
-    // fellowshipLoRa::write( str );
-}
-
-void loop()
-{
-    // String msg;
-    // fellowshipLoRa::readUntilValueRecv(msg);
-
-    // Serial.printf("[SX1262] Message received: %li\n", fellowshipLoRa::convertToInt16(msg[0], msg[1]));
-
-    // Serial.println(analogRead(19));
-    // delay(500);
 }
 
 #endif
