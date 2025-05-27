@@ -15,8 +15,6 @@ import { useAuth } from "../context/AuthContext";
 
 const Tab = createBottomTabNavigator();
 
-// const fakeToken = true;
-
 const HeaderTitle = () => {
   const { theme } = useTheme();
 
@@ -38,7 +36,7 @@ const HeaderTitle = () => {
 const Navigation = () => {
   const { customTheme, theme, isDark, toggleTheme } = useTheme();
   const { token } = useAuth();
-  
+
   return (
     <NavigationContainer theme={customTheme}>
       <Tab.Navigator
@@ -134,7 +132,7 @@ const Navigation = () => {
             ),
           }}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           name="Login"
           component={LoginScreen}
           options={{
@@ -156,7 +154,33 @@ const Navigation = () => {
               </Text>
             ),
           }}
-        />
+        /> */}
+        {!token && (
+          <Tab.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{
+              tabBarIcon: ({ focused, size }) => (
+                <AntDesign
+                  name="login"
+                  color={focused ? theme.primary : theme.secondary}
+                  size={focused ? size + 2 : size}
+                  style={{ opacity: focused ? 1 : 0.8 }}
+                />
+              ),
+              tabBarLabel: ({ focused }) => (
+                <Text style={{
+                  color: focused ? theme.primary : theme.secondary,
+                  fontSize: 12,
+                  opacity: focused ? 1 : 0.8
+                }}>
+                  Login
+                </Text>
+              ),
+            }}
+          />
+        )}
+
 
 
         {token && (
