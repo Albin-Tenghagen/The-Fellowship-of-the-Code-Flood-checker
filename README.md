@@ -8,11 +8,12 @@
 
 HydroGuard gathers data from various environmental sensors, including:
 
-- ... (To be added)
-- ... (To be added)
-- ... (To be added)
+- Pressure sensor (TL-136)
+- Ultrasound distance sensor (HC-SR04)
+- Soil moisture sensor (YL-69)
+- Temperature and humidity sensor (DHT11)
 
-Collected sensor data is sent... (Details to be added)
+Collected sensor data is sent using two Heltec LoRa 32 V3 development boards. The boards communicate using LoRa and then sends collected data using WiFi to our backend. 
 
 ---
 
