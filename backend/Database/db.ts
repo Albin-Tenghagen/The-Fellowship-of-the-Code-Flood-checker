@@ -5,21 +5,12 @@ dotenv.config();
 
 const { Pool } = pg;
 
-// Railway provides a single DATABASE_URL for connection, so prefer that:
+// Railway provides a single DATABASE_URL for connection
 const connectionString = process.env.DATABASE_URL;
-console.log("Connecting to DB with:", {
-  user: process.env.DBUSER,
-  password: process.env.DBPASSWORD,
-  database: process.env.DBNAME,
-  host: process.env.DBHOST,
-  port: process.env.DBPORT,
-});
+
 const pool = connectionString
   ? new Pool({
       connectionString,
-      // ssl: {
-      //   rejectUnauthorized: false, // Important for many hosted DBs like Railway's
-      // },
     })
   : new Pool({
       user: process.env.DBUSER,
@@ -31,8 +22,16 @@ const pool = connectionString
 
 const testConnection = async () => {
   try {
-    const res = await pool.query("SELECT * FROM admins");
-    console.log("Connected! admins for DB:", res.rows[0]);
+    const res = await pool.query("SELECT id, name FROM admins");
+    console.log("Connected! Admins (id and name):", res.rows);
+
+    console.log("Connecting to DB with:", {
+      user: process.env.DBUSER,
+      password: process.env.DBPASSWORD,
+      database: process.env.DBNAME,
+      host: process.env.DBHOST,
+      port: process.env.DBPORT,
+    });
   } catch (error) {
     if (error instanceof Error) {
       console.error("Connection error:", error.message);
@@ -41,4 +40,5 @@ const testConnection = async () => {
     }
   }
 };
+
 export default { pool, testConnection };

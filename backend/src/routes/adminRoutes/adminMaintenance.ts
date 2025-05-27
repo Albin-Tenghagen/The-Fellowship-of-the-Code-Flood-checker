@@ -1,5 +1,3 @@
-// src/routes/adminRoutes/adminInfrastructure.ts
-
 import express, { Response, Router } from "express";
 import db from "../../../Database/db.ts";
 import { timestampCreation } from "../../middleware/timestampCreation.ts";

@@ -238,4 +238,6 @@ What has been accomplished
         3. Zana got the DB locally on his machine
         4. maybe something more
 
-deploy
+10. 27/05-25
+
+    ## The database and express server are deployed on Railway.com!!

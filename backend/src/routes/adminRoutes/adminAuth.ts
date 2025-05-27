@@ -2,9 +2,12 @@ console.log("adminAuth router running....");
 import express, { Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
+
 import db from "../../../Database/db.ts";
 const pool = db.pool;
+
 import generateToken from "../../middleware/generate_jwt_token.ts";
+import { adminLogin } from "types/types.ts";
 
 dotenv.config();
 
@@ -13,7 +16,6 @@ import authMonitoringtRouter from "./adminMonitoring.ts";
 import authInfrastructureRouter from "./adminInfrastructure.ts";
 import maintenanceRouter from "./adminMaintenance.ts";
 import authIssueUpkeepRouter from "./adminIssueUpkeep.ts";
-import { adminLogin } from "types/types.ts";
 
 const adminRouter = express.Router();
 
@@ -149,7 +151,7 @@ adminRouter.post(
         role: admin.role,
       };
 
-      next(); // Continue to generateToken
+      next();
     } catch (error) {
       console.error("Login DB error:", error);
       res.status(500).json({ message: "Internal server error" });

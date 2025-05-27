@@ -1,38 +1,5 @@
-# Beskrivning av API:er
+## The API documentation
 
-Strukturen för API:ets olika endpoints och routing är nu färdiga i sin grundform.
+1. The documentation for the api can be found in the swagger.yaml file
 
-## Default :
-
-- localhost:5001/
-  //---------------------------------------------------
-
-## User route :
-
-- http://localhost:5001/users/
-  //---------------------------------------------------
-  User routes :
-- http://localhost:5001/users/tips
-- http://localhost:5001/users/risks
-- http://localhost:5001/users/notifications
-- http://localhost:5001/users/safety
-  //---------------------------------------------------
-
-## Admin route :
-
-- localhost:5001/admins/
-- localhost:5001/admins/
-  //---------------------------------------------------
-
-### Monitoring routes :
-
-- ://localhost:5001/admins/authenticated/monitoring/
-- http://localhost:5001/admins/authenticated/monitoring/historicalMonitoring
-  //---------------------------------------------------
-
-### Other routes :
-
-- http://localhost:5001/admins/authenticated/issueUpkeep
-- http://localhost:5001/admins/authenticated/infrastructureIssues
-
-Detta är URL:erna för dem olika endpointerna. Dem kommer tillhandahålla olika handlingar och information som användare och arbetare kan komma åt. Urls har namngets på så vis att dem ska vara hyfsate självförklarande
+2. Or you can run the express server and visit this url: http://localhost:5001/api-docs
