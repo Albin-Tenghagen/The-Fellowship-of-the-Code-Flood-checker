@@ -5,6 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import WaterLevelCard from '../components/WaterLevelCard';
 import InfoCard from '../components/InfoCard';
 import InfrastructureIssuesCard from '../components/InfrastructureIssuesCard';
+import { useRoute } from '@react-navigation/native';
 // import TipsBoxCard from '../components/TipsBoxCard';
 // import { fetchTips } from '../services/api';
 // import { useUser } from '../context/UserContext';
@@ -13,6 +14,9 @@ import InfrastructureIssuesCard from '../components/InfrastructureIssuesCard';
 const HomeScreen = () => {
   const { theme } = useTheme();
   const navigation = useNavigation();
+  const route = useRoute();
+  const alertData = route.params?.alert;
+
 
   const navigateToTipsScreen = () => {
     navigation.navigate('Tips');
@@ -22,18 +26,19 @@ const HomeScreen = () => {
     <View style={{ flex: 1, backgroundColor: theme.background }}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         {/* <HeroImage /> */}
-          {/* Avvakta med denna ******************************************** */}
+        {/* Avvakta med denna ******************************************** */}
         {/* Denna använder mockdata från Data context */}
         <View style={styles.infoCardContainer}>
           <InfoCard
             title="Information till allmänheten"
-            text="Vid akut översvämningsrisk – ring 112. För övrig information, använd vår app."
             width="90"
             icon="information-variant"
             titleColor={theme.primary}
             valueColor={theme.textPrimary}
             timestampColor={theme.textPrimary}
-          
+            alertData={alertData}
+            text="Vid akut översvämningsrisk – ring 112. För övrig information, använd vår app."
+
           />
         </View>
 
@@ -41,7 +46,7 @@ const HomeScreen = () => {
 
         {/* Denna är prioriterad och kan fungera när UserScreen är "klar" */}
         {/* Kan mockas vid behov */}
-        <View style={{ alignItems: 'center'}}>
+        <View style={{ alignItems: 'center' }}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
             Infrastrukturproblem
           </Text>
@@ -109,7 +114,7 @@ const HomeScreen = () => {
           </View>
         </View>
 
-        
+
         {/* Denna funkar med mockdata???  */}
         <View>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
@@ -144,7 +149,7 @@ const HomeScreen = () => {
           </TouchableOpacity>
         </View>
 
-      
+
 
       </ScrollView>
     </View>
@@ -162,17 +167,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 8,
     textAlign: 'center',
-    
-   
+
+
   },
   infoCardContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignContent: 'center',
     justifyContent: 'center',
-   
-   
-    
+
+
+
   },
   cardContainer: {
     flexDirection: 'row',

@@ -2,58 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import { AntDesign, MaterialIcons, Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTheme } from '../themes/ThemeContext';
-import { fetchSafety } from '../services/api';
 import StatusCard from './StatusCard';
 import ProgressControls from './ProgressControls';
 import TimeStats from './TimeStats';
-
-const mockLocations = [
-  {
-    id: 1,
-    location: 'Trädgård A',
-    description: 'Huvudträdgård med olika sensorer',
-    waterlevel: 8,
-    sensors: ['temperatur', 'luftfuktighet', 'jordmoisture', 'vattennivå'],
-    lastUpdate: '2025-05-26 10:30:15',
-    batteryLevel: 87
-  },
-  {
-    id: 2,
-    location: 'Växthus B',
-    description: 'Växthus med klimatkontroll',
-    waterlevel: 6,
-    sensors: ['temperatur', 'luftfuktighet', 'ljusnivå'],
-    lastUpdate: '2025-05-26 10:28:45',
-    batteryLevel: 92
-  },
-  {
-    id: 3,
-    location: 'Kompostområde C',
-    description: 'Kompostbehållare med temperatursensor',
-    waterlevel: 4,
-    sensors: ['temperatur', 'lufttryck'],
-    lastUpdate: '2025-05-26 10:25:30',
-    batteryLevel: 78
-  },
-  {
-    id: 4,
-    location: 'Bevattningssystem D',
-    description: 'Automatiskt bevattningssystem',
-    waterlevel: 9,
-    sensors: ['vattentryck', 'flöde', 'jordmoisture'],
-    lastUpdate: '2025-05-26 10:32:12',
-    batteryLevel: 95
-  },
-  {
-    id: 5,
-    location: 'Södra Rabatt E',
-    description: 'Blomrabatt i södra delen',
-    waterlevel: 3,
-    sensors: ['jordmoisture', 'ljusnivå'],
-    lastUpdate: '2025-05-26 10:20:18',
-    batteryLevel: 65
-  }
-];
 
 const WorkerStatus = ({ route }) => {
   const { theme } = useTheme();

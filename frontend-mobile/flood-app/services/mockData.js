@@ -50,3 +50,10 @@ export const mockLocations = [
         waterlevel: 10
     },
 ];
+
+
+// Jag har nu följande komponent - som man kommer till om man valt en plats. :) 
+
+// Denna hämtar ju just nu ingenting men tanken är att man här ska kunna påbörja arbete på plats. 
+
+// Statusen kommer här att vara Ej påbörjad - detta är i samband med att typ de som ska styra upp eventuella problem med vatten mm ska kunna ta sig till platsen typ. (Resväg). När de kommer till platsen ska de kunna trycka på "kortet" för att markera att man är på plats.

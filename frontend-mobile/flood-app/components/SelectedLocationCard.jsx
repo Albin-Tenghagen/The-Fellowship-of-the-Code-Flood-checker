@@ -7,8 +7,8 @@ const SelectedLocationCard = ({ location, onBack }) => {
   const navigation = useNavigation();
 
   const handleConfirm = () => {
-    navigation.navigate('WorkerStatus', { 
-      location: location 
+    navigation.navigate('WorkerStatus', {
+      location: location
     });
   };
 
@@ -40,6 +40,23 @@ const SelectedLocationCard = ({ location, onBack }) => {
         <TouchableOpacity style={[styles.button, { backgroundColor: theme.backgroundSecondary }]} onPress={onBack}>
           <Text style={[styles.buttonText, { color: theme.textColor }]}>Gå tillbaka</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: 'darkred' }]}
+          onPress={() => {
+            navigation.navigate("Home", {
+              alert: {
+                location: location.location,
+                waterlevel: location.waterlevel,
+                timestamp: location.timestamp,
+                description: location.description,
+                proactiveActions: location.proactiveActions,
+              }
+            });
+          }}
+        >
+          <Text style={styles.buttonText}>Skicka notis</Text>
+        </TouchableOpacity>
+
       </View>
     </View>
   );

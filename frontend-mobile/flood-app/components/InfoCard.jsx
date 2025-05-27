@@ -4,15 +4,25 @@ import { useTheme } from '../themes/ThemeContext';
 import { useAppData } from "../context/DataContext";
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 
+
+const formatTimestamp = (isoString) => {
+  const date = new Date(isoString);
+  return date.toLocaleString("sv-SE", {
+    dateStyle: "short",
+    timeStyle: "short",
+  });
+};
+
 const InfoCard = ({
     title = 'Default Title',
     text = 'Default Text',
-    width = '45%',
+    width = '90%',
     height = null,
     icon = null,
     image = null,
     textColor = null,
     backgroundColor = null,
+    alertData = null,
 }) => {
 
     const { theme } = useTheme();
@@ -46,9 +56,47 @@ const InfoCard = ({
             <Text style={[styles.title, { color: textColor || theme.textPrimary }]}>
                 {title}
             </Text>
+
             <Text style={[styles.text, { color: textColor || theme.textPrimary }]}>
                 {text}
             </Text>
+
+            {alertData && (
+                <View style={{ marginTop: 10 }}>
+                    <Text style={[styles.text, { color: textColor || theme.textPrimary }]}>
+                        Plats: {alertData.location}
+                    </Text>
+                    <Text style={[styles.text, { color: textColor || theme.textPrimary }]}>
+                        Vattennivå: {alertData.waterlevel} cm
+                    </Text>
+                    <Text style={[styles.text, { color: textColor || theme.textPrimary }]}>
+                        Tidpunkt: {formatTimestamp(alertData.timestamp)}
+                    </Text>
+                    <Text style={[styles.text, { color: textColor || theme.textPrimary }]}>
+                        {alertData.description}
+                    </Text>
+
+                    {alertData.proactiveActions && (
+                        <View style={{ marginTop: 6 }}>
+                            {alertData.proactiveActions.basementProtection && (
+                                <Text style={[styles.text, { color: textColor || theme.textPrimary }]}>
+                                    • Källarskydd: {alertData.proactiveActions.basementProtection}
+                                </Text>
+                            )}
+                            {alertData.proactiveActions.trenchDigging && (
+                                <Text style={[styles.text, { color: textColor || theme.textPrimary }]}>
+                                    • Grävning: {alertData.proactiveActions.trenchDigging}
+                                </Text>
+                            )}
+                            {alertData.proactiveActions.electricHazards && (
+                                <Text style={[styles.text, { color: textColor || theme.textPrimary }]}>
+                                    • Elrisker: {alertData.proactiveActions.electricHazards}
+                                </Text>
+                            )}
+                        </View>
+                    )}
+                </View>
+            )}
         </View>
     );
 };
