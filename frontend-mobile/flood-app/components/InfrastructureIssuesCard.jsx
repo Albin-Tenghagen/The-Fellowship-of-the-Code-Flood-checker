@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { useTheme } from '../themes/ThemeContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { mockSafetyData } from '../services/api'
+import { getInfrastructureIssues } from '../services/firebaseUtils';
+
 
 const InfrastructureIssuesCard = ({
   title = 'Infrastrukturproblem',
@@ -25,41 +27,69 @@ const InfrastructureIssuesCard = ({
         
         // Mock data for now - replace with your actual API call
         // Testa att göra en random-funktion så att dessa värden ändras "for show"
+// useEffect(() => {
+//   const getInfrastructureIssues = async () => {
+//     try {
+//       setLoading(true);
+//       setError(null);
+
+//       setTimeout(() => {
+//         try {
+//           const shuffled = [...mockSafetyData.locations].sort(() => 0.5 - Math.random());
+//           const randomItems = shuffled.slice(0, 3);
+
+//           const randomizedIssues = randomItems.map((item, index) => ({
+//             id: item.id || index,
+//             type: getRandomType(),
+//             description: interpolateDescription(item.description),
+//             severity: getRandomSeverity(),
+//           }));
+
+//           setIssues(randomizedIssues);
+//           setLoading(false);
+//         } catch (error) {
+//           console.error('Error fetching infrastructure issues:', error);
+//           setError(error.message);
+//           setLoading(false);
+//         }
+//       }, 1000);
+//     } catch (error) {
+//       console.error('Unexpected error in getInfrastructureIssues:', error);
+//       setError(error.message);
+//       setLoading(false);
+//     }
+//   }; // <-- DU GLÖMDE DENNA!
+
+//   getInfrastructureIssues();
+// }, []);
+
 useEffect(() => {
-  const getInfrastructureIssues = async () => {
+  const fetchData = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      setTimeout(() => {
-        try {
-          const shuffled = [...mockSafetyData.locations].sort(() => 0.5 - Math.random());
-          const randomItems = shuffled.slice(0, 3);
+      const firebaseData = await getInfrastructureIssues();
 
-          const randomizedIssues = randomItems.map((item, index) => ({
-            id: item.id || index,
-            type: getRandomType(),
-            description: interpolateDescription(item.description),
-            severity: getRandomSeverity(),
-          }));
+      const randomizedIssues = firebaseData.map((item, index) => ({
+        id: item.id || index,
+        type: getRandomType(), 
+        description: item.problem || "Okänt problem",
+        severity: getRandomSeverity(),
+      }));
 
-          setIssues(randomizedIssues);
-          setLoading(false);
-        } catch (error) {
-          console.error('Error fetching infrastructure issues:', error);
-          setError(error.message);
-          setLoading(false);
-        }
-      }, 1000);
+      setIssues(randomizedIssues);
     } catch (error) {
-      console.error('Unexpected error in getInfrastructureIssues:', error);
-      setError(error.message);
+      console.error('Fel vid hämtning från Firestore:', error);
+      setError('Kunde inte hämta infrastrukturproblem');
+    } finally {
       setLoading(false);
     }
-  }; // <-- DU GLÖMDE DENNA!
+  };
 
-  getInfrastructureIssues();
+  fetchData();
 }, []);
+
 
 
   const getSeverityColor = (severity) => {

@@ -26,8 +26,6 @@ const HomeScreen = () => {
     <View style={{ flex: 1, backgroundColor: theme.background }}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         {/* <HeroImage /> */}
-        {/* Avvakta med denna ******************************************** */}
-        {/* Denna använder mockdata från Data context */}
         <View style={styles.infoCardContainer}>
           <InfoCard
             title="Information till allmänheten"
@@ -38,7 +36,6 @@ const HomeScreen = () => {
             timestampColor={theme.textPrimary}
             alertData={alertData}
             text="Vid akut översvämningsrisk – ring 112. För övrig information, använd vår app."
-
           />
         </View>
 
