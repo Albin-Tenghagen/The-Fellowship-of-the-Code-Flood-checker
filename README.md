@@ -6,7 +6,7 @@
 
 ## Overview
 
-HydroGuard gathers data from various environmental sensors, including:
+HydroGuard gathers data from various sensors, including:
 
 - Pressure sensor (TL-136)
 - Ultrasound distance sensor (HC-SR04)
