@@ -107,8 +107,8 @@ const styles = StyleSheet.create({
     card: {
         justifyContent: 'center',
         alignItems: 'center',
-        width: '45%',
-        aspectRatio: 1,
+        width: '90%',
+        minHeight: 100,
         borderRadius: 8,
         margin: 8,
         elevation: 2,

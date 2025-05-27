@@ -31,7 +31,7 @@ const HomeScreen = () => {
         <View style={styles.infoCardContainer}>
           <InfoCard
             title="Information till allmänheten"
-            width="90"
+            width="90%"
             icon="information-variant"
             titleColor={theme.primary}
             valueColor={theme.textPrimary}
