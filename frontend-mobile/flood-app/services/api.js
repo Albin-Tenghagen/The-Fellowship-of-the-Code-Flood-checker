@@ -3,7 +3,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./firebaseConfig";
 
 // Mock data
-const mockSafetyData = {
+export const mockSafetyData = {
   locations: [
     {
       "id": 1001,

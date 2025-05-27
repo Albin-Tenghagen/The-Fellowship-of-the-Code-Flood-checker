@@ -2,6 +2,7 @@ import { StyleSheet, View, Text, ScrollView, ActivityIndicator } from 'react-nat
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../themes/ThemeContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { mockSafetyData } from '../services/api'
 
 const InfrastructureIssuesCard = ({
   title = 'Infrastrukturproblem',
@@ -17,35 +18,49 @@ const InfrastructureIssuesCard = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const getInfrastructureIssues = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+ 
         
         // TODO: Replace with your actual API call
         // const data = await fetchInfrastructureIssues();
         
         // Mock data for now - replace with your actual API call
         // Testa att göra en random-funktion så att dessa värden ändras "for show"
-        setTimeout(() => {
-          setIssues([
-            { id: 1, type: 'Sensor', description: 'Temperaturmätare offline', severity: 'high' },
-            { id: 2, type: 'Nätverk', description: 'Svag anslutning', severity: 'medium' },
-            { id: 3, type: 'Batteri', description: 'Låg batterinivå på sensor 3', severity: 'low' },
-          ]);
-          setLoading(false);
-        }, 1000);
-        
-      } catch (err) {
-        console.error('Error fetching infrastructure issues:', err);
-        setError(err.message);
-        setLoading(false);
-      }
-    };
+useEffect(() => {
+  const getInfrastructureIssues = async () => {
+    try {
+      setLoading(true);
+      setError(null);
 
-    getInfrastructureIssues();
-  }, []);
+      setTimeout(() => {
+        try {
+          const shuffled = [...mockSafetyData.locations].sort(() => 0.5 - Math.random());
+          const randomItems = shuffled.slice(0, Math.floor(Math.random() * 3) + 1);
+
+          const randomizedIssues = randomItems.map((item, index) => ({
+            id: item.id || index,
+            type: getRandomType(),
+            description: interpolateDescription(item.description),
+            severity: getRandomSeverity(),
+          }));
+
+          setIssues(randomizedIssues);
+          setLoading(false);
+        } catch (error) {
+          console.error('Error fetching infrastructure issues:', error);
+          setError(error.message);
+          setLoading(false);
+        }
+      }, 1000);
+    } catch (error) {
+      console.error('Unexpected error in getInfrastructureIssues:', error);
+      setError(error.message);
+      setLoading(false);
+    }
+  }; // <-- DU GLÖMDE DENNA!
+
+  getInfrastructureIssues();
+}, []);
+
 
   const getSeverityColor = (severity) => {
     switch (severity) {
@@ -130,6 +145,22 @@ const InfrastructureIssuesCard = ({
 };
 
 export default InfrastructureIssuesCard;
+
+
+const getRandomSeverity = () => {
+  const severities = ['high', 'medium', 'low'];
+  return severities[Math.floor(Math.random() * severities.length)];
+};
+
+const getRandomType = () => {
+  const types = ['Sensor', 'Nätverk', 'Batteri', 'System', 'Brandlarm'];
+  return types[Math.floor(Math.random() * types.length)];
+};
+
+const interpolateDescription = (desc) => {
+  const waterlevel = (Math.random() * 50 + 10).toFixed(1) + ' cm';
+  return desc.replace('${waterlevel}', waterlevel);
+};
 
 const styles = StyleSheet.create({
   card: {
