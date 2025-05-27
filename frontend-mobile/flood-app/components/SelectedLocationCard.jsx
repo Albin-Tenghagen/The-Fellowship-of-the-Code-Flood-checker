@@ -1,8 +1,16 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTheme } from '../themes/ThemeContext';
+import { useNavigation } from '@react-navigation/native';
 
-const SelectedLocationCard = ({ location, onConfirm, onBack }) => {
+const SelectedLocationCard = ({ location, onBack }) => {
   const { theme } = useTheme();
+  const navigation = useNavigation();
+
+  const handleConfirm = () => {
+    navigation.navigate('WorkerStatus', { 
+      location: location 
+    });
+  };
 
   return (
     <View style={[styles.cardContainer, { backgroundColor: theme.background }]}>
@@ -11,7 +19,6 @@ const SelectedLocationCard = ({ location, onConfirm, onBack }) => {
       <Text style={[styles.text, { color: theme.textColor }]}>Vattennivå: {location.waterlevel} cm</Text>
       <Text style={[styles.text, { color: theme.textColor }]}>Tidpunkt: {location.timestamp}</Text>
       <Text style={[styles.text, { color: theme.textColor }]}>Beskrivning: {location.description}</Text>
-
       {location.proactiveActions && (
         <View style={{ marginTop: 10 }}>
           <Text style={[styles.subheading, { color: theme.textColor }]}>Förebyggande åtgärder:</Text>
@@ -26,9 +33,8 @@ const SelectedLocationCard = ({ location, onConfirm, onBack }) => {
           )}
         </View>
       )}
-
       <View style={styles.buttonRow}>
-        <TouchableOpacity style={[styles.button, { backgroundColor: theme.primary }]} onPress={onConfirm}>
+        <TouchableOpacity style={[styles.button, { backgroundColor: theme.primary }]} onPress={handleConfirm}>
           <Text style={styles.buttonText}>Välj denna plats</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, { backgroundColor: theme.backgroundSecondary }]} onPress={onBack}>

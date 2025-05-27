@@ -7,9 +7,57 @@ import StatusCard from './StatusCard';
 import ProgressControls from './ProgressControls';
 import TimeStats from './TimeStats';
 
+const mockLocations = [
+  {
+    id: 1,
+    location: 'Trädgård A',
+    description: 'Huvudträdgård med olika sensorer',
+    waterlevel: 8,
+    sensors: ['temperatur', 'luftfuktighet', 'jordmoisture', 'vattennivå'],
+    lastUpdate: '2025-05-26 10:30:15',
+    batteryLevel: 87
+  },
+  {
+    id: 2,
+    location: 'Växthus B',
+    description: 'Växthus med klimatkontroll',
+    waterlevel: 6,
+    sensors: ['temperatur', 'luftfuktighet', 'ljusnivå'],
+    lastUpdate: '2025-05-26 10:28:45',
+    batteryLevel: 92
+  },
+  {
+    id: 3,
+    location: 'Kompostområde C',
+    description: 'Kompostbehållare med temperatursensor',
+    waterlevel: 4,
+    sensors: ['temperatur', 'lufttryck'],
+    lastUpdate: '2025-05-26 10:25:30',
+    batteryLevel: 78
+  },
+  {
+    id: 4,
+    location: 'Bevattningssystem D',
+    description: 'Automatiskt bevattningssystem',
+    waterlevel: 9,
+    sensors: ['vattentryck', 'flöde', 'jordmoisture'],
+    lastUpdate: '2025-05-26 10:32:12',
+    batteryLevel: 95
+  },
+  {
+    id: 5,
+    location: 'Södra Rabatt E',
+    description: 'Blomrabatt i södra delen',
+    waterlevel: 3,
+    sensors: ['jordmoisture', 'ljusnivå'],
+    lastUpdate: '2025-05-26 10:20:18',
+    batteryLevel: 65
+  }
+];
+
 const WorkerStatus = ({ route }) => {
   const { theme } = useTheme();
-  const { location = null, safetyData = [], resetStatus = false } = route?.params || {};
+  const { location = null, resetStatus = false } = route?.params || {};
 
   const STATUS = {
     NOT_STARTED: 'Ej påbörjad',
@@ -21,9 +69,6 @@ const WorkerStatus = ({ route }) => {
   const [status, setStatus] = useState(STATUS.NOT_STARTED);
   const [timeLeft, setTimeLeft] = useState(null);
   const [startTime, setStartTime] = useState(null);
-  const [safety, setSafety] = useState(safetyData || []); // Use passed safetyData as initial value
-  const [currentLocationIndex, setCurrentLocationIndex] = useState(0);
-  const [fetchedLocationName, setFetchedLocationName] = useState('Nånstans i Sverige');
   const [estimatedTime, setEstimatedTime] = useState(60 * 60);
   const [isPaused, setIsPaused] = useState(false);
   const progressAnimation = useRef(new Animated.Value(0)).current;
@@ -143,6 +188,7 @@ const WorkerStatus = ({ route }) => {
   const togglePause = () => {
     setIsPaused(!isPaused);
   };
+  
   useEffect(() => {
     if (resetStatus) {
       setStatus(STATUS.NOT_STARTED);
@@ -240,53 +286,96 @@ const WorkerStatus = ({ route }) => {
     }
   };
 
-  useEffect(() => {
-    const getSafety = async () => {
-      try {
-        const safetyData = await fetchSafety();
-        setSafety(safetyData);
-        if (safetyData.length > 0) {
-          setFetchedLocationName(safetyData[0].location);
-        }
-      } catch (error) {
-        console.log('Could not fetch safety data:', error);
-      }
-    };
+  // Only use the exact location passed from SelectedLocationCard
+  const selectedLocation = location;
 
-    // Only fetch safety data if we don't have location data passed from navigation
-    if (!location && safety.length === 0) {
-      getSafety();
-    }
+  // Debug: Log what location was received
+  useEffect(() => {
+    console.log('WorkerStatus received location:', location);
   }, [location]);
 
   const cycleLocation = () => {
-    if (safety.length > 0) {
-      const nextIndex = (currentLocationIndex + 1) % safety.length;
-      setCurrentLocationIndex(nextIndex);
-      setFetchedLocationName(safety[nextIndex].location);
-    }
+    // No cycling - always use the same location
+    return;
   };
 
-  const displayLocationName = location?.location || fetchedLocationName;
+  // Show location data only if passed from SelectedLocationCard
+  const displayLocationName = selectedLocation?.location || 'Ingen plats vald';
+  const currentLocationData = selectedLocation;
 
   return (
     <View style={[styles.container, { backgroundColor: theme.card }]}>
       <View style={styles.header}>
         <Text style={[styles.title, { color: theme.inputBackground }]}>Arbetsstatus</Text>
+        
         <Text style={[styles.subtitle, { color: theme.textTertiary }]}>
           {displayLocationName}
         </Text>
 
-        {location && (
+        {/* Only display location details if location data exists */}
+        {currentLocationData && (
           <View style={styles.locationDetails}>
             <Text style={[styles.locationDescription, { color: theme.textSecondary }]}>
-              {location.description}
+              {currentLocationData.description}
             </Text>
             <Text style={[styles.locationWaterLevel, { color: getStatusColor() }]}>
-              Vattennivå: {location.waterlevel} cm
+              Vattennivå: {currentLocationData.waterlevel} cm
             </Text>
-            <Text style={[styles.locationCoords, { color: theme.textTertiary }]}>
-              {location.coordinates}
+            
+            {/* Show available info based on data structure */}
+            {currentLocationData.lastUpdate && (
+              <Text style={[styles.locationInfo, { color: theme.textTertiary }]}>
+                Senast uppdaterad: {currentLocationData.lastUpdate}
+              </Text>
+            )}
+            {currentLocationData.batteryLevel && (
+              <Text style={[styles.locationInfo, { color: theme.textTertiary }]}>
+                Batterinivå: {currentLocationData.batteryLevel}%
+              </Text>
+            )}
+            {currentLocationData.sensors && (
+              <Text style={[styles.locationInfo, { color: theme.textTertiary }]}>
+                Sensorer: {currentLocationData.sensors.join(', ')}
+              </Text>
+            )}
+            {currentLocationData.coordinates && (
+              <Text style={[styles.locationInfo, { color: theme.textTertiary }]}>
+                {currentLocationData.coordinates}
+              </Text>
+            )}
+            {currentLocationData.timestamp && (
+              <Text style={[styles.locationInfo, { color: theme.textTertiary }]}>
+                Tidpunkt: {currentLocationData.timestamp}
+              </Text>
+            )}
+            {currentLocationData.proactiveActions && (
+              <View style={styles.proactiveActions}>
+                <Text style={[styles.proactiveTitle, { color: theme.textColor }]}>Förebyggande åtgärder:</Text>
+                {currentLocationData.proactiveActions.basementProtection && (
+                  <Text style={[styles.locationInfo, { color: theme.textTertiary }]}>
+                    • Källarskydd: {currentLocationData.proactiveActions.basementProtection}
+                  </Text>
+                )}
+                {currentLocationData.proactiveActions.trenchDigging && (
+                  <Text style={[styles.locationInfo, { color: theme.textTertiary }]}>
+                    • Grävning: {currentLocationData.proactiveActions.trenchDigging}
+                  </Text>
+                )}
+                {currentLocationData.proactiveActions.electricHazards && (
+                  <Text style={[styles.locationInfo, { color: theme.textTertiary }]}>
+                    • Elrisker: {currentLocationData.proactiveActions.electricHazards}
+                  </Text>
+                )}
+              </View>
+            )}
+          </View>
+        )}
+
+        {/* Show message when no location is selected */}
+        {!currentLocationData && (
+          <View style={styles.locationDetails}>
+            <Text style={[styles.locationDescription, { color: theme.textSecondary }]}>
+              Ingen plats vald. Välj en plats först.
             </Text>
           </View>
         )}
@@ -351,7 +440,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
   },
-  // New styles for location details
   locationDetails: {
     marginTop: 12,
     alignItems: 'center',
@@ -368,9 +456,20 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginBottom: 4,
   },
-  locationCoords: {
+  locationInfo: {
     fontSize: 12,
     opacity: 0.8,
+    marginBottom: 2,
+    textAlign: 'center',
+  },
+  proactiveActions: {
+    marginTop: 8,
+    alignItems: 'center',
+  },
+  proactiveTitle: {
+    fontSize: 13,
+    fontWeight: '600',
+    marginBottom: 4,
   },
   statusCard: {
     marginHorizontal: 20,
