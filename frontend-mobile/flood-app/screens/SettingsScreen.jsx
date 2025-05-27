@@ -1,95 +1,35 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import { fetchSafety } from '../services/api';
-import PickLocation from '../components/PickLocation';
+import { ScrollView, StyleSheet, Text, View, Pressable } from 'react-native';
+import { useTheme } from '../themes/ThemeContext';
+import { uploadMockLocations } from "../services/firebaseUtils";
 
 const SettingsScreen = () => {
-  const [safety, setSafety] = useState([]);
-  const [safetyError, setSafetyError] = useState(null);
-  const [selectedLocation, setSelectedLocation] = useState(null);
+  const { theme } = useTheme();
+  const styles = createStyles(theme);
 
-  const handleLocationSelect = (location) => {
-    setSelectedLocation(location);
-    console.log("Plats:", location);
-  };
-
-  useEffect(() => {
-    const getSafety = async () => {
-      try {
-        const safetyData = await fetchSafety();
-        setSafety(safetyData);
-      } catch (error) {
-        setSafetyError(error.message);
-      }
-    };
-    getSafety();
-  }, []);
   return (
     <ScrollView>
-    <View style={styles.container}>
-      <PickLocation/>
-{/*     
-      {safety.map((item) => (
-        <View key={item.id} style={styles.item}>
-          <Text style={styles.location}>{item.location}</Text>
-          <Text style={styles.description}>{item.description}</Text>
-          {item.proactiveActions && (
-            <View style={styles.actions}>
-              <Text style={styles.actionsHeader}>Förebyggande åtgärder:</Text>
-              {item.proactiveActions.basementProtection && (
-                <Text>• Källarskydd: {item.proactiveActions.basementProtection}</Text>
-              )}
-              {item.proactiveActions.trenchDigging && (
-                <Text>• Grävning: {item.proactiveActions.trenchDigging}</Text>
-              )}
-              {item.proactiveActions.electricHazards && (
-                <Text>• Elrisker: {item.proactiveActions.electricHazards}</Text>
-              )}
-            </View>
-          )}
-        </View>
-      ))}
-      {safetyError && (
-        <View style={styles.errorBox}>
-          <Text style={styles.errorText}>:warning: Kunde inte hämta tips: {safetyError}</Text>
-        </View>
-      )} */}
-    </View>
+      <View style={styles.container}>
+        <Pressable style={styles.button} onPress={() => uploadMockLocations()}>
+          <Text style={styles.buttonText}>Ladda upp mock-data (locations)</Text>
+        </Pressable>
+
+      </View>
     </ScrollView>
   );
 };
 export default SettingsScreen;
-const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-  },
-  item: {
-    marginBottom: 20,
-    padding: 12,
-    backgroundColor: '#F2F2F2',
-    borderRadius: 8,
-  },
-  location: {
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  description: {
-    marginTop: 4,
-    fontSize: 14,
-  },
-  actions: {
-    marginTop: 10,
-  },
-  actionsHeader: {
-    fontStyle: 'italic',
-    marginBottom: 4,
-  },
-  errorBox: {
-    padding: 10,
-    backgroundColor: '#FFE5E5',
-    borderRadius: 8,
-  },
-  errorText: {
-    color: 'red',
-  },
-});
+
+
+const createStyles = (theme) =>
+  StyleSheet.create({
+    container: {
+      padding: 16,
+    },
+    button: {
+      marginTop: 10,
+      backgroundColor: theme.card || '#007AFF',
+      padding: 12,
+      borderRadius: 8,
+    },
+
+  });
