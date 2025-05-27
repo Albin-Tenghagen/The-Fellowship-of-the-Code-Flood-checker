@@ -109,6 +109,31 @@ export interface adminLogin extends Request<{}, any, loginData> {}
 
 //*_____________________________________________________________
 
+<<<<<<< HEAD
+//* admin monitoring
+
+export interface MonitoringEntry {
+  station_id: string;
+  timestamp: string;
+  // location: string; //Var sensorTornet är placerat
+  soil_moisture_percent: number;
+  temperature_c: number;
+  humidity_percent: number;
+  water_level_pressure_cm: number;
+  water_level_ultrasound_cm: number;
+  water_level_average_cm: number;
+}
+
+export type StationRequest = Request<{}, {}, {}>;
+
+//*_____________________________________________________________
+
+//* admin historical monitoring
+
+//*_____________________________________________________________
+
+=======
+>>>>>>> b98a48bfd67a9af7211efc97b8d3761722a0c160
 //* JWT
 export interface JWTRequest extends Request {
   user?: {
