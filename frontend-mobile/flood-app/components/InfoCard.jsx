@@ -6,6 +6,7 @@ import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 
 
 const formatTimestamp = (isoString) => {
+ 
   const date = new Date(isoString);
   return date.toLocaleString("sv-SE", {
     dateStyle: "short",
@@ -26,6 +27,7 @@ const InfoCard = ({
 }) => {
 
     const { theme } = useTheme();
+    const styles = createStyles(theme);
 
     return (
         <View
@@ -53,43 +55,43 @@ const InfoCard = ({
                 />
             )}
 
-            <Text style={[styles.title, { color: textColor || theme.textPrimary }]}>
+            <Text style={[styles.title, { color: textColor || theme.textTertiary }]}>
                 {title}
             </Text>
 
-            <Text style={[styles.text, { color: textColor || theme.textPrimary }]}>
+            <Text style={[styles.text, { color: textColor || theme.textTertiary }]}>
                 {text}
             </Text>
 
             {alertData && (
                 <View style={{ marginTop: 10 }}>
-                    <Text style={[styles.text, { color: textColor || theme.textPrimary }]}>
+                    <Text style={[styles.text, { color: textColor || theme.textTertiary }]}>
                         Plats: {alertData.location}
                     </Text>
-                    <Text style={[styles.text, { color: textColor || theme.textPrimary }]}>
+                    <Text style={[styles.text, { color: textColor || theme.textTertiary }]}>
                         Vattennivå: {alertData.waterlevel} cm
                     </Text>
-                    <Text style={[styles.text, { color: textColor || theme.textPrimary }]}>
+                    <Text style={[styles.text, { color: textColor || theme.textTertiary }]}>
                         Tidpunkt: {formatTimestamp(alertData.timestamp)}
                     </Text>
-                    <Text style={[styles.text, { color: textColor || theme.textPrimary }]}>
+                    <Text style={[styles.text, { color: textColor || theme.textTertiary }]}>
                         {alertData.description}
                     </Text>
 
                     {alertData.proactiveActions && (
                         <View style={{ marginTop: 6 }}>
                             {alertData.proactiveActions.basementProtection && (
-                                <Text style={[styles.text, { color: textColor || theme.textPrimary }]}>
+                                <Text style={[styles.text, { color: textColor || theme.textTertiary }]}>
                                     • Källarskydd: {alertData.proactiveActions.basementProtection}
                                 </Text>
                             )}
                             {alertData.proactiveActions.trenchDigging && (
-                                <Text style={[styles.text, { color: textColor || theme.textPrimary }]}>
+                                <Text style={[styles.text, { color: textColor || theme.textTertiary }]}>
                                     • Grävning: {alertData.proactiveActions.trenchDigging}
                                 </Text>
                             )}
                             {alertData.proactiveActions.electricHazards && (
-                                <Text style={[styles.text, { color: textColor || theme.textPrimary }]}>
+                                <Text style={[styles.text, { color: textColor || theme.textTertiary }]}>
                                     • Elrisker: {alertData.proactiveActions.electricHazards}
                                 </Text>
                             )}
@@ -103,7 +105,8 @@ const InfoCard = ({
 
 export default InfoCard;
 
-const styles = StyleSheet.create({
+const createStyles = (theme) =>
+    StyleSheet.create({
     card: {
         justifyContent: 'center',
         alignItems: 'center',
@@ -124,6 +127,7 @@ const styles = StyleSheet.create({
         marginTop: 4,
         paddingLeft: 8,
         paddingRight: 8,
+        color: theme.textTertiary,
     },
     title: {
         fontSize: 18,

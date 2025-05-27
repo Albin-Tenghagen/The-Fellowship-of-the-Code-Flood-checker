@@ -33,8 +33,8 @@ const HomeScreen = () => {
             width="90%"
             icon="information-variant"
             titleColor={theme.primary}
-            valueColor={theme.textPrimary}
-            timestampColor={theme.textPrimary}
+            valueColor={theme.textTertiary}
+            timestampColor={theme.textTertiary}
             alertData={alertData}
             text="Vid akut översvämningsrisk – ring 112. För övrig information, använd vår app."
           />
@@ -175,6 +175,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
   },
+ 
   cardContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
