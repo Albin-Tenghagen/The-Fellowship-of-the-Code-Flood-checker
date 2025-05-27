@@ -163,7 +163,7 @@ useEffect(() => {
                   {issue.type}
                 </Text>
               </View>
-              <Text style={[styles.issueDescription, { color: theme.textSecondary }]}>
+              <Text style={[styles.issueDescription, { color: theme.textPrimary}]}>
                 {issue.description}
               </Text>
             </View>
