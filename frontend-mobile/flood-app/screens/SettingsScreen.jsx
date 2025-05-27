@@ -27,8 +27,8 @@ const SettingsScreen = () => {
   return (
     <ScrollView>
     <View style={styles.container}>
-    
-     <PickLocation/>
+      <PickLocation/>
+{/*     
       {safety.map((item) => (
         <View key={item.id} style={styles.item}>
           <Text style={styles.location}>{item.location}</Text>
@@ -53,7 +53,7 @@ const SettingsScreen = () => {
         <View style={styles.errorBox}>
           <Text style={styles.errorText}>:warning: Kunde inte hämta tips: {safetyError}</Text>
         </View>
-      )}
+      )} */}
     </View>
     </ScrollView>
   );

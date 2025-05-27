@@ -10,6 +10,7 @@ import UserScreen from "../screens/UserScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import LocationScreen from "../screens/Location";
 import TipsScreen from "../screens/TipsScreen";
+import WorkerStatus from "../components/WorkerStatus"; 
 
 const Tab = createBottomTabNavigator();
 
@@ -103,6 +104,15 @@ const Navigation = () => {
             tabBarButton: () => null,
             tabBarItemStyle: { display: 'none' },
             headerTitle: "Tips för översvämningsskydd",
+          }}
+        />
+        <Tab.Screen
+          name="WorkerStatus"
+          component={WorkerStatus}
+          options={{
+            tabBarButton: () => null,
+            tabBarItemStyle: { display: 'none' },
+            headerTitle: "Arbetsstatus",
           }}
         />
         <Tab.Screen
