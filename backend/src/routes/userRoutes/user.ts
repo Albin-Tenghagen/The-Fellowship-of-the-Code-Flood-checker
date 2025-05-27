@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { Response } from "express";
 import { Router } from "express";
 import db from "../../../Database/db.ts";
 import { users_observation_info } from "types/types.ts";

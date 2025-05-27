@@ -114,43 +114,7 @@ export interface JWTRequest extends Request {
   user?: {
     userName: string;
     role: string;
-    // add more fields from the JWT payload if needed
   };
 }
 
 //*_____________________________________________________________
-
-//! new interface currently being created. NOT TO BE USED
-// export interface publicInfo {
-//   id: number;
-//   timestamp: string;
-//   updatedTimeStamp?: string;
-//   location: string;
-//   description: string;
-
-//   publicReport?: {
-//     // Public monitoring
-//     monitoringlevels: number
-//     timestamp: string
-//     riskAssesment: number
-//   }
-
-//   infrastructure?: {
-//     id: number;
-//     // When infra problem has been noted
-//     timestamp: string;
-//     // What type of problem. flooded road for example
-//     problem: string;
-//     // Where the problem originates from
-//     location?: string
-//   }
-
-//   vigilance?: {
-//     //tells the user if they should think about taking proactive or reactive actions to protect property
-//     floodProtecting: boolean
-//     // Tells the user if they should keep track in case there is alot happening basically
-//     trackKeeping: boolean
-//     timestamp: string
-//   },
-// }
-//!_____________________________________________________________

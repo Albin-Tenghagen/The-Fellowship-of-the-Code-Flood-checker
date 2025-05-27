@@ -10,7 +10,7 @@ import swaggerUi from "swagger-ui-express";
 import userRouter from "./routes/userRoutes/user.ts";
 import adminRouter from "./routes/adminRoutes/adminAuth.ts";
 import db from "../Database/db.ts";
-const { pool, testConnection } = db;
+const { testConnection } = db;
 
 testConnection();
 
@@ -45,13 +45,10 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use(cors());
 app.use(express.json());
 
-//TODO logging middleware
-
 // Middleware for routing
 app.use("/users", userRouter);
 app.use("/admins", adminRouter);
-// Local server adress
-//removed || 5050
+
 const PORT = process.env.PORT;
 
 app.get("/", (_req, res) => {
