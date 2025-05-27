@@ -15,8 +15,6 @@ import { useAuth } from "../context/AuthContext";
 
 const Tab = createBottomTabNavigator();
 
-
-
 // const fakeToken = true;
 
 const HeaderTitle = () => {

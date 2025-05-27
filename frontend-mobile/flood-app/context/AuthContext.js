@@ -1,6 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
-import { saveToStorage, getFromStorage, deleteFromStorage } from "../services/webCompatibleSecureStore"
-import { fetchUserProfile } from '../services/api';
+import { createContext, useContext, useEffect, useState } from 'react'
+import { saveToStorage, getFromStorage, deleteFromStorage } from "../services/webCompatibleSecureStore";
 import { useUser } from './UserContext';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from '../services/firebaseConfig';
@@ -55,8 +54,9 @@ export const AuthProvider = ({ children }) => {
 
 
     const login = async (newToken) => {
-        await saveToStorage("userToken", newToken);
         setToken(newToken);
+        await saveToStorage("userToken", newToken);
+
 
         const currentUser = auth.currentUser;
         if (currentUser) {

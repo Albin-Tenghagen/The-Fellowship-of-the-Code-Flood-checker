@@ -13,7 +13,6 @@ const LoginScreen = ({ navigation }) => {
   //const { userName, saveUserName, clearUser } = useUser();
   const styles = createStyles(theme);
   const { login } = useAuth();
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("janne@kommunhuset.se");
   const [password, setPassword] = useState("janne57");
   const [error, setError] = useState("");
@@ -32,8 +31,9 @@ const LoginScreen = ({ navigation }) => {
         return;
       }
       await login(result.access_token);
-      navigation.navigate("HomeScreen")
-      setError("Något gick fel vid inloggningen");
+      // navigation.navigate("HomeScreen")
+      navigation.navigate("Home");
+      // setError("Något gick fel vid inloggningen");
     } catch (error) {
       console.error("Login error", error);
       setError("Något gick fel vid inlogggningen")
@@ -103,6 +103,8 @@ const LoginScreen = ({ navigation }) => {
             ><Text>Logga in</Text></AnimatedButton>
           </View>
         </View>
+
+        
       </ImageBackground>
     </SafeAreaView>
 
