@@ -202,272 +202,272 @@ const FlatListLocation = ({
         <View style={styles.tapArea} onTouchEnd={() => onSelect(item.id)} />
       </View>
     );
-  };  
+  };
 
   const onButtonPress = () => {
     if (selectedId) {
       const chosen = locations.find(loc => loc.id === selectedId);
-          console.log('Vald plats:', chosen);
+      console.log('Vald plats:', chosen);
 
-          // Navigate to WorkerStatus with location data
-          navigation.navigate('WorkerStatus', {
-            location: chosen,
-          safetyData: safetyData
+      navigation.navigate('WorkerStatus', {
+        location: chosen,
+        safetyData: safetyData,
+        resetStatus: true  
       });
-      
+
     } else {
-            Alert.alert('Varning', 'Vänligen välj en plats först!');
+      Alert.alert('Varning', 'Vänligen välj en plats först!');
     }
   };
 
-          if (loading) {
+  if (loading) {
     return (
-          <SafeAreaProvider>
-            <SafeAreaView style={styles.container}>
-              <View style={styles.loadingContainer}>
-                <MaterialCommunityIcons
-                  name="loading"
-                  size={32}
-                  color={theme.primary}
-                />
-                <Text style={[styles.loadingText, { color: theme.textPrimary }]}>
-                  Laddar övervakningsplatser...
-                </Text>
-              </View>
-            </SafeAreaView>
-          </SafeAreaProvider>
-          );
+      <SafeAreaProvider>
+        <SafeAreaView style={styles.container}>
+          <View style={styles.loadingContainer}>
+            <MaterialCommunityIcons
+              name="loading"
+              size={32}
+              color={theme.primary}
+            />
+            <Text style={[styles.loadingText, { color: theme.textPrimary }]}>
+              Laddar övervakningsplatser...
+            </Text>
+          </View>
+        </SafeAreaView>
+      </SafeAreaProvider>
+    );
   }
 
-          return (
-          <SafeAreaProvider>
-            <SafeAreaView style={styles.container}>
-              {/* Header */}
-              <View style={styles.header}>
-                <MaterialCommunityIcons
-                  name="map-marker-multiple"
-                  size={28}
-                  color={theme.primary}
-                />
-                <View style={styles.headerTextContainer}>
-                  <Text style={[styles.headerTitle, { color: theme.textPrimary }]}>
-                    Övervakningsplatser
-                  </Text>
-                  <Text style={[styles.headerSubtitle, { color: theme.textSecondary }]}>
-                    Välj plats för vattenövervakning
-                  </Text>
-                </View>
-              </View>
+  return (
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        {/* Header */}
+        <View style={styles.header}>
+          <MaterialCommunityIcons
+            name="map-marker-multiple"
+            size={28}
+            color={theme.primary}
+          />
+          <View style={styles.headerTextContainer}>
+            <Text style={[styles.headerTitle, { color: theme.textPrimary }]}>
+              Övervakningsplatser
+            </Text>
+            <Text style={[styles.headerSubtitle, { color: theme.textSecondary }]}>
+              Välj plats för vattenövervakning
+            </Text>
+          </View>
+        </View>
 
-              {/* Statistics */}
-              <View style={styles.statsContainer}>
-                <View style={[styles.statItem, { backgroundColor: theme.colors?.errorLight || '#FFE6E6' }]}>
-                  <Text style={[styles.statNumber, { color: theme.colors?.error || '#FF4444' }]}>
-                    {locations.filter(l => l.waterlevel >= 8).length}
-                  </Text>
-                  <Text style={[styles.statLabel, { color: theme.textSecondary }]}>Kritisk</Text>
-                </View>
-                <View style={[styles.statItem, { backgroundColor: theme.colors?.warningLight || '#FFF4E6' }]}>
-                  <Text style={[styles.statNumber, { color: theme.colors?.warning || '#FF8800' }]}>
-                    {locations.filter(l => l.waterlevel >= 6 && l.waterlevel < 8).length}
-                  </Text>
-                  <Text style={[styles.statLabel, { color: theme.textSecondary }]}>Hög risk</Text>
-                </View>
-                <View style={[styles.statItem, { backgroundColor: theme.colors?.successLight || '#E8F5E8' }]}>
-                  <Text style={[styles.statNumber, { color: theme.colors?.success || '#4CAF50' }]}>
-                    {locations.filter(l => l.waterlevel < 6).length}
-                  </Text>
-                  <Text style={[styles.statLabel, { color: theme.textSecondary }]}>Normal</Text>
-                </View>
-              </View>
+        {/* Statistics */}
+        <View style={styles.statsContainer}>
+          <View style={[styles.statItem, { backgroundColor: theme.colors?.errorLight || '#FFE6E6' }]}>
+            <Text style={[styles.statNumber, { color: theme.colors?.error || '#FF4444' }]}>
+              {locations.filter(l => l.waterlevel >= 8).length}
+            </Text>
+            <Text style={[styles.statLabel, { color: theme.textSecondary }]}>Kritisk</Text>
+          </View>
+          <View style={[styles.statItem, { backgroundColor: theme.colors?.warningLight || '#FFF4E6' }]}>
+            <Text style={[styles.statNumber, { color: theme.colors?.warning || '#FF8800' }]}>
+              {locations.filter(l => l.waterlevel >= 6 && l.waterlevel < 8).length}
+            </Text>
+            <Text style={[styles.statLabel, { color: theme.textSecondary }]}>Hög risk</Text>
+          </View>
+          <View style={[styles.statItem, { backgroundColor: theme.colors?.successLight || '#E8F5E8' }]}>
+            <Text style={[styles.statNumber, { color: theme.colors?.success || '#4CAF50' }]}>
+              {locations.filter(l => l.waterlevel < 6).length}
+            </Text>
+            <Text style={[styles.statLabel, { color: theme.textSecondary }]}>Normal</Text>
+          </View>
+        </View>
 
-              {/* Location List */}
-              <FlatList
-                data={locations}
-                renderItem={renderItem}
-                keyExtractor={item => item.id.toString()}
-                style={styles.flatList}
-                contentContainerStyle={styles.flatListContent}
-                showsVerticalScrollIndicator={false}
-                ItemSeparatorComponent={() => <View style={styles.separator} />}
-              />
+        {/* Location List */}
+        <FlatList
+          data={locations}
+          renderItem={renderItem}
+          keyExtractor={item => item.id.toString()}
+          style={styles.flatList}
+          contentContainerStyle={styles.flatListContent}
+          showsVerticalScrollIndicator={false}
+          ItemSeparatorComponent={() => <View style={styles.separator} />}
+        />
 
-              {/* Action Button */}
-              <View style={styles.buttonContainer}>
-                <AnimatedButton
-                  title="Påbörja övervakning"
-                  onPress={onButtonPress}
-                  style={[styles.actionButton, {
-                    backgroundColor: selectedId ? theme.primary : theme.disabled,
-                    opacity: selectedId ? 1 : 0.6
-                  }]}
-                  disabled={!selectedId}
-                />
-              </View>
-            </SafeAreaView>
-          </SafeAreaProvider>
-          );
+        {/* Action Button */}
+        <View style={styles.buttonContainer}>
+          <AnimatedButton
+            title="Påbörja övervakning"
+            onPress={onButtonPress}
+            style={[styles.actionButton, {
+              backgroundColor: selectedId ? theme.primary : theme.disabled,
+              opacity: selectedId ? 1 : 0.6
+            }]}
+            disabled={!selectedId}
+          />
+        </View>
+      </SafeAreaView>
+    </SafeAreaProvider>
+  );
 };
 
-          export default FlatListLocation;
+export default FlatListLocation;
 
 const createStyles = (theme) =>
-          StyleSheet.create({
-            container: {
-            flex: 1,
-          backgroundColor: theme.background,
-          paddingHorizontal: 16,
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.background,
+      paddingHorizontal: 16,
     },
 
-          header: {
-            flexDirection: 'row',
-          alignItems: 'center',
-          paddingVertical: 20,
-          paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight + 10 : 10,
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: 20,
+      paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight + 10 : 10,
     },
-          headerTextContainer: {
-            marginLeft: 12,
-          flex: 1,
+    headerTextContainer: {
+      marginLeft: 12,
+      flex: 1,
     },
-          headerTitle: {
-            fontSize: 24,
-          fontWeight: 'bold',
+    headerTitle: {
+      fontSize: 24,
+      fontWeight: 'bold',
     },
-          headerSubtitle: {
-            fontSize: 14,
-          marginTop: 2,
-    },
-
-          // Statistics Styles
-          statsContainer: {
-            flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginBottom: 20,
-    },
-          statItem: {
-            flex: 1,
-          alignItems: 'center',
-          paddingVertical: 12,
-          marginHorizontal: 4,
-          borderRadius: 12,
-    },
-          statNumber: {
-            fontSize: 20,
-          fontWeight: 'bold',
-    },
-          statLabel: {
-            fontSize: 12,
-          marginTop: 2,
+    headerSubtitle: {
+      fontSize: 14,
+      marginTop: 2,
     },
 
-          flatList: {
-            flex: 1,
+    // Statistics Styles
+    statsContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginBottom: 20,
     },
-          flatListContent: {
-            paddingBottom: 20,
+    statItem: {
+      flex: 1,
+      alignItems: 'center',
+      paddingVertical: 12,
+      marginHorizontal: 4,
+      borderRadius: 12,
     },
-          separator: {
-            height: 8,
+    statNumber: {
+      fontSize: 20,
+      fontWeight: 'bold',
     },
-
-          // Item Styles
-          itemContainer: {
-            borderRadius: 16,
-          marginVertical: 4,
-          elevation: 2,
-          shadowColor: '#000',
-          shadowOffset: {width: 0, height: 2 },
-          shadowOpacity: 0.1,
-          shadowRadius: 4,
-          position: 'relative',
-    },
-          selectedItem: {
-            elevation: 4,
-          shadowOpacity: 0.2,
-          transform: [{scale: 0.98 }],
-    },
-          itemContent: {
-            flexDirection: 'row',
-          padding: 16,
-          alignItems: 'flex-start',
-    },
-          tapArea: {
-            position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
+    statLabel: {
+      fontSize: 12,
+      marginTop: 2,
     },
 
-          priorityBadge: {
-            flexDirection: 'row',
-          alignItems: 'center',
-          paddingHorizontal: 8,
-          paddingVertical: 4,
-          borderRadius: 12,
-          alignSelf: 'flex-start',
+    flatList: {
+      flex: 1,
     },
-          priorityText: {
-            color: 'white',
-          fontSize: 10,
-          fontWeight: 'bold',
-          marginLeft: 4,
+    flatListContent: {
+      paddingBottom: 20,
+    },
+    separator: {
+      height: 8,
     },
 
-          locationInfo: {
-            flex: 1,
-          marginLeft: 12,
-          marginRight: 8,
+    // Item Styles
+    itemContainer: {
+      borderRadius: 16,
+      marginVertical: 4,
+      elevation: 2,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      position: 'relative',
     },
-          locationTitle: {
-            fontSize: 16,
-          fontWeight: '600',
-          marginBottom: 4,
+    selectedItem: {
+      elevation: 4,
+      shadowOpacity: 0.2,
+      transform: [{ scale: 0.98 }],
     },
-          locationDescription: {
-            fontSize: 13,
-          lineHeight: 18,
-          marginBottom: 8,
+    itemContent: {
+      flexDirection: 'row',
+      padding: 16,
+      alignItems: 'flex-start',
     },
-          detailsRow: {
-            flexDirection: 'row',
-          alignItems: 'center',
-    },
-          waterLevel: {
-            fontSize: 14,
-          fontWeight: '600',
-          marginLeft: 4,
-    },
-          coordinates: {
-            fontSize: 12,
-          marginLeft: 4,
-    },
-
-          selectionArea: {
-            justifyContent: 'center',
-          alignItems: 'center',
-          width: 40,
+    tapArea: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
     },
 
-          loadingContainer: {
-            flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
+    priorityBadge: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: 8,
+      paddingVertical: 4,
+      borderRadius: 12,
+      alignSelf: 'flex-start',
     },
-          loadingText: {
-            fontSize: 16,
-          marginTop: 12,
-          textAlign: 'center',
+    priorityText: {
+      color: 'white',
+      fontSize: 10,
+      fontWeight: 'bold',
+      marginLeft: 4,
     },
 
-          buttonContainer: {
-            paddingVertical: 16,
-          paddingBottom: Platform.OS === 'ios' ? 32 : 16,
+    locationInfo: {
+      flex: 1,
+      marginLeft: 12,
+      marginRight: 8,
     },
-          actionButton: {
-            borderRadius: 12,
-          paddingVertical: 16,
-          alignItems: 'center',
-          justifyContent: 'center',
+    locationTitle: {
+      fontSize: 16,
+      fontWeight: '600',
+      marginBottom: 4,
+    },
+    locationDescription: {
+      fontSize: 13,
+      lineHeight: 18,
+      marginBottom: 8,
+    },
+    detailsRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    waterLevel: {
+      fontSize: 14,
+      fontWeight: '600',
+      marginLeft: 4,
+    },
+    coordinates: {
+      fontSize: 12,
+      marginLeft: 4,
+    },
+
+    selectionArea: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: 40,
+    },
+
+    loadingContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    loadingText: {
+      fontSize: 16,
+      marginTop: 12,
+      textAlign: 'center',
+    },
+
+    buttonContainer: {
+      paddingVertical: 16,
+      paddingBottom: Platform.OS === 'ios' ? 32 : 16,
+    },
+    actionButton: {
+      borderRadius: 12,
+      paddingVertical: 16,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
   });

@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { fetchSafety } from '../services/api';
-import FlatListLocation from '../components/FlatListLocation';
+import PickLocation from '../components/PickLocation';
 
 const SettingsScreen = () => {
   const [safety, setSafety] = useState([]);
@@ -20,7 +20,7 @@ const SettingsScreen = () => {
   return (
     <ScrollView>
     <View style={styles.container}>
-      <FlatListLocation/>
+      <PickLocation/>
 {/*     
       {safety.map((item) => (
         <View key={item.id} style={styles.item}>

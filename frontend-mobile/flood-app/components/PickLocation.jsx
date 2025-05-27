@@ -7,6 +7,60 @@ import { fetchSafety } from '../services/api';
 
 const { width: screenWidth } = Dimensions.get('window');
 
+// Mock data for fallback
+const mockLocationData = [
+  {
+    id: 1,
+    location: "Göta älv - Göteborg",
+    waterlevel: 8,
+    priority: "critical",
+    description: "Kritisk vattennivå vid centrala Göteborg",
+    coordinates: "57.7089, 11.9746"
+  },
+  {
+    id: 2,
+    location: "Motala ström - Norrköping",
+    waterlevel: 6,
+    priority: "high",
+    description: "Förhöjd vattennivå i industriområdet",
+    coordinates: "58.5877, 16.1924"
+  },
+  {
+    id: 3,
+    location: "Dalälven - Gävle",
+    waterlevel: 9,
+    priority: "critical",
+    description: "Mycket hög vattennivå - översvämningsrisk",
+    coordinates: "60.6749, 17.1413"
+  },
+  {
+    id: 4,
+    location: "Klarälven - Karlstad",
+    waterlevel: 4,
+    priority: "medium",
+    description: "Normala nivåer men kräver övervakning",
+    coordinates: "59.3793, 13.5036"
+  },
+  {
+    id: 5,
+    location: "Lule älv - Luleå",
+    waterlevel: 7,
+    priority: "high",
+    description: "Stigande vattennivåer vid kraftverket",
+    coordinates: "65.5841, 22.1547"
+  },
+  {
+    id: 6,
+    location: "Fyrisån - Uppsala",
+    waterlevel: 3,
+    priority: "low",
+    description: "Låga vattennivåer, ingen omedelbar risk",
+    coordinates: "59.8586, 17.6389"
+  }
+];
+
+const USE_MOCK_DATA = true; // Set to false to use real API
+
 const PickLocation = ({ navigation }) => {
   const { theme } = useTheme();
   const [safety, setSafety] = useState([]);
@@ -18,11 +72,22 @@ const PickLocation = ({ navigation }) => {
     const getSafety = async () => {
       try {
         setLoading(true);
-        const safetyData = await fetchSafety();
-        setSafety(safetyData);
-        console.log('Safety data loaded:', safetyData);
+        
+        if (USE_MOCK_DATA) {
+          // Simulate API delay
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          setSafety(mockLocationData);
+          console.log('🧪 Using mock safety data in PickLocation');
+        } else {
+          const safetyData = await fetchSafety();
+          setSafety(safetyData);
+          console.log('Safety data loaded:', safetyData);
+        }
       } catch (error) {
         console.error('Kunde inte hämta säkerhetsdata:', error);
+        // Fallback to mock data on error
+        console.log('📦 Falling back to mock data due to error');
+        setSafety(mockLocationData);
       } finally {
         setLoading(false);
       }
@@ -33,45 +98,22 @@ const PickLocation = ({ navigation }) => {
 
   const handleLocationSelect = (selectedLocation) => {
     console.log('📍 Location selected:', selectedLocation);
-    a
-    navigation.navigate('SelectedLocationCard', {
+    
+    navigation.navigate('WorkerStatus', {
       location: selectedLocation,
-      safetyData: safety
+      safetyData: safety,
+      resetStatus: true
     });
-
   };
 
   return (
     <View style={styles.container}>
-      {/* Instruction Header */}
-      <View style={styles.instructionContainer}>
-        <View style={styles.instructionContent}>
-          <View style={styles.iconContainer}>
-            <MaterialIcons 
-              name="info-outline" 
-              size={24} 
-              color={theme.primary} 
-            />
-          </View>
-          <View style={styles.instructionTextContainer}>
-            <Text style={[styles.instructionTitle, { color: theme.textPrimary }]}>
-              Välj arbetsplats
-            </Text>
-            <Text style={[styles.instructionText, { color: theme.textSecondary }]}>
-              Välj en övervakningsplats för att börja arbeta. Du kan se vattennivåer och riskstatus för varje plats.
-            </Text>
-          </View>
-        </View>
-      </View>
-
-      {/* Location List */}
-      <View style={styles.listContainer}>
-        <FlatListLocation 
-          onLocationSelect={handleLocationSelect}
-          safetyData={safety}
-          loading={loading}
-        />
-      </View>
+      {/* Location List - FlatListLocation handles its own header */}
+      <FlatListLocation
+        onLocationSelect={handleLocationSelect}
+        safetyData={safety}
+        loading={loading}
+      />
     </View>
   );
 };
@@ -80,52 +122,6 @@ const createStyles = (theme) => StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.background,
-  },
-  
-  instructionContainer: {
-    backgroundColor: theme.card,
-    margin: 16,
-    marginBottom: 8,
-    padding: 20,
-    borderRadius: 16,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-  },
-  
-  instructionContent: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  
-  iconContainer: {
-    backgroundColor: theme.primaryLight || theme.primary + '20',
-    padding: 8,
-    borderRadius: 12,
-    marginRight: 16,
-  },
-  
-  instructionTextContainer: {
-    flex: 1,
-  },
-  
-  instructionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 6,
-  },
-  
-  instructionText: {
-    fontSize: 14,
-    lineHeight: 20,
-    fontWeight: '400',
-  },
-  
-  listContainer: {
-    flex: 1,
-    paddingHorizontal: 0,
   },
 });
 

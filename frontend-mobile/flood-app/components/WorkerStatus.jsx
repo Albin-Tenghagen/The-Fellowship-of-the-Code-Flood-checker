@@ -9,9 +9,8 @@ import TimeStats from './TimeStats';
 
 const WorkerStatus = ({ route }) => {
   const { theme } = useTheme();
+  const { location = null, safetyData = [], resetStatus = false } = route?.params || {};
 
-  const { location = null, safetyData = [] } = route?.params || {};
-  
   const STATUS = {
     NOT_STARTED: 'Ej påbörjad',
     ON_SITE: 'På plats',
@@ -144,6 +143,21 @@ const WorkerStatus = ({ route }) => {
   const togglePause = () => {
     setIsPaused(!isPaused);
   };
+  useEffect(() => {
+    if (resetStatus) {
+      setStatus(STATUS.NOT_STARTED);
+      setTimeLeft(null);
+      setStartTime(null);
+      setIsPaused(false);
+      setEstimatedTime(60 * 60);
+
+      // Reset animations
+      progressAnimation.setValue(0);
+      statusFade.setValue(1);
+      cardScale.setValue(1);
+      pulseAnimation.setValue(1);
+    }
+  }, [resetStatus]);
 
   const stopWork = () => {
     setStatus(STATUS.ON_SITE);
