@@ -8,6 +8,9 @@ import ProgressControls from './ProgressControls';
 import TimeStats from './TimeStats';
 
 
+
+import { formatTime, getElapsedTime, getStatusColor } from '../components/RenderTimelineProgress';
+
 const WorkerStatus = ({ location = null }) => {
   const { theme } = useTheme();
   const STATUS = {

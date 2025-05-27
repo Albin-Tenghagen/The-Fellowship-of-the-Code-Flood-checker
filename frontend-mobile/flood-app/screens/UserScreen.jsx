@@ -61,133 +61,36 @@ const UserScreen = () => {
     return () => clearInterval(intervalId);
   }, []);
 
+  const { logout } = useAuth();
+  
+
   return (
-    <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.statusContainer}>
-          <WorkerStatus />
-        </View>
+    <ScrollView style={styles.scroll} contentContainerStyle={styles.container}>
+      <View style={styles.statusContainer}>
+        <AnimatedButton style={styles.button} title="Logga ut" onPress={logout}/>
+        
 
-        <InfrastructureIssuesCard
-          title="Aktuella problem"
-          width="90%"
-          maxItems={1}
-        />
-
-        <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-          Nuvarande vattenövervakning
-        </Text>
-
-        <View style={styles.cardContainer}>
-          <WaterLevelCard
-            title="Vattennivå"
-            parameter="ultraSoundLevel"
-            width="45%"
-            icon="water"
-            loading={loading}
-            value={weatherData.ultraSoundLevel}
-            titleColor={theme.textPrimary}
-            valueColor={theme.textPrimary}
-            timestampColor={theme.textPrimary}
-          />
-          <WaterLevelCard
-            title="Trycknivå"
-            parameter="pressureLevel"
-            width="45%"
-            icon="gauge"
-            loading={loading}
-            value={weatherData.pressureLevel}
-            titleColor={theme.primary}
-            valueColor={theme.textPrimary}
-            timestampColor={theme.textPrimary}
-          />
-        </View>
-
-        <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-          Väderförhållanden
-        </Text>
-
-        <View style={styles.cardContainer}>
-          <WaterLevelCard
-            title="Temperatur"
-            parameter="temperature"
-            width="45%"
-            icon="thermometer"
-            loading={loading}
-            value={weatherData.temperature}
-            titleColor={theme.primary}
-            valueColor={theme.textPrimary}
-            timestampColor={theme.textPrimary}
-          />
-          <WaterLevelCard
-            title="Luftfuktighet"
-            parameter="humidity"
-            width="45%"
-            icon="water-percent"
-            loading={loading}
-            value={weatherData.humidity}
-            titleColor={theme.primary}
-            valueColor={theme.textPrimary}
-            timestampColor={theme.textPrimary}
-          />
-        </View>
-
-        <View style={styles.cardContainer}>
-          <WaterLevelCard
-            title="Lufttryck"
-            parameter="airPressure"
-            width="45%"
-            icon="weather-windy"
-            loading={loading}
-            value={weatherData.airPressure}
-            titleColor={theme.primary}
-            valueColor={theme.textPrimary}
-            timestampColor={theme.textPrimary}
-          />
-          <WaterLevelCard
-            title="Jordfuktighet"
-            parameter="soilMoisture"
-            width="45%"
-            icon="water-percent"
-            loading={loading}
-            value={weatherData.soilMoisture}
-            titleColor={theme.primary}
-            valueColor={theme.textPrimary}
-            timestampColor={theme.textPrimary}
-          />
-        </View>
-      </ScrollView>
-    </View>
-  )
-}
-
+        <PickLocation />
+      </View>
+    </ScrollView>
+  );
+};
 export default UserScreen
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+
+  scroll: {
+    flex:1,
+    backgroundColor: '#fff',
   },
-  scrollContainer: {
-    paddingBottom: 40,
+  container: {
+   
+    padding: 16,
   },
   statusContainer: {
     zIndex: 1,
   },
   mapContainer: {
     flex: 1,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginLeft: 20,
-    marginTop: 16,
-    marginBottom: 8,
-  },
-  cardContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignContent: 'center',
-    justifyContent: 'center',
-    paddingVertical: 8,
-  },
+  }
 })
+
