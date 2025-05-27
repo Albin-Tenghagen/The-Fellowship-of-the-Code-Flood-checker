@@ -181,8 +181,6 @@ const Navigation = () => {
           />
         )}
 
-
-
         {token && (
           <>
             <Tab.Screen
@@ -217,7 +215,7 @@ const Navigation = () => {
                 headerTitle: "Arbetsstatus",
               }}
             />
-            <Tab.Screen
+            {/* <Tab.Screen
               name="Setting"
               component={SettingsScreen}
               options={{
@@ -239,7 +237,7 @@ const Navigation = () => {
                   </Text>
                 ),
               }}
-            />
+            /> */}
 
           </>
         )}

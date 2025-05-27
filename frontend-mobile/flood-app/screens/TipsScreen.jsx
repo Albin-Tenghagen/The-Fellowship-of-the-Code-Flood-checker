@@ -1,7 +1,9 @@
-import { View, ScrollView, StyleSheet, Text } from 'react-native';
+import { View, ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { useTheme } from '../themes/ThemeContext';
 import TipInputCard from '../components/TipInputCard';
 import { useTips } from '../context/TipsContext';
+import { MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const TipsScreen = ({
     backgroundColor = null,
@@ -11,6 +13,7 @@ const TipsScreen = ({
 }) => {
     const { theme } = useTheme();
     const { triggerRefresh } = useTips();
+    const navigation = useNavigation();
 
     return (
         <View style={[styles.container, { backgroundColor: backgroundColor || theme.background }]}>
@@ -26,6 +29,13 @@ const TipsScreen = ({
                     textColor={theme.textPrimary}
                     iconColor={theme.primary}
                 />
+                <TouchableOpacity
+                    onPress={() => navigation.goBack()}
+                    style={[styles.button, { backgroundColor: theme.primary }]}
+                >
+                    <MaterialIcons name="arrow-back" size={28} color={theme.secondary} />
+                </TouchableOpacity>
+
             </ScrollView>
         </View>
     );
@@ -38,13 +48,19 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     scrollContainer: {
-        padding: 16,
+        padding: 6,
         alignItems: 'center',
     },
     screenTitle: {
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: 'bold',
-        marginVertical: 16,
+        marginVertical: 6,
         textAlign: 'center',
+    },
+    button: {
+        flex: 1,
+        padding: 10,
+        borderRadius: 8,
+        alignItems: 'center',
     },
 });

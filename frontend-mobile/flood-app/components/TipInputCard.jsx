@@ -165,8 +165,8 @@ export default TipInputCard;
 const styles = StyleSheet.create({
   card: {
     borderRadius: 8,
-    padding: 16,
-    margin: 16,
+    padding: 10,
+    margin: 10,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   inputContainer: {
-    marginBottom: 16,
+    marginBottom: 10,
   },
   label: {
     fontSize: 14,
