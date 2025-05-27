@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { useTheme } from '../themes/ThemeContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { postTip } from '../services/api';
+import { postUserTip } from '../services/firebaseUtils';
+
 
 const TipInputCard = ({
   title = 'Skicka in tips',
@@ -19,6 +21,7 @@ const TipInputCard = ({
   const [tipText, setTipText] = useState('');
   const [location, setLocation] = useState('');
   const [loading, setLoading] = useState(false);
+  const [userName, setUserName] = useState('');
 
   const handleSubmitTip = async () => {
     try {
@@ -28,17 +31,20 @@ const TipInputCard = ({
         description: tipText.trim(),
         location: location.trim(),
         timestamp: new Date().toISOString(),
-        user: 'Anonym',
+        user: userName.trim() || 'Anonym',
       };
 
       console.log('Submitting tip:', tipData);
-      
+
       if (!offlineMode) {
-        await postTip(tipData);
+        // await postTip(tipData);
+        console.log(tipData);
+        await postUserTip(tipData);
       }
 
       setTipText('');
       setLocation('');
+      setUserName('');
 
       if (onTipSubmitted) {
         onTipSubmitted(tipData);
@@ -76,17 +82,34 @@ const TipInputCard = ({
       </View>
 
       <View style={styles.inputContainer}>
+        <Text style={[styles.label, { color: textColor || theme.textPrimary }]}>Namn (frilvilligt)</Text>
+        <TextInput
+          style={[
+            styles.input,
+            {
+              backgroundColor: theme.inputBackground,
+              color: inputTextColor || theme.placeholderText
+            },
+          ]}
+          placeholder="Ange ditt namn"
+          placeholderTextColor={placeholderTextColor || theme.textPrimary}
+          value={userName}
+          onChangeText={setUserName}
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
         <Text style={[styles.label, { color: textColor || theme.textPrimary }]}>Plats</Text>
         <TextInput
           style={[
-            styles.input, 
-            { 
-              backgroundColor: theme.inputBackground, 
-              color: inputTextColor || theme.placeholderText 
+            styles.input,
+            {
+              backgroundColor: theme.inputBackground,
+              color: inputTextColor || theme.placeholderText
             },
           ]}
           placeholder="Ange plats"
-          placeholderTextColor={placeholderTextColor || theme.textPrimary }
+          placeholderTextColor={placeholderTextColor || theme.textPrimary}
           value={location}
           onChangeText={setLocation}
         />
@@ -97,13 +120,13 @@ const TipInputCard = ({
         <TextInput
           style={[
             styles.input,
-            { 
-              backgroundColor: theme.inputBackground, 
-              color: inputTextColor || theme.placeholderText  
+            {
+              backgroundColor: theme.inputBackground,
+              color: inputTextColor || theme.placeholderText
             },
           ]}
           placeholder="Beskriv ditt tips här..."
-          placeholderTextColor={placeholderTextColor || theme.textPrimary }
+          placeholderTextColor={placeholderTextColor || theme.textPrimary}
           multiline
           numberOfLines={4}
           textAlignVertical="top"
@@ -114,6 +137,8 @@ const TipInputCard = ({
           {tipText.length}/280 tecken
         </Text>
       </View>
+
+
 
       <TouchableOpacity
         style={[

@@ -35,7 +35,6 @@ const TipsScreen = ({
                     title="Skicka in ditt tips"
                     width="90%"
                     onTipSubmitted={handleTipSubmitted}
-                    offlineMode={true}
                     backgroundColor={cardBackgroundColor}
                     textColor={theme.textPrimary}
                     iconColor={theme.primary}

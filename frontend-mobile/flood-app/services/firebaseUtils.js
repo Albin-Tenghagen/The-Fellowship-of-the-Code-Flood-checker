@@ -143,6 +143,26 @@ export const uploadMockUserTips = async (teamId = "teamFlood") => {
   }
 };
 
+// Tips från EJ inloggad user
+export const postUserTip = async (tip, teamId = "teamFlood") => {
+
+  console.log(tip);
+  try {
+    const newTip = {
+      ...tip,
+      timestamp: new Date().toISOString(),
+      user: tip.user || "Anonym",
+    };
+
+    await addDoc(collection(db, "projects", teamId, "tips"), newTip);
+    console.log("Tips uppladdat:", newTip);
+    return newTip;
+  } catch (error) {
+    console.error("Fel vid uppladdning av tips:", error);
+    throw error;
+  }
+};
+
 export const getUserTips = async (teamId = "teamFlood") => {
   try {
     const snapshot = await getDocs(collection(db, "projects", teamId, "tips"));
