@@ -9,7 +9,7 @@ const FlatListLocation = ({ onSend }) => {
   if (!onSend) {
     console.warn("Prop 'onLocationSelect' saknas i FlatListLocation");
   }
-  
+
   const { theme } = useTheme();
   const [locationData, setLocationData] = useState(null);
   const [locations, setLocations] = useState([]);
@@ -31,56 +31,51 @@ const FlatListLocation = ({ onSend }) => {
       } catch (error) {
         console.error('API-fel, använder mockdata:', error);
         console.log('🧪 Använder mock location data');
-        
+
         // Mock data - samma som dina sensor logs visar
         const mockLocations = [
           {
-            id: 1,
-            location: 'Trädgård A',
-            description: 'Huvudträdgård med olika sensorer',
-            waterlevel: 8,
-            sensors: ['temperatur', 'luftfuktighet', 'jordmoisture', 'vattennivå'],
-            lastUpdate: '2025-05-26 10:30:15',
-            batteryLevel: 87
+            "id": 1001,
+            "timestamp": "18/4-25",
+            "location": "Nordvästra Eslöv",
+            "description": "Mätstation vid västra Asmundtorp har mätt ett förhöjt vattenstånd med ${waterlevel}",
+            "proactiveActions": {
+              "basementProtection": "Boende i Asmundtorp bör hålla uppsikt. så vatten ej tränger in i källare. Vattennivån är aningen riskfylld",
+              "trenchDigging": "Ej nödvändigt i nuläget",
+              "electricHazards": "Kolla trädgården efter elektriska saker "
+            }
           },
           {
-            id: 2,
-            location: 'Växthus B',
-            description: 'Växthus med klimatkontroll',
-            waterlevel: 6,
-            sensors: ['temperatur', 'luftfuktighet', 'ljusnivå'],
-            lastUpdate: '2025-05-26 10:28:45',
-            batteryLevel: 92
+            "id": 1002,
+            "timestamp": "11/4-25",
+            "location": "Haparanda",
+            "description": "Mätstation vid östra Asmundtorp har mätt ett förhöjt vattenstånd med ${waterlevel}",
+            "proactiveActions": {
+              "basementProtection": "Boende i Asmundtorp bör hålla uppsikt. så vatten ej tränger in i källare. Vattennivån är aningen riskfylld",
+              "trenchDigging": "Ej nödvändigt i nuläget",
+              "electricHazards": "Kolla trädgården efter elektriska saker "
+            }
           },
           {
-            id: 3,
-            location: 'Kompostområde C',
-            description: 'Kompostbehållare med temperatursensor',
-            waterlevel: 4,
-            sensors: ['temperatur', 'lufttryck'],
-            lastUpdate: '2025-05-26 10:25:30',
-            batteryLevel: 78
+            "id": 1003,
+            "timestamp": "2025-04-21 08:40:23.682",
+            "location": "SydÖstra eslöv",
+            "description": "vatten upp till knäna inte bra alls",
+            "proactiveActions": {
+              "basementProtection": "Är en bra idé, Lägg påsar med sand vid glippor och dylikt"
+            }
           },
           {
-            id: 4,
-            location: 'Bevattningssystem D',
-            description: 'Automatiskt bevattningssystem',
-            waterlevel: 9,
-            sensors: ['vattentryck', 'flöde', 'jordmoisture'],
-            lastUpdate: '2025-05-26 10:32:12',
-            batteryLevel: 95
-          },
-          {
-            id: 5,
-            location: 'Södra Rabatt E',
-            description: 'Blomrabatt i södra delen',
-            waterlevel: 3,
-            sensors: ['jordmoisture', 'ljusnivå'],
-            lastUpdate: '2025-05-26 10:20:18',
-            batteryLevel: 65
+            "id": 1004,
+            "timestamp": "2025-04-21 10:44:49 undefined",
+            "location": "SydÖstra eslöv",
+            "description": "vatten upp till knäna inte bra alls",
+            "proactiveActions": {
+              "basementProtection": "kattsand är absorberande"
+            }
           }
         ];
-        
+
         // Sortera efter vattennivå (högst först)
         mockLocations.sort((a, b) => b.waterlevel - a.waterlevel);
         setLocations(mockLocations);
@@ -114,37 +109,6 @@ const FlatListLocation = ({ onSend }) => {
     }
   };
 
-  // Create styles using StyleSheet.create and theme
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: theme.backgroundColor || '#fff',
-      padding: 16,
-    },
-    loadingContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: theme.backgroundColor || '#fff',
-    },
-    font: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      color: theme.textColor || '#000',
-      marginBottom: 16,
-      textAlign: 'center',
-    },
-    flatListContainer: {
-      paddingBottom: 20,
-    },
-    button: {
-      marginTop: 20,
-      backgroundColor: theme.primaryColor || '#007AFF',
-      padding: 12,
-      borderRadius: 8,
-    },
-  });
-
   if (loading) {
     return (
       <SafeAreaView style={styles.loadingContainer}>
@@ -170,5 +134,37 @@ const FlatListLocation = ({ onSend }) => {
     </SafeAreaView>
   );
 };
+
+// Create styles using StyleSheet.create and theme
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: theme.backgroundColor || '#fff',
+    padding: 16,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: theme.backgroundColor || '#fff',
+  },
+  font: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: theme.textColor || '#000',
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  flatListContainer: {
+    paddingBottom: 20,
+  },
+  button: {
+    marginTop: 20,
+    backgroundColor: theme.primaryColor || '#007AFF',
+    padding: 12,
+    borderRadius: 8,
+  },
+});
+
 
 export default FlatListLocation;

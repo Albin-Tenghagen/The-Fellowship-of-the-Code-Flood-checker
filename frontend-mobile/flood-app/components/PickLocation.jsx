@@ -5,23 +5,12 @@ import { useTheme } from '../themes/ThemeContext';
 import FlatListLocation from './FlatListLocation';
 import SelectedLocationCard from './SelectedLocationCard';
 import WorkerStatus from './WorkerStatus';
-import { fetchSafety } from '../services/api';
+
 const PickLocation = () => {
   const { theme } = useTheme();
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [isConfirmed, setIsConfirmed] = useState(false);
-  const [safety, setSafety] = useState([]);
-  useEffect(() => {
-    const getSafety = async () => {
-      try {
-        const safetyData = await fetchSafety();
-        setSafety(safetyData);
-      } catch (error) {
-        console.log('Kunde inte hämta säkerhetsdata:', error);
-      }
-    };
-    getSafety();
-  }, []);
+
   const handleLocationSelect = (location) => {
     setSelectedLocation(location);
     setIsConfirmed(false);
@@ -33,13 +22,14 @@ const PickLocation = () => {
     setSelectedLocation(null);
     setIsConfirmed(false);
   };
+
   if (!selectedLocation) {
     return (
       <View style={[styles.instructionContainer, { backgroundColor: theme.backgroundTertiary }]}>
         <View style={styles.instructionContent}>
           <MaterialIcons name="info-outline" size={20} color={theme.primary} />
           <Text style={[styles.instructionText, { color: theme.primary }]}>
-            Tryck på en plats för att börja med "På plats" när du anländer till arbetsplatsen.
+            Tryck på en plats för att läsa om situationen på plats
           </Text>
         </View>
         <FlatListLocation onSend={handleLocationSelect} />
@@ -69,7 +59,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   instructionText: {
-    fontSize: 14,
+    fontSize: 12,
     lineHeight: 20,
     marginLeft: 12,
     flex: 1,
