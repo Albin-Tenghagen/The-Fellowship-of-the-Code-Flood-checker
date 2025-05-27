@@ -11,6 +11,7 @@ const FlatListLocation = ({ onSend }) => {
   }
 
   const { theme } = useTheme();
+  const styles = createStyles(theme);
   const [locationData, setLocationData] = useState(null);
   const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -128,43 +129,47 @@ const FlatListLocation = ({ onSend }) => {
       />
       <AnimatedButton
         style={styles.button}
-        title="Läs mer"
+        title="Välj plats"
         onPress={handleButtonPress}
       />
     </SafeAreaView>
   );
 };
 
-// Create styles using StyleSheet.create and theme
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.backgroundColor || '#fff',
-    padding: 16,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: theme.backgroundColor || '#fff',
-  },
-  font: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: theme.textColor || '#000',
-    marginBottom: 16,
-    textAlign: 'center',
-  },
-  flatListContainer: {
-    paddingBottom: 20,
-  },
-  button: {
-    marginTop: 20,
-    backgroundColor: theme.primaryColor || '#007AFF',
-    padding: 12,
-    borderRadius: 8,
-  },
-});
+const createStyles = (theme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.backgroundColor || '#fff',
+      marginTop: StatusBar.currentHeight || 0,
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '95%',
+      height: '100%',
+    },
+    loadingContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: theme.backgroundColor || '#fff',
+    },
+    font: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: theme.textColor || '#000',
+      marginBottom: 16,
+      textAlign: 'center',
+    },
+    flatListContainer: {
+      // paddingBottom: 20,
+    },
+    button: {
+      marginTop: 20,
+      backgroundColor: theme.primaryColor || '#007AFF',
+      padding: 12,
+      borderRadius: 8,
+    },
+  });
 
 
 export default FlatListLocation;
