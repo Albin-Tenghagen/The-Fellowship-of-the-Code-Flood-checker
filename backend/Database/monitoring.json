@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1001,
+    "timestamp": "18/4-25",
+    "airPressure": 32,
+    "soilMoisture": 52,
+    "temperature": 14,
+    "humidity": 43,
+    "pressureLevel": 53,
+    "ultraSoundLevel": 4
+  }
+]

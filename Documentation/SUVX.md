@@ -6,3 +6,4 @@ Vi har fortsatt med SRSen och planering. Vi har också insett att vi behöver fo
 
 2025.04.14
 Vi har jobabt vidare med research på våra olika komponenter. Vissa av oss har också börjat skriva kod för sina komponenter och område. Vi har också insett att det kommer bli svårt att hitta ett simuleringsverktyg som kommer täcka alla sensorer och mikrokontrollerna vi vill använda. Vi har börjat titta på fritzing som verktyg. Vi väntar på vår hårdvara och hoppas verkligen att den kommer snart så vi kan få lägga händerna på den i verkligheten. 
+
