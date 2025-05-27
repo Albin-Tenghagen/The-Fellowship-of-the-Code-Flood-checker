@@ -6,6 +6,7 @@ import WaterLevelCard from '../components/WaterLevelCard';
 import InfoCard from '../components/InfoCard';
 import InfrastructureIssuesCard from '../components/InfrastructureIssuesCard';
 import { useRoute } from '@react-navigation/native';
+import { MaterialIcons } from '@expo/vector-icons';
 // import TipsBoxCard from '../components/TipsBoxCard';
 // import { fetchTips } from '../services/api';
 // import { useUser } from '../context/UserContext';
@@ -115,8 +116,14 @@ const HomeScreen = () => {
         {/* Denna funkar med mockdata???  */}
         <View>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Säkerhetstips
+            Tipsa om problem
           </Text>
+          <View style={styles.instructionContent}>
+            <MaterialIcons name="info-outline" size={20} color={theme.primary} />
+            <Text style={[styles.instructionText, { color: theme.primary }]}>
+              Här kan du tipsa allmänheten om problem i din omgivning - till exempel höga vattenflöden.
+            </Text>
+          </View>
 
           <TouchableOpacity
             style={[styles.navigationCard, { backgroundColor: theme.card }]}
@@ -145,9 +152,6 @@ const HomeScreen = () => {
             </View>
           </TouchableOpacity>
         </View>
-
-
-
       </ScrollView>
     </View>
   );
@@ -164,17 +168,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 8,
     textAlign: 'center',
-
-
   },
   infoCardContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignContent: 'center',
     justifyContent: 'center',
-
-
-
   },
   cardContainer: {
     flexDirection: 'row',
@@ -213,5 +212,17 @@ const styles = StyleSheet.create({
   },
   navigationSubtitle: {
     fontSize: 14,
+  },
+  instructionContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: "center"
+  },
+  instructionText: {
+    fontSize: 12,
+    lineHeight: 20,
+    marginLeft: 12,
+    flex: 1,
+    fontWeight: '500',
   },
 });
