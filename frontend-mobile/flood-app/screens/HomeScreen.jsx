@@ -7,6 +7,9 @@ import InfoCard from '../components/InfoCard';
 import InfrastructureIssuesCard from '../components/InfrastructureIssuesCard';
 import { useRoute } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
+import TipsDisplayCard from '../components/TipsDisplayCard';
+import { useTips } from '../context/TipsContext';
+
 // import TipsBoxCard from '../components/TipsBoxCard';
 // import { fetchTips } from '../services/api';
 // import { useUser } from '../context/UserContext';
@@ -17,6 +20,7 @@ const HomeScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const alertData = route.params?.alert;
+  const { refreshTrigger } = useTips();
 
 
   const navigateToTipsScreen = () => {
@@ -40,10 +44,6 @@ const HomeScreen = () => {
           />
         </View>
 
-        {/* ********************************************************************************* */}
-
-        {/* Denna är prioriterad och kan fungera när UserScreen är "klar" */}
-        {/* Kan mockas vid behov */}
         <View style={{ alignItems: 'center' }}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
             Infrastrukturproblem
@@ -54,8 +54,6 @@ const HomeScreen = () => {
             maxItems={3}
           />
         </View>
-
-
 
         <View>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
@@ -112,18 +110,24 @@ const HomeScreen = () => {
           </View>
         </View>
 
-
-        {/* Denna funkar med mockdata???  */}
+        <TipsDisplayCard
+          title="Varningar från allmänheten"
+          width="90%"
+          maxItems={5}
+          refresh={refreshTrigger}
+          textColor={theme.primary}
+          iconColor={theme.primary}
+        />
         <View>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
             Tipsa om problem
           </Text>
-          <View style={styles.instructionContent}>
+          {/* <View style={styles.instructionContent}>
             <MaterialIcons name="info-outline" size={20} color={theme.primary} />
             <Text style={[styles.instructionText, { color: theme.primary }]}>
               Här kan du tipsa allmänheten om problem i din omgivning - till exempel höga vattenflöden.
             </Text>
-          </View>
+          </View> */}
 
           <TouchableOpacity
             style={[styles.navigationCard, { backgroundColor: theme.card }]}
@@ -141,7 +145,7 @@ const HomeScreen = () => {
                   Skicka tips ifall du ser en risk för översvämning
                 </Text>
                 <Text style={[styles.navigationSubtitle, { color: theme.textPrimary }]}>
-                  Se alla tips eller dela med dig av dina egna
+                  Här kan du tipsa allmänheten och kommunen om till exempel översvämningar
                 </Text>
               </View>
               <MaterialCommunityIcons
