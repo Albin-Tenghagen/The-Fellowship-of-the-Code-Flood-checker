@@ -51,9 +51,85 @@ export const mockLocations = [
     },
 ];
 
-
-// Jag har nu följande komponent - som man kommer till om man valt en plats. :) 
-
-// Denna hämtar ju just nu ingenting men tanken är att man här ska kunna påbörja arbete på plats. 
-
-// Statusen kommer här att vara Ej påbörjad - detta är i samband med att typ de som ska styra upp eventuella problem med vatten mm ska kunna ta sig till platsen typ. (Resväg). När de kommer till platsen ska de kunna trycka på "kortet" för att markera att man är på plats.
+export const mockMonitoringEntries = [
+  {
+    airPressure: 1012,
+    soilMoisture: 45,
+    temperature: 16,
+    humidity: 78,
+    pressureLevel: 30,
+    ultraSoundLevel: 5
+  },
+  {
+    airPressure: 1008,
+    soilMoisture: 52,
+    temperature: 18,
+    humidity: 70,
+    pressureLevel: 29,
+    ultraSoundLevel: 6
+  },
+  {
+    airPressure: 1010,
+    soilMoisture: 50,
+    temperature: 15,
+    humidity: 80,
+    pressureLevel: 31,
+    ultraSoundLevel: 4
+  },
+  {
+    airPressure: 1005,
+    soilMoisture: 60,
+    temperature: 13,
+    humidity: 85,
+    pressureLevel: 33,
+    ultraSoundLevel: 7
+  },
+  {
+    airPressure: 1015,
+    soilMoisture: 42,
+    temperature: 19,
+    humidity: 65,
+    pressureLevel: 28,
+    ultraSoundLevel: 3
+  },
+  {
+    airPressure: 1003,
+    soilMoisture: 55,
+    temperature: 14,
+    humidity: 90,
+    pressureLevel: 34,
+    ultraSoundLevel: 6
+  },
+  {
+    airPressure: 1007,
+    soilMoisture: 48,
+    temperature: 17,
+    humidity: 72,
+    pressureLevel: 30,
+    ultraSoundLevel: 5
+  },
+  {
+    airPressure: 1011,
+    soilMoisture: 47,
+    temperature: 20,
+    humidity: 68,
+    pressureLevel: 27,
+    ultraSoundLevel: 2
+  },
+  {
+    airPressure: 1006,
+    soilMoisture: 53,
+    temperature: 12,
+    humidity: 87,
+    pressureLevel: 35,
+    ultraSoundLevel: 8
+  },
+  {
+    airPressure: 1013,
+    soilMoisture: 49,
+    temperature: 15,
+    humidity: 76,
+    pressureLevel: 32,
+    ultraSoundLevel: 5
+  }
+];
