@@ -22,6 +22,36 @@ const HomeScreen = () => {
     <View style={{ flex: 1, backgroundColor: theme.background }}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         {/* <HeroImage /> */}
+          {/* Avvakta med denna ******************************************** */}
+        {/* Denna använder mockdata från Data context */}
+        <View style={styles.infoCardContainer}>
+          <InfoCard
+            title="Information till allmänheten"
+            text="Vid akut översvämningsrisk – ring 112. För övrig information, använd vår app."
+            width="90"
+            icon="information-variant"
+            titleColor={theme.primary}
+            valueColor={theme.textPrimary}
+            timestampColor={theme.textPrimary}
+          
+          />
+        </View>
+
+        {/* ********************************************************************************* */}
+
+        {/* Denna är prioriterad och kan fungera när UserScreen är "klar" */}
+        {/* Kan mockas vid behov */}
+        <View>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
+            Infrastrukturproblem
+          </Text>
+
+          <InfrastructureIssuesCard
+            title="Aktuella problem"
+            maxItems={3}
+          />
+        </View>
+
 
 
         <View>
@@ -79,23 +109,7 @@ const HomeScreen = () => {
           </View>
         </View>
 
-        {/* ********************************************************************************* */}
-
-        {/* Denna är prioriterad och kan fungera när UserScreen är "klar" */}
-        {/* Kan mockas vid behov */}
-        <View>
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Infrastrukturproblem
-          </Text>
-
-          <InfrastructureIssuesCard
-            title="Aktuella problem"
-            width="90%"
-            maxItems={3}
-          />
-        </View>
-
-
+        
         {/* Denna funkar med mockdata???  */}
         <View>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
@@ -130,20 +144,7 @@ const HomeScreen = () => {
           </TouchableOpacity>
         </View>
 
-        {/* Avvakta med denna ******************************************** */}
-        {/* Denna använder mockdata från Data context */}
-        <View style={styles.infoCardContainer}>
-          <InfoCard
-            title="Information till allmänheten"
-            text="Vid akut översvämningsrisk – ring 112. För övrig information, använd vår app."
-            width="90%"
-            height={50}
-            icon="information-variant"
-            titleColor={theme.primary}
-            valueColor={theme.textPrimary}
-            timestampColor={theme.textPrimary}
-          />
-        </View>
+      
 
       </ScrollView>
     </View>
@@ -157,18 +158,21 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 25,
     fontWeight: 'bold',
-    marginLeft: 20,
-    marginTop: 16,
     marginBottom: 8,
+    textAlign: 'center',
+    
+   
   },
   infoCardContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignContent: 'center',
     justifyContent: 'center',
-    paddingVertical: 4,
+   
+   
+    
   },
   cardContainer: {
     flexDirection: 'row',
