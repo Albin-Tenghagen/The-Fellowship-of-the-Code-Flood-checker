@@ -1,4 +1,6 @@
 import baseUrl from "./urlConfig";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "./firebaseConfig";
 
 // Mock data
 const mockSafetyData = {
@@ -344,5 +346,26 @@ export const fetchTips = async () => {
   } catch (error) {
     console.error(":x: Fel vid hämtning av tips:", error.message);
     throw error;
+  }
+};
+
+export const loginWithFirebase = async (email, password) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    const token = await user.getIdToken();
+
+    return {
+      access_token: token,
+      user: {
+        id: user.uid,
+        email: user.email,
+        name: user.displayName || "John",
+        avatar: user.photoURL || "https://i.imgur.com/LDOO4Qs.jpg"
+      }
+    };
+  } catch (error) {
+    console.error("Login error:", error);
+    return null;
   }
 };

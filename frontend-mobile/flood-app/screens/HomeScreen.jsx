@@ -76,47 +76,58 @@ const HomeScreen = () => {
           />
         </View>
 
-        <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-          Infrastrukturproblem
-        </Text>
+        {/* ********************************************************************************* */}
 
-        <InfrastructureIssuesCard
-          title="Aktuella problem"
-          width="90%"
-          maxItems={3}
-        />
+        {/* Denna är prioriterad och kan fungera när UserScreen är "klar" */}
+        {/* Kan mockas vid behov */}
+        <View>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
+            Infrastrukturproblem
+          </Text>
 
-        <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-          Säkerhetstips
-        </Text>
+          <InfrastructureIssuesCard
+            title="Aktuella problem"
+            width="90%"
+            maxItems={3}
+          />
+        </View>
 
-        <TouchableOpacity
-          style={[styles.navigationCard, { backgroundColor: theme.card }]}
-          onPress={navigateToTipsScreen}
-        >
-          <View style={styles.navigationCardContent}>
-            <MaterialCommunityIcons
-              name="lightbulb-outline"
-              size={32}
-              color={theme.primary}
-              style={styles.navigationIcon}
-            />
-            <View style={styles.navigationTextContainer}>
-              <Text style={[styles.navigationTitle, { color: theme.textPrimary }]}>
-                Skicka tips ifall du ser en risk för översvämning
-              </Text>
-              <Text style={[styles.navigationSubtitle, { color: theme.textPrimary }]}>
-                Se alla tips eller dela med dig av dina egna
-              </Text>
+
+{/* Denna funkar med mockdata???  */}
+        <View>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
+            Säkerhetstips
+          </Text>
+
+          <TouchableOpacity
+            style={[styles.navigationCard, { backgroundColor: theme.card }]}
+            onPress={navigateToTipsScreen}
+          >
+            <View style={styles.navigationCardContent}>
+              <MaterialCommunityIcons
+                name="lightbulb-outline"
+                size={32}
+                color={theme.primary}
+                style={styles.navigationIcon}
+              />
+              <View style={styles.navigationTextContainer}>
+                <Text style={[styles.navigationTitle, { color: theme.textPrimary }]}>
+                  Skicka tips ifall du ser en risk för översvämning
+                </Text>
+                <Text style={[styles.navigationSubtitle, { color: theme.textPrimary }]}>
+                  Se alla tips eller dela med dig av dina egna
+                </Text>
+              </View>
+              <MaterialCommunityIcons
+                name="chevron-right"
+                size={24}
+                color={theme.primary}
+              />
             </View>
-            <MaterialCommunityIcons
-              name="chevron-right"
-              size={24}
-              color={theme.primary}
-            />
-          </View>
-        </TouchableOpacity>
+          </TouchableOpacity>
+        </View>
 
+        {/* Avvakta med denna ******************************************** */}
         <View style={styles.infoCardContainer}>
           <InfoCard
             title="Information till allmänheten"

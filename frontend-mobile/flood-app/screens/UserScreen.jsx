@@ -62,14 +62,12 @@ const UserScreen = () => {
   }, []);
 
   const { logout } = useAuth();
-  
+
 
   return (
     <ScrollView style={styles.scroll} contentContainerStyle={styles.container}>
       <View style={styles.statusContainer}>
-        <AnimatedButton style={styles.button} title="Logga ut" onPress={logout}/>
-        
-
+        <AnimatedButton style={styles.button} title="Logga ut" onPress={logout} />
         <PickLocation />
       </View>
     </ScrollView>
@@ -79,11 +77,11 @@ export default UserScreen
 const styles = StyleSheet.create({
 
   scroll: {
-    flex:1,
+    flex: 1,
     backgroundColor: '#fff',
   },
   container: {
-   
+
     padding: 16,
   },
   statusContainer: {

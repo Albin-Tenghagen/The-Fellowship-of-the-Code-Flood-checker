@@ -15,9 +15,9 @@ import { useAuth } from "../context/AuthContext";
 
 const Tab = createBottomTabNavigator();
 
-// const { token } = useAuth();
 
-const fakeToken = true;
+
+// const fakeToken = true;
 
 const HeaderTitle = () => {
   const { theme } = useTheme();
@@ -39,7 +39,8 @@ const HeaderTitle = () => {
 
 const Navigation = () => {
   const { customTheme, theme, isDark, toggleTheme } = useTheme();
-
+  const { token } = useAuth();
+  
   return (
     <NavigationContainer theme={customTheme}>
       <Tab.Navigator
@@ -160,7 +161,7 @@ const Navigation = () => {
         />
 
 
-        {fakeToken && (
+        {token && (
           <>
             <Tab.Screen
               name="User"
