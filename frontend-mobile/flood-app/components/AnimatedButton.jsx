@@ -69,6 +69,7 @@ const createStyles = (theme) =>
         },
         buttonText: {
             fontSize: 18,
-            color: 'white', // eller vad som passar
+            color: 'rgba(0, 0, 0, 0.95)', // eller vad som passar
+        
         },
     });

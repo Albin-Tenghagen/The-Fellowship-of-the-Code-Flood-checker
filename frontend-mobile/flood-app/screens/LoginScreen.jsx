@@ -62,7 +62,8 @@ const LoginScreen = ({ navigation }) => {
             accessibilityRole={true}
             accessibilityLabel='Scrollbart innehåll med introduktion till appens aktiviteter'
           >
-            <Text style={styles.label} accessibilityLabel='header'>Logga in</Text>
+            <View style={styles.wrapper}>
+            <Text style={styles.label} accessibilityLabel='header'>Inlogg Admin</Text>
             <TextInput
               value={email}
               onChangeText={(text) => {
@@ -100,7 +101,8 @@ const LoginScreen = ({ navigation }) => {
               accessibilityRole='button'
               accessibilityLabel='Logga in knapp'
               accessibilityHint='Tryck här för att logga in med deangivna uppgifterna'
-            ><Text>Logga in</Text></AnimatedButton>
+            />
+            </View>
           </View>
         </View>
 
@@ -144,6 +146,8 @@ const createStyles = (theme) =>
       flex: 1,
       width: "100%",
       paddingHorizontal: 20,
+    
+     
     },
 
     scrollContainer: {
@@ -151,7 +155,7 @@ const createStyles = (theme) =>
       alignItems: "center",
       paddingVertical: 40,
     },
-    form: {
+    wrapper: {
       backgroundColor: theme.backgroundOpacity,
       padding: 40,
       borderWidth: 1,
@@ -159,28 +163,39 @@ const createStyles = (theme) =>
       borderRadius: 8,
       width: "100%",
       maxWidth: 400,
+      justifyContent: 'center',
       alignItems: "center",
       marginBottom: 30,
+      marginTop: 40,
     },
-    label: {
-      color: theme.textSecondary,
-      fontSize: 22,
-      marginBottom: 10,
+   label: {
+      color: theme.textPrimary,
+      fontSize: 28,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      marginBottom: 20,
     },
+
     input: {
       borderWidth: 1,
-      borderColor: theme.primary,
+      borderColor: theme.textSecondary,
       borderRadius: 8,
       padding: 8,
       width: "100%",
       marginBottom: 10,
-      backgroundColor: theme.card,
+      backgroundColor: theme.inputBackground,
     },
     button: {
       backgroundColor: theme.accent,
       padding: 10,
       borderRadius: 6,
       marginTop: 10,
+    },
+    buttonText: {
+      color: theme.card, // t.ex. '#ffffff' om du vill ha vit text
+      fontWeight: 'bold',
+      textAlign: 'center',
+      fontSize: 16,
     },
     pressed: {
       opacity: 0.7,
