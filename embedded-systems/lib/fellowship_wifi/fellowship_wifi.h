@@ -53,6 +53,17 @@ namespace fellowshipWiFi
      * @param data Data to be sent, as JSON
      * @returns true if succeeded to send data.
      */
+    bool sendRequest(const char *host, uint32_t port, String endpoint, String data);
+
+    /**
+     * @brief Sends a POST request to `host` on `port`.
+     * 
+     * @param host Host to send data to
+     * @param port Port to send data to
+     * @param endpoint Server endpoint such as /api/endpoint.
+     * @param data Data to be sent, as JSON
+     * @returns true if succeeded to send data.
+     */
     bool sendRequest(IPAddress host, uint32_t port, String endpoint, String data);
 
     /**

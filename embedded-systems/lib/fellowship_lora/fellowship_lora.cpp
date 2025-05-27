@@ -1,4 +1,4 @@
-#include "lora/fellowship_lora.h"
+#include "fellowship_lora.h"
 
 int16_t fellowshipLoRa::init() 
 {	
