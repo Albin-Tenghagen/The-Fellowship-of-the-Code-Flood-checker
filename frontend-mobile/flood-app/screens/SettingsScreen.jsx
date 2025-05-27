@@ -52,10 +52,10 @@ const SettingsScreen = () => {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Pressable style={styles.button} onPress={() => uploadMockLocations()}>
+        <Pressable style={styles.postButton} onPress={() => uploadMockLocations()}>
           <Text style={styles.buttonText}>Ladda upp mock-data (locations)</Text>
         </Pressable>
-        <Pressable style={styles.button} onPress={() => uploadMockMonitoringEntries()}>
+        <Pressable style={styles.postButton} onPress={() => uploadMockMonitoringEntries()}>
           <Text style={styles.buttonText}>Ladda upp mock-monitoring</Text>
         </Pressable>
         <Pressable style={styles.button} onPress={handleGetMonitoringData}>
@@ -68,7 +68,7 @@ const SettingsScreen = () => {
             </Text>
           </View>
         ))}
-        <Pressable style={styles.button} onPress={() => uploadMockInfrastructure()}>
+        <Pressable style={styles.postButton} onPress={() => uploadMockInfrastructure()}>
           <Text style={styles.buttonText}>Ladda upp mock-infrastruktur</Text>
         </Pressable>
         <Pressable style={styles.button} onPress={handleGetInfrastructureData}>
@@ -81,7 +81,7 @@ const SettingsScreen = () => {
             </Text>
           </View>
         ))}
-        <Pressable style={styles.button} onPress={() => uploadMockUserTips()}>
+        <Pressable style={styles.postButton} onPress={() => uploadMockUserTips()}>
           <Text style={styles.buttonText}>Ladda upp mock-tips</Text>
         </Pressable>
         <Pressable style={styles.button} onPress={handleGetUserTips}>
@@ -110,6 +110,12 @@ const createStyles = (theme) =>
     button: {
       marginTop: 10,
       backgroundColor: theme.card || '#007AFF',
+      padding: 12,
+      borderRadius: 8,
+    },
+    postButton: {
+      marginTop: 10,
+      backgroundColor: theme.accent || '#007AFF',
       padding: 12,
       borderRadius: 8,
     },
