@@ -1,125 +1,79 @@
 import { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Dimensions, Platform } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTheme } from '../themes/ThemeContext';
 import FlatListLocation from './FlatListLocation';
+import SelectedLocationCard from './SelectedLocationCard';
+import WorkerStatus from './WorkerStatus';
 import { fetchSafety } from '../services/api';
-
-const { width: screenWidth } = Dimensions.get('window');
-
-// Mock data for fallback
-const mockLocationData = [
-  {
-    id: 1,
-    location: "Göta älv - Göteborg",
-    waterlevel: 8,
-    priority: "critical",
-    description: "Kritisk vattennivå vid centrala Göteborg",
-    coordinates: "57.7089, 11.9746"
-  },
-  {
-    id: 2,
-    location: "Motala ström - Norrköping",
-    waterlevel: 6,
-    priority: "high",
-    description: "Förhöjd vattennivå i industriområdet",
-    coordinates: "58.5877, 16.1924"
-  },
-  {
-    id: 3,
-    location: "Dalälven - Gävle",
-    waterlevel: 9,
-    priority: "critical",
-    description: "Mycket hög vattennivå - översvämningsrisk",
-    coordinates: "60.6749, 17.1413"
-  },
-  {
-    id: 4,
-    location: "Klarälven - Karlstad",
-    waterlevel: 4,
-    priority: "medium",
-    description: "Normala nivåer men kräver övervakning",
-    coordinates: "59.3793, 13.5036"
-  },
-  {
-    id: 5,
-    location: "Lule älv - Luleå",
-    waterlevel: 7,
-    priority: "high",
-    description: "Stigande vattennivåer vid kraftverket",
-    coordinates: "65.5841, 22.1547"
-  },
-  {
-    id: 6,
-    location: "Fyrisån - Uppsala",
-    waterlevel: 3,
-    priority: "low",
-    description: "Låga vattennivåer, ingen omedelbar risk",
-    coordinates: "59.8586, 17.6389"
-  }
-];
-
-const USE_MOCK_DATA = true; // Set to false to use real API
-
-const PickLocation = ({ navigation }) => {
+const PickLocation = () => {
   const { theme } = useTheme();
+  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [isConfirmed, setIsConfirmed] = useState(false);
   const [safety, setSafety] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const styles = createStyles(theme);
-
   useEffect(() => {
     const getSafety = async () => {
       try {
-        setLoading(true);
-        if (USE_MOCK_DATA) {
-          // Simulate API delay
-          await new Promise(resolve => setTimeout(resolve, 1000));
-          setSafety(mockLocationData);
-          console.log('🧪 Using mock safety data in PickLocation');
-        } else {
-          const safetyData = await fetchSafety();
-          setSafety(safetyData);
-          console.log('Safety data loaded:', safetyData);
-        }
+        const safetyData = await fetchSafety();
+        setSafety(safetyData);
       } catch (error) {
-        console.error('Kunde inte hämta säkerhetsdata:', error);
-        // Fallback to mock data on error
-        console.log('📦 Falling back to mock data due to error');
-        setSafety(mockLocationData);
-      } finally {
-        setLoading(false);
+        console.log('Kunde inte hämta säkerhetsdata:', error);
       }
     };
-
     getSafety();
   }, []);
-
-  const handleLocationSelect = (selectedLocation) => {
-    console.log('📍 Location selected:', selectedLocation);
-    navigation.navigate('WorkerStatus', {
-      location: selectedLocation,
-      safetyData: safety,
-      resetStatus: true
-    });
+  const handleLocationSelect = (location) => {
+    setSelectedLocation(location);
+    setIsConfirmed(false);
   };
-
-  return (
-    <View style={styles.container}>
-      {/* Location List - FlatListLocation handles its own header */}
-      <FlatListLocation
-        onButtonPress={handleLocationSelect}  // Changed from onLocationSelect to onButtonPress
-        safetyData={safety}
-        loading={loading}
+  const handleConfirm = () => {
+    setIsConfirmed(true);
+  };
+  const handleBack = () => {
+    setSelectedLocation(null);
+    setIsConfirmed(false);
+  };
+  if (!selectedLocation) {
+    return (
+      <View style={[styles.instructionContainer, { backgroundColor: theme.backgroundTertiary }]}>
+        <View style={styles.instructionContent}>
+          <MaterialIcons name="info-outline" size={20} color={theme.primary} />
+          <Text style={[styles.instructionText, { color: theme.primary }]}>
+            Tryck på en plats för att börja med "På plats" när du anländer till arbetsplatsen.
+          </Text>
+        </View>
+        <FlatListLocation onSend={handleLocationSelect} />
+      </View>
+    );
+  }
+  if (!isConfirmed) {
+    return (
+      <SelectedLocationCard
+        location={selectedLocation}
+        onConfirm={handleConfirm}
+        onBack={handleBack}
       />
-    </View>
-  );
+    );
+  }
+  return <WorkerStatus location={selectedLocation} />;
 };
-
-const createStyles = (theme) => StyleSheet.create({
-  container: {
+const styles = StyleSheet.create({
+  instructionContainer: {
+    margin: 20,
+    marginTop: 0,
+    padding: 16,
+    borderRadius: 12,
+  },
+  instructionContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  instructionText: {
+    fontSize: 14,
+    lineHeight: 20,
+    marginLeft: 12,
     flex: 1,
-    backgroundColor: theme.background,
+    fontWeight: '500',
   },
 });
-
 export default PickLocation;
