@@ -65,14 +65,12 @@ const PickLocation = ({ navigation }) => {
   const { theme } = useTheme();
   const [safety, setSafety] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const styles = createStyles(theme);
 
   useEffect(() => {
     const getSafety = async () => {
       try {
         setLoading(true);
-        
         if (USE_MOCK_DATA) {
           // Simulate API delay
           await new Promise(resolve => setTimeout(resolve, 1000));
@@ -98,7 +96,6 @@ const PickLocation = ({ navigation }) => {
 
   const handleLocationSelect = (selectedLocation) => {
     console.log('📍 Location selected:', selectedLocation);
-    
     navigation.navigate('WorkerStatus', {
       location: selectedLocation,
       safetyData: safety,
@@ -110,7 +107,7 @@ const PickLocation = ({ navigation }) => {
     <View style={styles.container}>
       {/* Location List - FlatListLocation handles its own header */}
       <FlatListLocation
-        onLocationSelect={handleLocationSelect}
+        onButtonPress={handleLocationSelect}  // Changed from onLocationSelect to onButtonPress
         safetyData={safety}
         loading={loading}
       />

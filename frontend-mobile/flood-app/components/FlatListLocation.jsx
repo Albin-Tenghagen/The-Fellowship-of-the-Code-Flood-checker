@@ -212,7 +212,7 @@ const FlatListLocation = ({
       navigation.navigate('WorkerStatus', {
         location: chosen,
         safetyData: safetyData,
-        resetStatus: true  
+        resetStatus: true
       });
 
     } else {
@@ -296,12 +296,11 @@ const FlatListLocation = ({
         <View style={styles.buttonContainer}>
           <AnimatedButton
             title="Påbörja övervakning"
-            onPress={onButtonPress}
+            onPress={() => onButtonPress(selectedItem)} // Make sure onButtonPress is called correctly
             style={[styles.actionButton, {
               backgroundColor: selectedId ? theme.primary : theme.disabled,
               opacity: selectedId ? 1 : 0.6
             }]}
-            disabled={!selectedId}
           />
         </View>
       </SafeAreaView>
@@ -476,5 +475,5 @@ const createStyles = (theme) =>
       alignItems: 'center',
       justifyContent: 'center',
     },
-   
+
   });
