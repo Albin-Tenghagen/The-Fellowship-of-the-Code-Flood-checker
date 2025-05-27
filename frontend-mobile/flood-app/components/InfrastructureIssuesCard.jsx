@@ -27,6 +27,7 @@ const InfrastructureIssuesCard = ({
         // const data = await fetchInfrastructureIssues();
         
         // Mock data for now - replace with your actual API call
+        // Testa att göra en random-funktion så att dessa värden ändras "for show"
         setTimeout(() => {
           setIssues([
             { id: 1, type: 'Sensor', description: 'Temperaturmätare offline', severity: 'high' },

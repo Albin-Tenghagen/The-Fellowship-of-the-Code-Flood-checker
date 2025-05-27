@@ -23,57 +23,60 @@ const HomeScreen = () => {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         {/* <HeroImage /> */}
 
-        <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-          Nuvarande vattenövervakning
-        </Text>
 
-        <View style={styles.cardContainer}>
-          <WaterLevelCard
-            title="Vattennivå"
-            parameter="ultraSoundLevel"
-            width="45%"
-            icon="water"
-          />
-          <WaterLevelCard
-            title="Trycknivå"
-            parameter="pressureLevel"
-            width="45%"
-            icon="gauge"
-          />
-        </View>
+        <View>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
+            Nuvarande vattenövervakning
+          </Text>
 
-        <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-          Väderförhållanden
-        </Text>
+          <View style={styles.cardContainer}>
+            <WaterLevelCard
+              title="Vattennivå"
+              parameter="ultraSoundLevel"
+              width="45%"
+              icon="water"
+            />
+            <WaterLevelCard
+              title="Trycknivå"
+              parameter="pressureLevel"
+              width="45%"
+              icon="gauge"
+            />
+          </View>
 
-        <View style={styles.cardContainer}>
-          <WaterLevelCard
-            title="Temperatur"
-            parameter="temperature"
-            width="45%"
-            icon="thermometer"
-          />
-          <WaterLevelCard
-            title="Luftfuktighet"
-            parameter="humidity"
-            width="45%"
-            icon="water-percent"
-          />
-        </View>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
+            Väderförhållanden
+          </Text>
 
-        <View style={styles.cardContainer}>
-          <WaterLevelCard
-            title="Lufttryck"
-            parameter="airPressure"
-            width="45%"
-            icon="weather-windy"
-          />
-          <WaterLevelCard
-            title="Jordfuktighet"
-            parameter="soilMoisture"
-            width="45%"
-            icon="water-percent"
-          />
+          <View style={styles.cardContainer}>
+            <WaterLevelCard
+              title="Temperatur"
+              parameter="temperature"
+              width="45%"
+              icon="thermometer"
+            />
+            <WaterLevelCard
+              title="Luftfuktighet"
+              parameter="humidity"
+              width="45%"
+              icon="water-percent"
+            />
+          </View>
+
+          <View style={styles.cardContainer}>
+            <WaterLevelCard
+              title="Lufttryck"
+              parameter="airPressure"
+              width="45%"
+              icon="weather-windy"
+            />
+            <WaterLevelCard
+              title="Jordfuktighet"
+              parameter="soilMoisture"
+              width="45%"
+              icon="water-percent"
+            />
+          </View>
         </View>
 
         {/* ********************************************************************************* */}
@@ -93,7 +96,7 @@ const HomeScreen = () => {
         </View>
 
 
-{/* Denna funkar med mockdata???  */}
+        {/* Denna funkar med mockdata???  */}
         <View>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
             Säkerhetstips
@@ -128,6 +131,7 @@ const HomeScreen = () => {
         </View>
 
         {/* Avvakta med denna ******************************************** */}
+        {/* Denna använder mockdata från Data context */}
         <View style={styles.infoCardContainer}>
           <InfoCard
             title="Information till allmänheten"

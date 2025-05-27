@@ -1,8 +1,8 @@
 import { View, Animated, StyleSheet } from 'react-native';
 import { useTheme } from '../themes/ThemeContext';
 
-const RenderTimelineProgress = ({ status, progressAnimation, pulseAnimation, getStatusColor }) => {
-  const { theme } = useTheme();
+const RenderTimelineProgressCopy = ({ status, progressAnimation, pulseAnimation, getStatusColor }) => {
+   const { theme } = useTheme();
   const progressColor = getStatusColor();
 
   return (
@@ -53,6 +53,7 @@ const RenderTimelineProgress = ({ status, progressAnimation, pulseAnimation, get
     </View>
   );
 };
+export default RenderTimelineProgressCopy
 
 const styles = StyleSheet.create({
   progressBarContainer: {
@@ -92,4 +93,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RenderTimelineProgress;

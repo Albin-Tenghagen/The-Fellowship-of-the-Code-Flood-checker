@@ -69,7 +69,7 @@ const mockMonitoringData = {
       humidity_percent: 69.1,
       soil_moisture_percent: 44.8,
       water_level_pressure_cm: 126.2,
-      water_level_ultrasound_cm: 1.23,
+      water_level_ultrasound_cm: 2.23,
       air_pressure_hPa: 1013.5,
       sensor_location: "Trädgård A",
       battery_level: 87

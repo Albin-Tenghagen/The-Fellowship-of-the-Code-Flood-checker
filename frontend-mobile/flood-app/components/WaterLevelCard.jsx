@@ -98,7 +98,7 @@ const WaterLevelCard = ({
                 console.log(`Got monitoring data:`, monitoringData);
 
                 if (monitoringData && Array.isArray(monitoringData) && monitoringData.length > 0) {
-                    const latestData = monitoringData[0];
+                    const latestData = monitoringData[1];
                     console.log(`Latest data entry:`, latestData);
 
                     const backendKey = getBackendKey(parameter);
