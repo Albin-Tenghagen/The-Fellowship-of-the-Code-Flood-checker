@@ -4,11 +4,12 @@ import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import WaterLevelCard from '../components/WaterLevelCard';
 import InfoCard from '../components/InfoCard';
-import TipsBoxCard from '../components/TipsBoxCard';
-import { fetchTips } from '../services/api';
-import { useUser } from '../context/UserContext';
-import { useAuth } from '../context/AuthContext';
-import { saveToStorage, getFromStorage, deleteFromStorage } from '../services/webCompatibleSecureStore';
+import InfrastructureIssuesCard from '../components/InfrastructureIssuesCard';
+// import TipsBoxCard from '../components/TipsBoxCard';
+// import { fetchTips } from '../services/api';
+// import { useUser } from '../context/UserContext';
+// import { useAuth } from '../context/AuthContext';
+// import { saveToStorage, getFromStorage, deleteFromStorage } from '../services/webCompatibleSecureStore';
 const HomeScreen = () => {
   const { theme } = useTheme();
   const navigation = useNavigation();
@@ -83,7 +84,6 @@ const HomeScreen = () => {
           title="Aktuella problem"
           width="90%"
           maxItems={3}
-          
         />
 
         <Text style={[styles.sectionTitle, { color: theme.textColor }]}>

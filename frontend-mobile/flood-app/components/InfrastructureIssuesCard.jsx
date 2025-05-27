@@ -1,60 +1,82 @@
 import { StyleSheet, View, Text, ScrollView, ActivityIndicator } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../themes/ThemeContext';
-import { fetchMonitoring } from '../services/api';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-const MonitoringCard = ({
-  title = 'Sensorvärden',
+const InfrastructureIssuesCard = ({
+  title = 'Infrastrukturproblem',
   width = '90%',
+  maxItems = null,
   titleColor = null,
   backgroundColor = null,
   errorColor = null,
   emptyTextColor = null,
 }) => {
   const { theme } = useTheme();
-  const [latestData, setLatestData] = useState(null);
+  const [issues, setIssues] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const getMonitoring = async () => {
+    const getInfrastructureIssues = async () => {
       try {
         setLoading(true);
         setError(null);
-        const data = await fetchMonitoring();
-
-        if (!data || data.length === 0) {
-          setLatestData(null);
-        } else {
-          const latest = data[0];
-
-          // ✅ Map backend keys to frontend-friendly names
-          setLatestData({
-            temperature: latest.temperature_c,
-            humidity: latest.humidity_percent,
-            soilMoisture: latest.soil_moisture_percent,
-            pressureLevel: latest.water_level_pressure_cm,
-            ultraSoundLevel: latest.water_level_ultrasound_cm,
-            average: latest.water_level_average_cm,
-          });
-        }
+        
+        // TODO: Replace with your actual API call
+        // const data = await fetchInfrastructureIssues();
+        
+        // Mock data for now - replace with your actual API call
+        setTimeout(() => {
+          setIssues([
+            { id: 1, type: 'Sensor', description: 'Temperaturmätare offline', severity: 'high' },
+            { id: 2, type: 'Nätverk', description: 'Svag anslutning', severity: 'medium' },
+            { id: 3, type: 'Batteri', description: 'Låg batterinivå på sensor 3', severity: 'low' },
+          ]);
+          setLoading(false);
+        }, 1000);
+        
       } catch (err) {
-        console.error('Error fetching monitoring data:', err);
+        console.error('Error fetching infrastructure issues:', err);
         setError(err.message);
-      } finally {
         setLoading(false);
       }
     };
 
-    getMonitoring();
+    getInfrastructureIssues();
   }, []);
+
+  const getSeverityColor = (severity) => {
+    switch (severity) {
+      case 'high':
+        return '#d32f2f';
+      case 'medium':
+        return '#f57c00';
+      case 'low':
+        return '#388e3c';
+      default:
+        return theme.textSecondary;
+    }
+  };
+
+  const getSeverityIcon = (severity) => {
+    switch (severity) {
+      case 'high':
+        return 'alert-circle';
+      case 'medium':
+        return 'alert';
+      case 'low':
+        return 'information';
+      default:
+        return 'help-circle';
+    }
+  };
 
   return (
     <View style={[styles.card, { backgroundColor: backgroundColor || theme.card, width }]}>
       <View style={styles.header}>
         <MaterialCommunityIcons
-          name="chart-box-outline"
+          name="alert-box-outline"
           size={24}
           color={theme.primary}
           style={{ marginRight: 8 }}
@@ -68,38 +90,45 @@ const MonitoringCard = ({
         <ActivityIndicator size="small" color={theme.primary} style={styles.loader} />
       ) : error ? (
         <Text style={[styles.errorText, { color: errorColor || 'red' }]}>Fel: {error}</Text>
-      ) : !latestData ? (
-        <Text style={[styles.emptyText, { color: emptyTextColor || theme.textSecondary }]}>
-          Ingen data tillgänglig
-        </Text>
+      ) : issues.length === 0 ? (
+        <View style={styles.noIssuesContainer}>
+          <MaterialCommunityIcons
+            name="check-circle"
+            size={32}
+            color={theme.success || '#4caf50'}
+            style={{ marginBottom: 8 }}
+          />
+          <Text style={[styles.emptyText, { color: emptyTextColor || theme.textSecondary }]}>
+            Inga infrastrukturproblem rapporterade
+          </Text>
+        </View>
       ) : (
-        <ScrollView style={styles.dataContainer}>
-          <Text style={[styles.dataText, { color: theme.textPrimary }]}>
-            Vattennivå (ultraljud): {latestData.ultraSoundLevel} cm
-          </Text>
-          <Text style={[styles.dataText, { color: theme.textPrimary }]}>
-            Medelvattennivå: {latestData.average} cm
-          </Text>
-          <Text style={[styles.dataText, { color: theme.textPrimary }]}>
-            Temperatur: {latestData.temperature}°C
-          </Text>
-          <Text style={[styles.dataText, { color: theme.textPrimary }]}>
-            Luftfuktighet: {latestData.humidity}%
-          </Text>
-          <Text style={[styles.dataText, { color: theme.textPrimary }]}>
-            Jordfuktighet: {latestData.soilMoisture}%
-          </Text>
-          <Text style={[styles.dataText, { color: theme.textPrimary }]}>
-            Vattennivå (tryck): {latestData.pressureLevel} cm
-          </Text>
-
+        <ScrollView style={styles.issuesContainer}>
+          {(maxItems ? issues.slice(0, maxItems) : issues).map((issue) => (
+            <View key={issue.id} style={[styles.issueItem, { borderLeftColor: getSeverityColor(issue.severity) }]}>
+              <View style={styles.issueHeader}>
+                <MaterialCommunityIcons
+                  name={getSeverityIcon(issue.severity)}
+                  size={20}
+                  color={getSeverityColor(issue.severity)}
+                  style={{ marginRight: 8 }}
+                />
+                <Text style={[styles.issueType, { color: theme.textPrimary }]}>
+                  {issue.type}
+                </Text>
+              </View>
+              <Text style={[styles.issueDescription, { color: theme.textSecondary }]}>
+                {issue.description}
+              </Text>
+            </View>
+          ))}
         </ScrollView>
       )}
     </View>
   );
 };
 
-export default MonitoringCard;
+export default InfrastructureIssuesCard;
 
 const styles = StyleSheet.create({
   card: {
@@ -128,16 +157,35 @@ const styles = StyleSheet.create({
     marginVertical: 12,
     textAlign: 'center',
   },
+  noIssuesContainer: {
+    alignItems: 'center',
+    paddingVertical: 20,
+  },
   emptyText: {
-    marginVertical: 16,
     textAlign: 'center',
     fontStyle: 'italic',
   },
-  dataContainer: {
-    maxHeight: 200,
+  issuesContainer: {
+    maxHeight: 300,
   },
-  dataText: {
-    fontSize: 16,
+  issueItem: {
+    padding: 12,
     marginBottom: 8,
+    borderLeftWidth: 4,
+    backgroundColor: 'rgba(0, 0, 0, 0.02)',
+    borderRadius: 4,
+  },
+  issueHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  issueType: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  issueDescription: {
+    fontSize: 14,
+    marginLeft: 28,
   },
 });
