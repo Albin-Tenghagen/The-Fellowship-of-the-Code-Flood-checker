@@ -41,7 +41,7 @@ const HomeScreen = () => {
 
         {/* Denna är prioriterad och kan fungera när UserScreen är "klar" */}
         {/* Kan mockas vid behov */}
-        <View>
+        <View style={{ alignItems: 'center'}}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
             Infrastrukturproblem
           </Text>
