@@ -114,7 +114,7 @@ void loop()
 
     WaterPressure::readWaterLevel(sensor);
 
-    sensor.depth_cm = 'A';
+    // sensor.depth_cm = 'A';
     Serial.println(sensor.depth_cm);
 
     // (16 bit) 0x4020 >> 8 = 0x0040 = (uint8_t) 0x40
