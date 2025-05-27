@@ -44,9 +44,44 @@ export const mockSafetyData = {
       "proactiveActions": {
         "basementProtection": "kattsand är absorberande"
       }
+    },
+    {
+      "id": 1005,
+      "timestamp": "2025-05-10 14:30:00",
+      "location": "Västra Göteborg",
+      "description": "Vattennivån i området har stigit till ${waterlevel} enligt senaste mätningar",
+      "proactiveActions": {
+        "basementProtection": "Boende bör kontrollera källare för eventuellt vattenintrång",
+        "trenchDigging": "Grävning av diken rekommenderas för att leda bort vatten",
+        "electricHazards": "Kontrollera elektriska installationer i trädgården"
     }
-  ]
-};
+    },
+    {
+      "id": 1006,
+      "timestamp": "2025-05-15 09:15:00",
+      "location": "Norra Stockholm",
+      "description": "Översvämning observerad med vattennivå upp till ${waterlevel}",
+      "proactiveActions": {
+        "basementProtection": "Skydda källare med sandpåsar för att förhindra vattenskador",
+        "trenchDigging": "Ingen grävning krävs just nu",
+        "electricHazards": "Se över eluttag utomhus och säkra dessa"
+      }
+    },
+    {
+      "id": 1007,
+      "timestamp": "2025-05-20 17:45:00",
+      "location": "Södra Malmö",
+      "description": "Höjt vattenstånd rapporterat, cirka ${waterlevel} över normalnivå",
+      "proactiveActions": {
+        "basementProtection": "Undersök källarventilation för att minska risk för fuktskador",
+        "trenchDigging": "Överväg att gräva diken för att förbättra dränering",
+        "electricHazards": "Kontrollera elinstallationer nära vattenkällor"
+      }
+    }
+
+        
+      ]
+    };
 
 const mockMonitoringData = {
   data: [
