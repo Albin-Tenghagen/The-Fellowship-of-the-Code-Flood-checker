@@ -163,10 +163,25 @@ export const postUserTip = async (tip, teamId = "teamFlood") => {
   }
 };
 
+// export const getUserTips = async (teamId = "teamFlood") => {
+//   try {
+//     const snapshot = await getDocs(collection(db, "projects", teamId, "tips"));
+//     const tips = snapshot.docs.map(doc => doc.data());
+//     console.log("Tips hämtade:", tips);
+//     return tips;
+//   } catch (error) {
+//     console.error("Fel vid hämtning av tips:", error);
+//     return [];
+//   }
+// };
+
 export const getUserTips = async (teamId = "teamFlood") => {
   try {
     const snapshot = await getDocs(collection(db, "projects", teamId, "tips"));
-    const tips = snapshot.docs.map(doc => doc.data());
+    const tips = snapshot.docs.map(doc => ({
+      id: doc.id,             
+      ...doc.data()
+    }));
     console.log("Tips hämtade:", tips);
     return tips;
   } catch (error) {

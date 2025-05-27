@@ -12,16 +12,9 @@ const TipsScreen = ({
 }) => {
     const { theme } = useTheme();
     const [refreshTrigger, setRefreshTrigger] = useState(false);
-    const [localTips, setLocalTips] = useState([]);
 
-    const handleTipSubmitted = (newTip) => {
-        setLocalTips(prev => [{
-            id: Date.now(),
-            ...newTip,
-            user: "Du"
-        }, ...prev]);
-
-        setRefreshTrigger(!refreshTrigger);
+    const handleTipSubmitted = () => {
+        setRefreshTrigger(prev => !prev);
     };
 
     return (
@@ -45,8 +38,6 @@ const TipsScreen = ({
                     width="90%"
                     maxItems={5}
                     refresh={refreshTrigger}
-                    useMockData={false}
-                    localTips={localTips}
                     backgroundColor={cardBackgroundColor}
                     textColor={theme.primary}
                     iconColor={theme.primary}

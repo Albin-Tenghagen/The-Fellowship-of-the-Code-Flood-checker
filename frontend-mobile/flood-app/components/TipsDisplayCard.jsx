@@ -1,7 +1,7 @@
 import { StyleSheet, View, Text, ScrollView, ActivityIndicator, RefreshControl } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useTheme } from '../themes/ThemeContext';
-import { fetchTips } from '../services/api';
+import { getUserTips } from '../services/firebaseUtils';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const TipsDisplayCard = ({
@@ -18,38 +18,33 @@ const TipsDisplayCard = ({
   emptyText = 'Inga tips tillgängliga',
   errorTextPrefix = 'Error: ',
   loadingText = null,
-  localTips = [],
-  useMockData = false,
   locationTextColor = null,      // New prop for location color
   descriptionTextColor = null,   // New prop for description color
   timestampTextColor = null,     // New prop for timestamp color
 }) => {
   const { theme } = useTheme();
-  const [apiTips, setApiTips] = useState([]);
+  const [tips, setTips] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
 
   const loadTips = async (showRefreshing = false) => {
-    try {
-      if (showRefreshing) {
-        setRefreshing(true);
-      } else {
-        setLoading(true);
-      }
-      setError(null);
-      console.log('Fetching tips...');
-      const data = await fetchTips();
-      console.log('Got tips:', data);
-      setApiTips(data || []);
-    } catch (err) {
-      console.error('Error fetching tips:', err);
-      setError(err.message);
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
+  try {
+    if (showRefreshing) {
+      setRefreshing(true);
+    } else {
+      setLoading(true);
     }
-  };
+    setError(null);
+    const data = await getUserTips();
+    setTips(data || []);
+  } catch (err) {
+    setError(err.message);
+  } finally {
+    setLoading(false);
+    setRefreshing(false);
+  }
+};
 
   useEffect(() => {
     loadTips();
@@ -59,23 +54,17 @@ const TipsDisplayCard = ({
     loadTips(true);
   };
 
-  const allTips = [...localTips, ...apiTips];
-  const sortedTips = allTips
+  const sortedTips = tips
     .sort((a, b) => {
       try {
-        const dateA = new Date(a.timestamp);
-        const dateB = new Date(b.timestamp);
-        return dateB - dateA;
+        return new Date(b.timestamp) - new Date(a.timestamp);
       } catch (err) {
-        return b.timestamp?.localeCompare(a.timestamp) || 0;
+        return 0;
       }
     })
     .slice(0, maxItems);
 
-  const formatTimestamp = (timestamp) => {
-    if (!timestamp) return '';
-    return timestamp;
-  };
+  const formatTimestamp = (timestamp) => timestamp || '';
 
   return (
     <View
