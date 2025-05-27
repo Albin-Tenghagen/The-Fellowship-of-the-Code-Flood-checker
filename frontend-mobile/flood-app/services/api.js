@@ -2,46 +2,46 @@ import baseUrl from "./urlConfig";
 
 // Mock data
 const mockSafetyData = {
-  products: [
+  locations: [
     {
-      id: 1,
-      title: "Översvämningsvarning",
-      description: "Kontrollera vattennivåer och ha en evakueringsplan redo",
-      category: "flood",
-      priority: "critical",
-      icon: "🌊"
+      "id": 1001,
+      "timestamp": "18/4-25",
+      "location": "Nordvästra Eslöv",
+      "description": "Mätstation vid västra Asmundtorp har mätt ett förhöjt vattenstånd med ${waterlevel}",
+      "proactiveActions": {
+        "basementProtection": "Boende i Asmundtorp bör hålla uppsikt. så vatten ej tränger in i källare. Vattennivån är aningen riskfylld",
+        "trenchDigging": "Ej nödvändigt i nuläget",
+        "electricHazards": "Kolla trädgården efter elektriska saker "
+      }
     },
     {
-      id: 2,
-      title: "Källarsäkerhet",
-      description: "Installera vattenlarm och backventiler för att skydda mot vattenintrång",
-      category: "basement",
-      priority: "high",
-      icon: "💧"
+      "id": 1002,
+      "timestamp": "11/4-25",
+      "location": "Haparanda",
+      "description": "Mätstation vid östra Asmundtorp har mätt ett förhöjt vattenstånd med ${waterlevel}",
+      "proactiveActions": {
+        "basementProtection": "Boende i Asmundtorp bör hålla uppsikt. så vatten ej tränger in i källare. Vattennivån är aningen riskfylld",
+        "trenchDigging": "Ej nödvändigt i nuläget",
+        "electricHazards": "Kolla trädgården efter elektriska saker "
+      }
     },
     {
-      id: 3,
-      title: "Bil i vatten",
-      description: "Kör aldrig genom översvämmade områden - vänd om vid vattenhinder",
-      category: "vehicle",
-      priority: "critical",
-      icon: "🚗"
+      "id": 1003,
+      "timestamp": "2025-04-21 08:40:23.682",
+      "location": "SydÖstra eslöv",
+      "description": "vatten upp till knäna inte bra alls",
+      "proactiveActions": {
+        "basementProtection": "Är en bra idé, Lägg påsar med sand vid glippor och dylikt"
+      }
     },
     {
-      id: 4,
-      title: "Nödutrustning",
-      description: "Förvara ficklampa, radio och första hjälpen-kit på säker höjd",
-      category: "emergency",
-      priority: "high",
-      icon: "🆘"
-    },
-    {
-      id: 5,
-      title: "Elstängning",
-      description: "Lär dig stänga av el och vatten vid översvämningsrisk",
-      category: "utilities",
-      priority: "high",
-      icon: "⚡"
+      "id": 1004,
+      "timestamp": "2025-04-21 10:44:49 undefined",
+      "location": "SydÖstra eslöv",
+      "description": "vatten upp till knäna inte bra alls",
+      "proactiveActions": {
+        "basementProtection": "kattsand är absorberande"
+      }
     }
   ]
 };
@@ -186,7 +186,7 @@ export const fetchSafety = async () => {
   if (USE_MOCK_DATA) {
     console.log(":test_tube: Using mock safety data");
     return new Promise(resolve => {
-      setTimeout(() => resolve(mockSafetyData.products), 500);
+      setTimeout(() => resolve(mockSafetyData.locations), 500);
     });
   }
 
