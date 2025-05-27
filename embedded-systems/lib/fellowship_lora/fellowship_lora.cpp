@@ -74,14 +74,8 @@ int16_t fellowshipLoRa::write(String &msg)
 
 int16_t fellowshipLoRa::write(int16_t value)
 {
-	value >> 8;
-	Serial.println((uint8_t) (value >> 8) & 0xFF, HEX);
-	Serial.println((uint8_t) value, HEX);
-
-	Serial.println(value);
-
 	// Converts int16_t to two uint8_t so it can be sent as a string. Probably overcomplicated ngl.
-	char msg[] = { (uint8_t) ((value >> 8) & 0xFF), (uint8_t) (value), 0 };
+	char msg[] = { (uint8_t) (value >> 8), (uint8_t) (value), 0 };
 
 	String str { msg };
 	return write(str);

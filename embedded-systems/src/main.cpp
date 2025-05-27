@@ -109,6 +109,8 @@ void loop()
     first_millis = millis();
 
     WaterPressure::readWaterLevel(sensor);
+
+    sensor.depth_cm = 0x1234;
     Serial.println(sensor.depth_cm);
 
     // (16 bit) 0x4020 >> 8 = 0x0040 = (uint8_t) 0x40
