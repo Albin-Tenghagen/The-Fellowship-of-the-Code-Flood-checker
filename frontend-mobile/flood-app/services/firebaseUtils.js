@@ -1,6 +1,6 @@
 import { collection, addDoc, getDocs, getDoc, doc } from "firebase/firestore";
 import { db, auth } from "./firebaseConfig";
-import { mockLocations, mockMonitoringEntries } from "./mockData";
+import { mockLocations, mockMonitoringEntries, mockInfrastructureIssues, mockUserTips } from "./mockData";
 
 
 // Funktion för att ladda upp mockdata
@@ -82,3 +82,76 @@ export const getMonitoringEntries = async (teamId = "teamFlood") => {
 
   return data;
 };
+
+
+export const uploadMockInfrastructure = async (teamId = "teamFlood") => {
+  const user = auth.currentUser;
+  if (!user) {
+    console.warn("Du måste vara inloggad för att skicka data.");
+    return;
+  }
+
+  const collectionRef = collection(db, "projects", teamId, "infrastructure");
+
+  for (const issue of mockInfrastructureIssues) {
+    try {
+      await addDoc(collectionRef, {
+        ...issue,
+        uploadedBy: user.uid,
+        timestamp: new Date().toISOString(),
+      });
+      console.log("Infrastrukturproblem tillagt:", issue.problem);
+    } catch (error) {
+      console.error("Fel vid uppladdning:", error);
+    }
+  }
+};
+
+export const getInfrastructureIssues = async (teamId = "teamFlood") => {
+  try {
+    const snapshot = await getDocs(collection(db, "projects", teamId, "infrastructure"));
+    const issues = snapshot.docs.map(doc => doc.data());
+    console.log("Infrastrukturproblem:", issues);
+    return issues;
+  } catch (error) {
+    console.error("Fel vid hämtning av infrastrukturproblem:", error);
+    return [];
+  }
+};
+
+
+export const uploadMockUserTips = async (teamId = "teamFlood") => {
+  const user = auth.currentUser;
+  if (!user) {
+    console.warn("Du måste vara inloggad för att skicka data.");
+    return;
+  }
+
+  const collectionRef = collection(db, "projects", teamId, "tips");
+
+  for (const tip of mockUserTips) {
+    try {
+      await addDoc(collectionRef, {
+        ...tip,
+        uploadedBy: user.uid,
+        timestamp: new Date().toISOString()
+      });
+      console.log("Tips tillagd:", tip.description);
+    } catch (error) {
+      console.error("Kunde inte lägga till tips:", tip.description, error);
+    }
+  }
+};
+
+export const getUserTips = async (teamId = "teamFlood") => {
+  try {
+    const snapshot = await getDocs(collection(db, "projects", teamId, "tips"));
+    const tips = snapshot.docs.map(doc => doc.data());
+    console.log("Tips hämtade:", tips);
+    return tips;
+  } catch (error) {
+    console.error("Fel vid hämtning av tips:", error);
+    return [];
+  }
+};
+

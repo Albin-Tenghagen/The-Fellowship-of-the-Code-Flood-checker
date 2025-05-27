@@ -133,3 +133,72 @@ export const mockMonitoringEntries = [
     ultraSoundLevel: 5
   }
 ];
+
+export const mockInfrastructureIssues = [
+  { problem: "Översvämmad väg vid Dalbyvägen (Lund)" },
+  { problem: "Vattenläcka på Amiralsgatan (Malmö)" },
+  { problem: "Avlopp överbelastat vid Södertull (Lund)" },
+  { problem: "Underjordisk gång stängd pga översvämning (Malmö C)" },
+  { problem: "Gatubrunnar blockerade av löv i Limhamn" },
+  { problem: "Parkering dränkt vid Pildammsvägen" },
+  { problem: "Gångväg otillgänglig vid Östra Torn pga vatten" },
+  { problem: "Stora vattensamlingar vid Nobeltorget" },
+  { problem: "Busshållplats översvämmad vid Centralstationen" },
+  { problem: "Trafikljus ur funktion pga fukt i teknikskåp" },
+];
+
+export const mockUserTips = [
+  {
+    location: "Sofielund / Seved (Malmö)",
+    description: "Översvämning nära förskolan – vatten täcker gångbanan",
+    user: "Lisa"
+  },
+  {
+    location: "Bullerbyn / Norra Fäladen (Lund)",
+    description: "Vatten tränger in i källaringång – grannar bör kolla upp",
+    user: "Erik"
+  },
+  {
+    location: "Limhamn – Sibbarp (Malmö)",
+    description: "Regnvatten rinner inte undan vid parkeringen",
+    user: "Fatima"
+  },
+  {
+    location: "Kobjer (Lund)",
+    description: "Stora pölar på cykelbanan – risk för halka",
+    user: "Oskar"
+  },
+  {
+    location: "Pildammsparken / Stadionområdet (Malmö)",
+    description: "Vattennivån i dammen är ovanligt hög",
+    user: "Anna"
+  },
+  {
+    location: "Möllevången (Malmö)",
+    description: "Avlopp bubblar upp i källaren",
+    user: "Johan"
+  },
+  {
+    location: "Klostergården (Lund)",
+    description: "Regnvatten står kvar på innergården",
+    user: "Sandra"
+  },
+  {
+    location: "Västra hamnen (Malmö)",
+    description: "Vatten slickar trottoarkanten – pågående skyfall",
+    user: "Nils"
+  },
+  {
+    location: "Linneplatsen (Lund)",
+    description: "Trädgårdar börjar fyllas med vatten",
+    user: "Elin"
+  },
+  {
+    location: "Rosengård (Malmö)",
+    description: "Översvämmat soprum – lukt och hygienrisk",
+    user: "Ali"
+  }
+];
+
+
+
