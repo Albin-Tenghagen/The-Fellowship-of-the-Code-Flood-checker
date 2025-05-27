@@ -77,9 +77,9 @@ int16_t fellowshipLoRa::write(int16_t value)
 	char msg[3] = { 0 };
 
 	uint8_t higherBit = (uint8_t) (value >> 8);
-	if (!higherBit)
+	if (higherBit != 0)
 	{
-		msg[0] = (uint8_t) (value >> 8);
+		msg[0] = higherBit;
 		msg[1] = (uint8_t) (value);
 	} 
 	else
@@ -88,6 +88,8 @@ int16_t fellowshipLoRa::write(int16_t value)
 	}
 
 	String str { msg };
+
+	Serial.println(str);
 	return write(str);
 }
 

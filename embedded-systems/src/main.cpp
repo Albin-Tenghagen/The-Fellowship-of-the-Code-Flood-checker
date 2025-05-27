@@ -53,7 +53,7 @@ void loop()
 
     fellowshipLoRa::readUntilValueRecv(str);
 
-    if (str.length() == 3)
+    if (str.length() == 2)
         water_level_cm = fellowshipLoRa::convertToInt16(str[0], str[1]);
     else
         water_level_cm = str[0];
