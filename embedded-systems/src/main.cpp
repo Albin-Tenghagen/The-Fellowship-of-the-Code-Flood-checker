@@ -1,17 +1,17 @@
-#define __SERVER__
+//#define __SERVER__
 #ifdef __SERVER__
 
 #include <Arduino.h>
 #include <ArduinoJson.h>
 
-#include "WaterPressure.h"
-#include "lora/fellowship_lora.h"
-#include "wifi/fellowship_wifi.h"
+#include <WaterPressure.h>
+#include <fellowship_lora.h>
+#include <fellowship_wifi.h>
 #include "SoilSensor.h"
 #include "hcsr04.h"
 #include "DHTSensor.h"
 
-int16_t water_level_mm = 0;
+int16_t water_level_cm = 0;
 
 JsonDocument json;
 
@@ -52,7 +52,12 @@ void loop()
     String str;
 
     fellowshipLoRa::readUntilValueRecv(str);
-    water_level_mm = fellowshipLoRa::convertToInt16(str[0], str[1]);
+    water_level_cm = fellowshipLoRa::convertToInt16(str[0], str[1]);
+
+    Serial.print("water_level_mm: ");
+    Serial.println(water_level_cm);
+
+    Serial.printf("String water_level: %s\n", str);
 
     Soil::updateSoilSensorValue();
     DHTSensor::readDHTSensor();
@@ -63,15 +68,15 @@ void loop()
     json["temperature_c"] = DHTSensor::temperature;
     json["humidity_percent"] = DHTSensor::humidity;
     json["water_level_ultrasound_cm"] = distance_us;
-    json["water_level_pressure_cm"] = (double) water_level_mm;
-    json["water_level_average_cm"] = (double) (distance_us + (double) water_level_mm) / 2.0; 
+    json["water_level_pressure_cm"] = water_level_cm;
+    json["water_level_average_cm"] = (double) (distance_us + (double) water_level_cm) / 2.0; 
 
     String jsonStr;
     serializeJson(json, jsonStr);
 
     Serial.println(jsonStr);
 
-    fellowshipWiFi::sendRequest("somerandomhostname.topdomain", 5001, "/admins/authenticated/monitoring/postmonitoring", jsonStr);
+    fellowshipWiFi::sendRequest("12345", 5001, "/admins/authenticated/monitoring/postmonitoring", jsonStr);
     // WaterPressure::readWaterLevel(water_pressure_sensor);
     // fellowshipLoRa::write(water_pressure_sensor.depth_cm);
     
@@ -83,7 +88,7 @@ void loop()
 #include <Arduino.h>
 #include <RTOS.h>
 
-#include "lora/fellowship_lora.h"
+#include <fellowship_lora.h>
 #include "WaterPressure.h"
 
 uint64_t first_millis = 0;
@@ -109,17 +114,7 @@ void loop()
     // (16 bit) 0x4020 >> 8 = 0x0040 = (uint8_t) 0x40
     // (16 bit) 0x4020 = (uint8_t) 0x20
 
-    char cStr[3] { 
-        (uint8_t) (sensor.depth_cm >> 8),
-        (uint8_t) (sensor.depth_cm),
-        0
-    };
-
-    Serial.println(fellowshipLoRa::convertToInt16(cStr[0], cStr[1]));
-
-    String str { cStr };
-
-    fellowshipLoRa::write( str );
+    fellowshipLoRa::write( sensor.depth_cm );
 
     second_millis = millis();
 

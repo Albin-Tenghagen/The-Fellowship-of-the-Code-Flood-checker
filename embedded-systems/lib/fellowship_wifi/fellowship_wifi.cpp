@@ -1,20 +1,29 @@
-#include "wifi/fellowship_wifi.h"
+#include "fellowship_wifi.h"
 #include <WiFi.h>
 #include <json_parser.h>
 
 #include <vector>
 
-#include "wifi/secrets.h"
+#include "secrets.h"
+
+bool fellowshipWiFi::connectWiFi()
+{
+    WiFi.begin(SSID, PASSPHRASE);
+    
+    uint8_t status = WiFi.waitForConnectResult();
+    if (status != wl_status_t::WL_CONNECTED)
+    {
+        Serial.println("Unable to connect to WiFi...");
+        return false;
+    }
+
+    Serial.println("Connected to WiFi");
+
+    return true;
+}
 
 bool fellowshipWiFi::connectWiFi(IPAddress local_ipaddr, IPAddress gateway, IPAddress subnet_mask)
 {
-    WiFi.config(
-        local_ipaddr,
-        gateway,
-        subnet_mask, 
-        IPAddress{1, 1, 1, 1}
-    );
-
     WiFi.begin(SSID, PASSPHRASE);
     
     uint8_t status = WiFi.waitForConnectResult();
