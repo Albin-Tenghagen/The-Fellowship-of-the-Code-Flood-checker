@@ -1,4 +1,4 @@
-// #define __SERVER__
+#define __SERVER__
 #ifdef __SERVER__
 
 #include <Arduino.h>
@@ -28,12 +28,26 @@ void setup()
     hcsr04::begin(6, 7);
     DHTSensor::initDHTSensor(8);
 
-    fellowshipWiFi::connectWiFi({192, 168, 8, 201}, {192, 168, 8, 1});
+    fellowshipWiFi::connectWiFi();
 
     // Configure for debugging
     hcsr04::setMockMode(false);
     hcsr04::setMockDuration(hcsr04::simulateEchoDurationFromCM(10));
     
+
+
+    // int16_t status = fellowshipLoRa::init();
+    // if (status != RADIOLIB_ERR_NONE)
+    // {
+    //     Serial.print("Unable to initialize LoRa! Error "); 
+    //     Serial.println(status);
+
+    //     while ( true ) { }
+    // }
+}
+
+void loop()
+{
     // Read values
     String str;
 
@@ -49,27 +63,15 @@ void setup()
     json["temperature_c"] = DHTSensor::temperature;
     json["humidity_percent"] = DHTSensor::humidity;
     json["water_level_ultrasound_cm"] = distance_us;
-    json["water_level_pressure_cm"] = (double) water_level_mm / 10;
-    json["water_level_average_cm"] = (double) (distance_us + (double) water_level_mm / 10) / 2.0; 
+    json["water_level_pressure_cm"] = (double) water_level_mm;
+    json["water_level_average_cm"] = (double) (distance_us + (double) water_level_mm) / 2.0; 
 
     String jsonStr;
     serializeJson(json, jsonStr);
 
     Serial.println(jsonStr);
 
-
-    // int16_t status = fellowshipLoRa::init();
-    // if (status != RADIOLIB_ERR_NONE)
-    // {
-    //     Serial.print("Unable to initialize LoRa! Error "); 
-    //     Serial.println(status);
-
-    //     while ( true ) { }
-    // }
-}
-
-void loop()
-{
+    fellowshipWiFi::sendRequest("somerandomhostname.topdomain", 5001, "/admins/authenticated/monitoring/postmonitoring", jsonStr);
     // WaterPressure::readWaterLevel(water_pressure_sensor);
     // fellowshipLoRa::write(water_pressure_sensor.depth_cm);
     
@@ -84,12 +86,22 @@ void loop()
 #include "lora/fellowship_lora.h"
 #include "WaterPressure.h"
 
+uint64_t first_millis = 0;
+uint64_t second_millis = 0;
+const uint64_t DELAY_TIME = 1800000;
+
 WaterPressure::WaterPressureSensor sensor { 7 };
 
 void setup()
 {
     Serial.begin(9600);
     fellowshipLoRa::init();
+
+}
+
+void loop()
+{
+    first_millis = millis();
 
     WaterPressure::readWaterLevel(sensor);
     Serial.println(sensor.depth_cm);
@@ -107,18 +119,12 @@ void setup()
 
     String str { cStr };
 
-    // fellowshipLoRa::write( str );
-}
+    fellowshipLoRa::write( str );
 
-void loop()
-{
-    // String msg;
-    // fellowshipLoRa::readUntilValueRecv(msg);
+    second_millis = millis();
 
-    // Serial.printf("[SX1262] Message received: %li\n", fellowshipLoRa::convertToInt16(msg[0], msg[1]));
+    delay(DELAY_TIME - (second_millis - first_millis));
 
-    // Serial.println(analogRead(19));
-    // delay(500);
 }
 
 #endif
