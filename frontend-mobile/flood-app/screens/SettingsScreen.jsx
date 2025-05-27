@@ -1,6 +1,6 @@
 import { ScrollView, StyleSheet, Text, View, Pressable } from 'react-native';
 import { useTheme } from '../themes/ThemeContext';
-import { uploadMockLocations } from "../services/firebaseUtils";
+import { uploadMockLocations, uploadMockMonitoringEntries } from "../services/firebaseUtils";
 
 const SettingsScreen = () => {
   const { theme } = useTheme();
@@ -12,7 +12,9 @@ const SettingsScreen = () => {
         <Pressable style={styles.button} onPress={() => uploadMockLocations()}>
           <Text style={styles.buttonText}>Ladda upp mock-data (locations)</Text>
         </Pressable>
-
+        <Pressable style={styles.button} onPress={() => uploadMockMonitoringEntries()}>
+          <Text style={styles.buttonText}>Ladda upp mock-monitoring</Text>
+        </Pressable>
       </View>
     </ScrollView>
   );
