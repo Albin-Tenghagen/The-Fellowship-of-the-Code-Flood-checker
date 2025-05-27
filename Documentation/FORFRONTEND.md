@@ -7,7 +7,7 @@
 2. Finding documentation
 
 - go to your webbrowser
-- type in the search bar "http://localhost:5000/api-docs/". That will show you the whole API-Documentation
+- type in the search bar "http://localhost:5001/api-docs/". That will show you the whole API-Documentation
 - furthest down on the page there is a section called "Schema". There are alot of the typed data that is interacted with in the API.
 
 3. Rapport potenial missing documentation
