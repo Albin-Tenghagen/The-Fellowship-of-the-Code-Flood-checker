@@ -70,3 +70,15 @@ export const uploadMockMonitoringEntries = async (teamId = "teamFlood") => {
     }
   }
 };
+
+export const getMonitoringEntries = async (teamId = "teamFlood") => {
+  const collectionRef = collection(db, "projects", teamId, "monitoring");
+  const snapshot = await getDocs(collectionRef);
+
+  const data = snapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }));
+
+  return data;
+};
