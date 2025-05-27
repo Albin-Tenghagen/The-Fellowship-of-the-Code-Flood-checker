@@ -20,11 +20,12 @@ void WaterPressure::readWaterLevel(WaterPressureSensor& sensor_object)
         delay(100);
     }
 
+
     sensor_object.sensor_average_value = (float)sensor_object.sensor_value_sum / (float)sensor_object.MEASURING_POINTS;
     sensor_object.sensor_value_sum = 0;
     
     sensor_object.depth_cm = (float(map(sensor_object.sensor_average_value, 600, 3840, 0, 2000)) * 1.20f) / 10.0f;
-
+  
     Serial.print("Sensor value: ");
     Serial.print(sensor_object.sensor_value);
     Serial.print(", Depth in cm: ");
