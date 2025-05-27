@@ -1,41 +1,71 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response, Request } from "express";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import db from "../../Database/db.ts";
 
-import jwt from "jsonwebtoken";
-import { JWTRequest } from "../types/types.ts";
-function authenticateToken(req: JWTRequest, res: Response, next: NextFunction) {
+export interface JWTRequest extends Request {
+  user?: {
+    userName: string;
+    role: string;
+  };
+}
+
+export async function authenticateToken(
+  req: JWTRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
   const authHeader = req.headers["authorization"];
-  const token = authHeader?.split(" ")[1];
-
   if (!authHeader) {
-    res.status(401).json({ error: "JWT-token saknas" });
-    return;
-  }
-  if (!token) {
-    res.status(401).json({ error: "Das Token ist nicht vorhanden" });
+    res.status(401).json({ error: "Authorization header missing" });
     return;
   }
 
-  const jwtSecret = process.env.JWTSECRET;
+  const parts = authHeader.split(" ");
+  const token = parts[1];
+  if (parts[0] !== "Bearer" || !token) {
+    res.status(401).json({ error: "Token missing or bad format" });
+    return;
+  }
+
+  const jwtSecret = process.env.JWT_SECRET;
   if (!jwtSecret) {
-    return res.status(500).json({ error: "JWT secret not configured" });
+    res.status(500).json({ error: "JWT_SECRET not configured" });
+    return;
   }
 
   try {
     const decoded = jwt.verify(token, jwtSecret);
 
     if (typeof decoded === "string") {
-      return res.status(403).json({ error: "Invalid token format" });
+      res.status(403).json({ error: "Invalid token format" });
+      return;
     }
 
-    // Narrowed type: now TypeScript knows it's a JwtPayload object
+    const payload = decoded as JwtPayload & {
+      userName: string;
+      role: string;
+    };
+
+    const result = await db.pool.query(
+      "SELECT 1 FROM admins WHERE name = $1 AND role = $2",
+      [payload.userName, payload.role]
+    );
+    if (result.rowCount === 0) {
+      res.status(401).json({ error: "User not authorized" });
+      return;
+    }
+
     req.user = {
-      userName: decoded.userName,
-      role: decoded.role,
+      userName: payload.userName,
+      role: payload.role,
     };
 
     next();
-  } catch (error) {
-    res.status(500).json({ message: "Token generation failed", error: error });
+  } catch (err) {
+    console.error("Token verification error:", err);
+
+    res.status(401).json({ error: "Invalid or expired token" });
   }
 }
+
 export default authenticateToken;

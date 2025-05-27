@@ -9,7 +9,7 @@ export function timestampCreation() {
     second: "2-digit",
   }).format(new Date());
 
-  // Format it like "YYYY-MM-DD HH:mm:ss"
-  const formattedTime = swedenTime.replace(",", ""); // Remove the comma
+  // Format: "YYYY-MM-DD HH:mm:ss"
+  const formattedTime = swedenTime.replace(",", "");
   return formattedTime;
 }

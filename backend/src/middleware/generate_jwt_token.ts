@@ -1,33 +1,52 @@
-// middleware/generateToken.ts
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import db from "../../Database/db.ts";
+interface TokenRequest extends Request {
+  body: {
+    name: string;
+    token?: string;
+  };
+}
 
-
-//TODO IMPLEMENTERA JÄMFÖRELSE OPERATIONER MED ADMIN TABLE FÖR ATT GENERERA EN TOKEN. AND THEN AFTER THAT WE PARTY
-export function generateToken(
-  req: Request,
+export async function generateToken(
+  req: TokenRequest,
   res: Response,
   next: NextFunction
-): void {
+): Promise<void> {
   const { name } = req.body;
-  const role = "admin";
-
-  const jwtSecret = process.env.JWT_SECRET;
-  if (!jwtSecret) {
-    res.status(500).json({ message: "JWT_SECRET is not defined" });
-    return;
-  }
 
   try {
-    const token = jwt.sign({ userName: name, role: role }, jwtSecret, {
+    const lowecasename = name.toLocaleLowerCase();
+    const result = await db.pool.query(
+      "SELECT role FROM admins WHERE name = $1",
+      [lowecasename]
+    );
+
+    if (result.rowCount === 0) {
+      res.status(401).json({ error: "User is not an admin" });
+      return;
+    }
+
+    const { role } = result.rows[0];
+
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      res.status(500).json({ error: "JWT_SECRET not defined" });
+      return;
+    }
+
+    const token = jwt.sign({ userName: name, role }, jwtSecret, {
       expiresIn: "1h",
     });
 
-    // Attach token to request for later use
-    req.body.token = token;
+    res.setHeader("Authorization", `Bearer ${token}`);
+
+    res.locals.token = token;
     next();
   } catch (err) {
-    res.status(500).json({ message: "Token generation failed" });
+    console.error("Error querying admins table:", err);
+
+    res.status(500).json({ error: "Failed to generate token" });
     return;
   }
 }

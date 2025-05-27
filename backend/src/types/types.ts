@@ -8,57 +8,91 @@ export interface userTipObject {
   description: string;
 }
 
-export interface TipBody {
+export interface TipRequest
+  extends Request<{ id: string }, any, userTipObject> {}
+//*_____________________________________________________________
+
+// Your base observation data type
+export interface user_observation {
   id?: number;
-  timestamp: string;
+  timestamp?: string;
   location: string;
-  description: string;
-  username: string;
-}
-
-export interface riskBody {}
-
-export interface TipRequest extends Request<{}, any, TipBody> {}
-//*_____________________________________________________________
-
-//* User Safety
-export interface usersSafetyInfo
-  extends Request<{ id: string }, any, userSafetyBody> {}
-
-export interface userSafetyBody {
-  id: number;
-  timestamp: string;
-  location: string;
-  description: string;
-  proactiveActions: boolean;
-}
-
-// export interface userSafetyBody {
-//   id: number;
-//   timestamp: string;
-//   location: string;
-//   warning: string;
-//   waterlevel: number
-//   riskAssesment
-//   description: string;
-//   proactiveActions: boolean;
-// }
-
-//*_____________________________________________________________
-
-//* User Risks
-export interface userRisksInfo extends Request<{}, any, any> {}
-export interface riskAssesment {
-  id: number;
-  timestamp: string;
   warning: string;
   waterlevel: number;
-  riskAssesment: string;
+  risk_assesment: string;
+  description: string;
+  proactive_actions: boolean;
+}
+
+// Allowed sorting fields
+export type ObservationSortField = keyof Pick<
+  user_observation,
+  "id" | "timestamp" | "location" | "risk_assesment" | "waterlevel"
+>;
+
+// Typed request for query params (e.g. ?sorting=timestamp)
+export interface users_observation_info
+  extends Request<
+    {},
+    any, // response body (you can customize this if needed)
+    { sorting?: ObservationSortField } // query string
+  > {}
+
+//*_____________________________________________________________
+
+//* infrastructure
+export interface infrastructureBody {
+  id?: number;
+  location: string;
+  problem: string;
+  timestamp: string;
+}
+
+export type infrastructureRequest = Request<
+  { id: string },
+  {},
+  infrastructureBody
+>;
+//*____________________________________________________________
+
+//* admin monitoring
+
+export interface MonitoringEntry {
+  id?: string;
+  timestamp: string;
+  station_id: number; //Var sensorTornet är placerat
+  soil_moisture_percent: number;
+  temperature_c: number;
+  humidity_percent: number;
+  water_level_pressure_cm: number;
+  water_level_ultrasound_cm: number;
+  water_level_average_cm: number;
+}
+
+export type StationRequest = Request<{}, {}, {}>;
+
+//*_____________________________________________________________
+
+//* admin_maintenance
+export interface admin_maintenance {
+  id: number;
+  worker_id: number;
+  timestamp: string;
+  updated_timestamp: string;
+  location: string;
+  station_id: number;
+  work_issue: string;
+  work_duration: string;
+  work_status: string;
 }
 //*_____________________________________________________________
 
-//* User notification
-export interface userNotifications extends Request<{}, any, any> {}
+//* stations
+export interface station {
+  id: number;
+  name: string;
+  location: string;
+}
 //*_____________________________________________________________
 
 //* admin auth
@@ -75,6 +109,7 @@ export interface adminLogin extends Request<{}, any, loginData> {}
 
 //*_____________________________________________________________
 
+<<<<<<< HEAD
 //* admin monitoring
 
 export interface MonitoringEntry {
@@ -97,6 +132,8 @@ export type StationRequest = Request<{}, {}, {}>;
 
 //*_____________________________________________________________
 
+=======
+>>>>>>> b98a48bfd67a9af7211efc97b8d3761722a0c160
 //* JWT
 export interface JWTRequest extends Request {
   user?: {
@@ -107,21 +144,6 @@ export interface JWTRequest extends Request {
 }
 
 //*_____________________________________________________________
-
-//* admin infrastructure
-export interface infrastructureBody {
-  id: number;
-  timestamp: string;
-  problem: string;
-  location: string;
-}
-
-export type infrastructureRequest = Request<
-  { id: string },
-  {},
-  infrastructureBody
->;
-//*____________________________________________________________
 
 //! new interface currently being created. NOT TO BE USED
 // export interface publicInfo {
@@ -134,7 +156,7 @@ export type infrastructureRequest = Request<
 //   publicReport?: {
 //     // Public monitoring
 //     monitoringlevels: number
-//     timeStamp: number
+//     timestamp: string
 //     riskAssesment: number
 //   }
 
@@ -153,7 +175,7 @@ export type infrastructureRequest = Request<
 //     floodProtecting: boolean
 //     // Tells the user if they should keep track in case there is alot happening basically
 //     trackKeeping: boolean
-//     timeStamp: number
+//     timestamp: string
 //   },
 // }
 //!_____________________________________________________________

@@ -1,16 +1,22 @@
 console.log(" Monitoring router running....");
 import express, { Request, Response, Router } from "express";
-import { readFile } from "fs/promises";
-import path from "path";
 
 import { StationRequest } from "types/types.ts";
 import { MonitoringEntry } from "types/types.ts";
 
 import { timestampCreation } from "../../middleware/timestampCreation.ts";
+<<<<<<< HEAD
 import db from "../../../Database/db.ts";
 import { Query } from "pg";
 const pool = db.pool;
 
+=======
+import authenticateToken from "../../middleware/jwtAuth.ts";
+import db from "../../../Database/db.ts";
+
+const pool = db.pool;
+
+>>>>>>> b98a48bfd67a9af7211efc97b8d3761722a0c160
 const authMonitoringRouter = express.Router();
 
 //GET to monitor currnet data (last two weeks)
@@ -83,6 +89,10 @@ authMonitoringRouter.get(
 );
 authMonitoringRouter.post(
   "/postmonitoring",
+<<<<<<< HEAD
+=======
+  authenticateToken,
+>>>>>>> b98a48bfd67a9af7211efc97b8d3761722a0c160
   async (req: Request, res: Response): Promise<void> => {
     const {
       station_id,
@@ -94,7 +104,10 @@ authMonitoringRouter.post(
       water_level_average_cm,
     } = req.body;
 
+<<<<<<< HEAD
     // Create new monitoring entry object
+=======
+>>>>>>> b98a48bfd67a9af7211efc97b8d3761722a0c160
     const newEntry: MonitoringEntry = {
       timestamp: timestampCreation(),
       station_id,
@@ -106,7 +119,10 @@ authMonitoringRouter.post(
       water_level_average_cm,
     };
 
+<<<<<<< HEAD
     // Input validation (FIXED): Now properly checks for missing values
+=======
+>>>>>>> b98a48bfd67a9af7211efc97b8d3761722a0c160
     if (
       !newEntry.timestamp ||
       !newEntry.station_id ||
