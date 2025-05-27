@@ -34,7 +34,7 @@ useEffect(() => {
       setTimeout(() => {
         try {
           const shuffled = [...mockSafetyData.locations].sort(() => 0.5 - Math.random());
-          const randomItems = shuffled.slice(0, Math.floor(Math.random() * 3) + 1);
+          const randomItems = shuffled.slice(0, 3);
 
           const randomizedIssues = randomItems.map((item, index) => ({
             id: item.id || index,
