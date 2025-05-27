@@ -74,8 +74,18 @@ int16_t fellowshipLoRa::write(String &msg)
 
 int16_t fellowshipLoRa::write(int16_t value)
 {
-	// Converts int16_t to two uint8_t so it can be sent as a string. Probably overcomplicated ngl.
-	char msg[] = { (uint8_t) (value >> 8), (uint8_t) (value), 0 };
+	char msg[3] = { 0 };
+
+	uint8_t higherBit = (uint8_t) (value >> 8);
+	if (!higherBit)
+	{
+		msg[0] = (uint8_t) (value >> 8);
+		msg[1] = (uint8_t) (value);
+	} 
+	else
+	{
+		msg[0] = (uint8_t) (value);
+	}
 
 	String str { msg };
 	return write(str);
