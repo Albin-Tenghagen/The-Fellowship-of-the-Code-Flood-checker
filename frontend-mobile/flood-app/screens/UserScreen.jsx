@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View, ScrollView, Alert } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { useTheme } from "../themes/ThemeContext"
-import WorkerStatus from '../components/WorkerStatus'
-import InfrastructureIssuesCard from '../components/InfrastructureIssuesCard'
-import WaterLevelCard from '../components/WaterLevelCard'
+import AnimatedButton from '../components/AnimatedButton';
+import { useAuth } from '../context/AuthContext';
+import PickLocation from '../components/PickLocation'
 import { fetchMonitoring } from '../services/api'
 
 const UserScreen = () => {
