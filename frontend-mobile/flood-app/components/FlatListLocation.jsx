@@ -128,7 +128,7 @@ const FlatListLocation = ({
             {errorTextPrefix}{error}
           </Text>
         ) : displayedLocations.length === 0 ? (
-          <Text style={[styles.emptyText, { color: secondaryTextColor || theme.textSecondary || '#999' }]}>
+          <Text style={[styles.emptyText, { color: secondaryTextColor || theme.textPrimary}]}>
             {emptyText}
           </Text>
         ) : (

@@ -57,7 +57,7 @@ const SelectedLocationCard = ({
         ]}>
           <Text style={[
             styles.label, 
-            { color: textColor || theme.primary }
+            { color: textColor || theme.textPrimary }
           ]}>
             Plats
           </Text>
@@ -75,7 +75,7 @@ const SelectedLocationCard = ({
         ]}>
           <Text style={[
             styles.label, 
-            { color: textColor || theme.primary }
+            { color: textColor || theme.textPrimary }
           ]}>
             Vattennivå
           </Text>
@@ -93,7 +93,7 @@ const SelectedLocationCard = ({
         ]}>
           <Text style={[
             styles.label, 
-            { color: textColor || theme.primary }
+            { color: textColor || theme.textPrimary }
           ]}>
             Tidpunkt
           </Text>
@@ -107,11 +107,11 @@ const SelectedLocationCard = ({
 
         <View style={[
           styles.detailItem,
-          { borderBottomColor: borderColor || theme.primary }
+          { borderBottomColor: borderColor || theme.textPrimary }
         ]}>
           <Text style={[
             styles.label, 
-            { color: textColor || theme.primary }
+            { color: textColor || theme.textPrimary }
           ]}>
             Beskrivning
           </Text>
@@ -135,7 +135,7 @@ const SelectedLocationCard = ({
               />
               <Text style={[
                 styles.subheading, 
-                { color: textColor || theme.primary }
+                { color: textColor || theme.textPrimary }
               ]}>
                 Förebyggande åtgärder
               </Text>
