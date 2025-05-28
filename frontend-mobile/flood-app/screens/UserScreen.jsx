@@ -63,9 +63,12 @@ const UserScreen = () => {
 
   return (
     <ScrollView style={styles.scroll} contentContainerStyle={styles.container}>
-      <AnimatedButton style={styles.button} title="Logga ut" onPress={logout} />
+  
       <View style={styles.statusContainer}>
         <PickLocation />
+      </View>
+      <View style={styles.buttonContainer}>
+          <AnimatedButton style={styles.button} title="Logga ut" onPress={logout} />
       </View>
     </ScrollView>
   );
@@ -83,8 +86,9 @@ const styles = StyleSheet.create({
   statusContainer: {
     // zIndex: 1,
   },
-  mapContainer: {
-    flex: 1,
-  }
+  buttonContainer: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
 })
 

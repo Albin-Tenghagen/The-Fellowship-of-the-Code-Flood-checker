@@ -29,6 +29,8 @@ const createStyles = (theme) =>
       flex: 1,
       alignItems: 'flex-start',
       justifyContent: 'center',
+      color: theme.accent,
+
     },
     checkboxContainer: {
       flexDirection: 'row',

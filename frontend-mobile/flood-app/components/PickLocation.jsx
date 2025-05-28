@@ -49,19 +49,19 @@ const PickLocation = () => {
 };
 const styles = StyleSheet.create({
   instructionContainer: {
-    margin: 20,
     marginTop: 0,
-    padding: 16,
+    padding: 5,
     borderRadius: 12,
+    flexDirection: 'column',
   },
   instructionContent: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   instructionText: {
-    fontSize: 12,
+    fontSize: 13,
     lineHeight: 20,
-    marginLeft: 12,
+    marginLeft: 15,
     flex: 1,
     fontWeight: '500',
   },
