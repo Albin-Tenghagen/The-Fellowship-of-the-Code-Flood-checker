@@ -1,40 +1,43 @@
 {
   "expo": {
     "name": "flood-app",
-    "slug": "flood-app",
+    "slug": "floodapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.flood-app"
+      "bundleIdentifier": "com.anonymous.flood-app",
+      "runtimeVersion": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "package": "com.atfedmis.floodapp",
+      "runtimeVersion": {
+        "policy": "appVersion"
       }
     },
     "plugins": [
       "expo-font",
       "expo-secure-store"
     ],
-    "expo": {
-      "plugins": [
-        [
-          "expo-location",
-          {
-            "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
-          }
-        ]
-      ]
+    "extra": {
+      "eas": {
+        "projectId": "86187d2f-630e-4ff5-bc0a-f8eb971388ee"
+      }
+    },
+    "owner": "atfedmis",
+    "updates": {
+      "url": "https://u.expo.dev/86187d2f-630e-4ff5-bc0a-f8eb971388ee"
     }
   }
 }
