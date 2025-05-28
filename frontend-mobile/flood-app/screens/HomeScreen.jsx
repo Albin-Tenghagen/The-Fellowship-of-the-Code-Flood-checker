@@ -36,7 +36,7 @@ const HomeScreen = () => {
             title="Information till allmänheten"
             width="90%"
             icon="information-variant"
-            titleColor={theme.textTertiary}
+            titleColor={theme.textPrimary}
             valueColor={theme.textPrimary}
             timestampColor={theme.textPrimary}
             alertData={alertData}
@@ -45,7 +45,7 @@ const HomeScreen = () => {
         </View>
 
         <View style={{ alignItems: 'center' }}>
-          <Text style={[styles.sectionTitle, { color: theme.textTertiary }]}>
+          <Text style={[styles.sectionTitle, { color: theme.card }]}>
             Infrastrukturproblem
           </Text>
 
@@ -56,7 +56,7 @@ const HomeScreen = () => {
         </View>
 
         <View>
-          <Text style={[styles.sectionTitle, { color: theme.textTertiary }]}>
+          <Text style={[styles.sectionTitle, { color: theme.card }]}>
             Nuvarande vattenövervakning
           </Text>
 
@@ -75,7 +75,7 @@ const HomeScreen = () => {
             />
           </View>
 
-          <Text style={[styles.sectionTitle, { color: theme.textTertiary }]}>
+          <Text style={[styles.sectionTitle, { color: theme.card }]}>
             Väderförhållanden
           </Text>
 
@@ -119,7 +119,7 @@ const HomeScreen = () => {
           iconColor={theme.primary}
         />
         <View>
-          <Text style={[styles.sectionTitle, { color: theme.textPrimary }]}>
+          <Text style={[styles.sectionTitle, { color: theme.card }]}>
             Tipsa om problem
           </Text>
           {/* <View style={styles.instructionContent}>

@@ -92,7 +92,7 @@ const TipInputCard = ({
             },
           ]}
           placeholder="Ange ditt namn"
-          placeholderTextColor={placeholderTextColor || theme.textPrimary}
+          placeholderTextColor={placeholderTextColor || theme.placeholderText}
           value={userName}
           onChangeText={setUserName}
         />
@@ -109,14 +109,14 @@ const TipInputCard = ({
             },
           ]}
           placeholder="Ange plats"
-          placeholderTextColor={placeholderTextColor || theme.textPrimary}
+          placeholderTextColor={placeholderTextColor || theme.placeholderText}
           value={location}
           onChangeText={setLocation}
         />
       </View>
 
       <View style={styles.inputContainer}>
-        <Text style={[styles.label, { color: textColor || theme.textPrimary }]}>Beskrivning</Text>
+        <Text style={[styles.label, { color: textColor || theme.placeholderText }]}>Beskrivning</Text>
         <TextInput
           style={[
             styles.input,
@@ -126,7 +126,7 @@ const TipInputCard = ({
             },
           ]}
           placeholder="Beskriv ditt tips här..."
-          placeholderTextColor={placeholderTextColor || theme.textPrimary}
+          placeholderTextColor={placeholderTextColor || theme.placeholderText}
           multiline
           numberOfLines={4}
           textAlignVertical="top"
