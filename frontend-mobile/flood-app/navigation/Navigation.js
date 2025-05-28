@@ -83,7 +83,7 @@ const Navigation = () => {
             tabBarIcon: ({ focused, size }) => (
               <MaterialCommunityIcons
                 name="home"
-                color={focused ? theme.accent : theme.background}
+                color={focused ? theme.tabBackground : theme.background}
                 size={focused ? size + 2 : size}
                 style={{ opacity: focused ? 1 : 0.8 }}
               />

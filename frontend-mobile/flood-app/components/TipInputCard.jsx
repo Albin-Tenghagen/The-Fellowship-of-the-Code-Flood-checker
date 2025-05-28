@@ -116,7 +116,7 @@ const TipInputCard = ({
       </View>
 
       <View style={styles.inputContainer}>
-        <Text style={[styles.label, { color: textColor || theme.placeholderText }]}>Beskrivning</Text>
+        <Text style={[styles.label, { color: textColor || theme.textPrimary }]}>Beskrivning</Text>
         <TextInput
           style={[
             styles.input,
@@ -133,7 +133,7 @@ const TipInputCard = ({
           value={tipText}
           onChangeText={setTipText}
         />
-        <Text style={{ color: theme.textPrimary, fontSize: 12, marginTop: 4 }}>
+        <Text style={{ color: theme.background, fontSize: 12, marginTop: 4 }}>
           {tipText.length}/280 tecken
         </Text>
       </View>
@@ -144,7 +144,7 @@ const TipInputCard = ({
         style={[
           styles.submitButton,
           {
-            backgroundColor: (isSubmitDisabled || loading) ? (theme.disabled || theme.textPrimary) : theme.secondary,
+            backgroundColor: (isSubmitDisabled || loading) ? (theme.disabled || theme.accent) : theme.accentHover,
           },
         ]}
         onPress={handleSubmitTip}
@@ -184,17 +184,21 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     marginBottom: 10,
+    marginHorizontal: 10,
   },
   label: {
     fontSize: 14,
     marginBottom: 6,
     fontWeight: '500',
+  
   },
   input: {
     padding: 10,
     borderRadius: 6,
     borderWidth: 1,
     borderColor: '#ddd',
+    marginVertical: 10,
+    
   },
   textArea: {
     padding: 10,
@@ -208,9 +212,12 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     alignItems: 'center',
     justifyContent: 'center',
+    marginHorizontal: 90,
+    marginTop: 20,
+    marginBottom: 10,
   },
   submitButtonText: {
-    color: 'white',
+    color: 'black',
     fontWeight: 'bold',
     fontSize: 16,
   },

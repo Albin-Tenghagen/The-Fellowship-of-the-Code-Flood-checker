@@ -26,12 +26,13 @@ const TipsScreen = ({
                     width="90%"
                     onTipSubmitted={triggerRefresh}
                     backgroundColor={cardBackgroundColor}
-                    textColor={theme.textPrimary}
-                    iconColor={theme.primary}
+                    textColor={theme.background}
+                    iconColor={theme.background}
+                    
                 />
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}
-                    style={[styles.button, { backgroundColor: theme.primary }]}
+                    style={[styles.button, { backgroundColor: theme.accent }]}
                 >
                     <MaterialIcons name="arrow-back" size={28} color={theme.secondary} />
                 </TouchableOpacity>
@@ -46,6 +47,7 @@ export default TipsScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+       
     },
     scrollContainer: {
         padding: 6,
@@ -62,5 +64,6 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 8,
         alignItems: 'center',
+        marginTop: 20,
     },
 });
