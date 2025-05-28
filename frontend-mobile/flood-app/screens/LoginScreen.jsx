@@ -85,7 +85,7 @@ const LoginScreen = ({ navigation }) => {
               }}
               style={styles.input}
               placeholder='Skriv in ditt lösenord'
-              placeholderTextColor={theme.textSecondary}
+              placeholderTextColor={theme.placeholderText}
               accessibilityLabel='Lösenord'
               accessibilityHint='Fält där du kan skriva in ditt lösenord'
               secureTextEntry

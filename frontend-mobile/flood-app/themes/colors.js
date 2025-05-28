@@ -12,9 +12,9 @@ export const lightTheme = {
 
 
 
-    textPrimary: ' #312E2A',
+    textTertiary: ' #312E2A',
     textSecondary: ' #264247',
-    textTertiary:' #fad9d1',
+    textPrimary:' #fad9d1',
     textError:' #543d37',
    
 
@@ -34,12 +34,12 @@ export const darkTheme = {
     card: '#152638',
     headerBackground: '#264247',
     tabBackground: '#264247',
-    backgroundOpacity: 'rgba(43, 32, 49, 0.5)',
+    backgroundOpacity: 'rgba(9, 6, 11, 0.5)',
 
 
-    textPrimary: '#FFF7EC',
+    textTertiary: '#FFF7EC',
     textSecondary: ' #fad9d1', // CHANGE
-    textTertiary:'#f8c6ba',
+    textPrimary:'#f8c6ba',
     textError:'#e6c41c',
     
 

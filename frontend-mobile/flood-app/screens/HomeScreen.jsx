@@ -36,16 +36,16 @@ const HomeScreen = () => {
             title="Information till allmänheten"
             width="90%"
             icon="information-variant"
-            titleColor={theme.primary}
-            valueColor={theme.textTertiary}
-            timestampColor={theme.textTertiary}
+            titleColor={theme.textTertiary}
+            valueColor={theme.textPrimary}
+            timestampColor={theme.textPrimary}
             alertData={alertData}
             text="Vid akut översvämningsrisk – ring 112. För övrig information, använd vår app."
           />
         </View>
 
         <View style={{ alignItems: 'center' }}>
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
+          <Text style={[styles.sectionTitle, { color: theme.textTertiary }]}>
             Infrastrukturproblem
           </Text>
 
@@ -56,7 +56,7 @@ const HomeScreen = () => {
         </View>
 
         <View>
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
+          <Text style={[styles.sectionTitle, { color: theme.textTertiary }]}>
             Nuvarande vattenövervakning
           </Text>
 
@@ -75,7 +75,7 @@ const HomeScreen = () => {
             />
           </View>
 
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
+          <Text style={[styles.sectionTitle, { color: theme.textTertiary }]}>
             Väderförhållanden
           </Text>
 
@@ -115,11 +115,11 @@ const HomeScreen = () => {
           width="90%"
           maxItems={5}
           refresh={refreshTrigger}
-          textColor={theme.primary}
+          textColor={theme.textPrimary}
           iconColor={theme.primary}
         />
         <View>
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
+          <Text style={[styles.sectionTitle, { color: theme.textPrimary }]}>
             Tipsa om problem
           </Text>
           {/* <View style={styles.instructionContent}>
