@@ -137,7 +137,7 @@ const HomeScreen = () => {
               <MaterialCommunityIcons
                 name="lightbulb-outline"
                 size={32}
-                color={theme.primary}
+                color={theme.background}
                 style={styles.navigationIcon}
               />
               <View style={styles.navigationTextContainer}>
@@ -151,7 +151,7 @@ const HomeScreen = () => {
               <MaterialCommunityIcons
                 name="chevron-right"
                 size={24}
-                color={theme.primary}
+                color={theme.background}
               />
             </View>
           </TouchableOpacity>

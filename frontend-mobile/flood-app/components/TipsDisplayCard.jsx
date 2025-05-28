@@ -78,7 +78,7 @@ const TipsDisplayCard = ({
         <MaterialCommunityIcons
           name="message-text-outline"
           size={24}
-          color={iconColor || theme.primary}
+          color={ theme.background}
           style={{ marginRight: 8 }}
         />
         <Text style={[styles.title, { color: titleColor || theme.textPrimary }]}>
@@ -124,12 +124,12 @@ const TipsDisplayCard = ({
               </Text>
               <View style={styles.tipFooter}>
                 <Text style={[styles.tipTimestamp, { 
-                  color: timestampTextColor || secondaryTextColor || theme.primary
+                  color: timestampTextColor || secondaryTextColor || theme.randomColor
                 }]}>
                   {formatTimestamp(tip.timestamp)}
                 </Text>
                 {tip.user && (
-                  <Text style={[styles.tipUser, { color: userTextColor || theme.primary }]}>
+                  <Text style={[styles.tipUser, { color: userTextColor || theme.randomColor }]}>
                     - {tip.user}
                   </Text>
                 )}

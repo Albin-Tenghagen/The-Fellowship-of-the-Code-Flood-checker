@@ -12,10 +12,11 @@ export const lightTheme = {
 
 
 
-    textTertiary: ' #312E2A',
-    textSecondary: ' #264247',
-    textPrimary:' #fad9d1',
-    textError:' #543d37',
+    textTertiary: '#312E2A',
+    textSecondary: '#264247',
+    textPrimary:'#fad9d1',
+    textError:'#543d37',
+    randomColor:'#f8c6ba',
    
 
 
@@ -41,7 +42,7 @@ export const darkTheme = {
     textSecondary: ' #fad9d1', // CHANGE
     textPrimary:'#f8c6ba',
     textError:'#e6c41c',
-    
+    randomColor:'#dfb2a7',
 
     borderColor: '#869CB5',
     inputBackground: 'rgba(255,255,255,0.8)',

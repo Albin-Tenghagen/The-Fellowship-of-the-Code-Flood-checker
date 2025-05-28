@@ -124,7 +124,7 @@ useEffect(() => {
         <MaterialCommunityIcons
           name="alert-box-outline"
           size={24}
-          color={theme.primary}
+          color={theme.background}
           style={{ marginRight: 8 }}
         />
         <Text style={[styles.title, { color: titleColor || theme.textPrimary }]}>

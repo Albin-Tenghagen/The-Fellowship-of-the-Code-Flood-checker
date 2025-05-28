@@ -42,7 +42,7 @@ const InfoCard = ({
                 <MaterialCommunityIcons
                     name={icon}
                     size={32}
-                    color={theme.primary}
+                    color={theme.background}
                     style={{ marginBottom: 8 }}
                 />
             )}

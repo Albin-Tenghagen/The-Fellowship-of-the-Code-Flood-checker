@@ -18,7 +18,7 @@ const TipsScreen = ({
     return (
         <View style={[styles.container, { backgroundColor: backgroundColor || theme.background }]}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
-                <Text style={[styles.screenTitle, { color: titleColor || textColor || theme.textPrimary }]}>
+                <Text style={[styles.screenTitle, { color: titleColor || textColor || theme.card }]}>
                     Skicka tips ifall du ser en risk för översvämning
                 </Text>
                 <TipInputCard

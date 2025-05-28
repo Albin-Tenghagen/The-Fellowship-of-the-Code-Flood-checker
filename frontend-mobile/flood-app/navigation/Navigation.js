@@ -20,13 +20,13 @@ const HeaderTitle = () => {
 
   return (
     <View style={styles.headerContainer}>
-      <Text style={[styles.headerTitle, { color: theme.textPrimary }]}>
-        Hydro<Text style={{ color: theme.textPrimary }}>Guard</Text>
+      <Text style={[styles.headerTitle, { color: theme.background }]}>
+        Hydro<Text style={{ color: theme.background }}>Guard</Text>
       </Text>
       <MaterialCommunityIcons
         name="water"
         size={24}
-        color={theme.primary}
+        color={theme.background}
         style={styles.headerIcon}
       />
     </View>
@@ -61,7 +61,7 @@ const Navigation = () => {
             >
               <MaterialCommunityIcons
                 name={isDark ? "white-balance-sunny" : "weather-night"}
-                color={theme.primary}
+                color={theme.background}
                 size={24}
               />
             </Pressable>
@@ -72,7 +72,7 @@ const Navigation = () => {
             backgroundColor: theme.card,
             borderTopColor: theme.border,
           },
-          tabBarActiveTintColor: theme.primary,
+          tabBarActiveTintColor: theme.background,
           tabBarInactiveTintColor: theme.textSecondary,
         }}
       >
@@ -83,14 +83,14 @@ const Navigation = () => {
             tabBarIcon: ({ focused, size }) => (
               <MaterialCommunityIcons
                 name="home"
-                color={focused ? theme.primary : theme.secondary}
+                color={focused ? theme.accent : theme.background}
                 size={focused ? size + 2 : size}
                 style={{ opacity: focused ? 1 : 0.8 }}
               />
             ),
             tabBarLabel: ({ focused }) => (
               <Text style={{
-                color: focused ? theme.primary : theme.secondary,
+                color: focused ? theme.tabBackground : theme.background,
                 fontSize: 12,
                 opacity: focused ? 1 : 0.8
               }}>
@@ -116,14 +116,14 @@ const Navigation = () => {
             tabBarIcon: ({ focused, size }) => (
               <FontAwesome6
                 name="location-dot"
-                color={focused ? theme.primary : theme.secondary}
+                color={focused ? theme.tabBackground : theme.background}
                 size={focused ? size + 2 : size}
                 style={{ opacity: focused ? 1 : 0.8 }}
               />
             ),
             tabBarLabel: ({ focused }) => (
               <Text style={{
-                color: focused ? theme.primary : theme.secondary,
+                color: focused ? theme.tabBackground : theme.background,
                 fontSize: 12,
                 opacity: focused ? 1 : 0.8
               }}>
@@ -163,14 +163,14 @@ const Navigation = () => {
               tabBarIcon: ({ focused, size }) => (
                 <AntDesign
                   name="login"
-                  color={focused ? theme.primary : theme.secondary}
+                  color={focused ? theme.tabBackground : theme.background}
                   size={focused ? size + 2 : size}
                   style={{ opacity: focused ? 1 : 0.8 }}
                 />
               ),
               tabBarLabel: ({ focused }) => (
                 <Text style={{
-                  color: focused ? theme.primary : theme.secondary,
+                  color: focused ? theme.tabBackground : theme.background,
                   fontSize: 12,
                   opacity: focused ? 1 : 0.8
                 }}>
@@ -190,14 +190,14 @@ const Navigation = () => {
                 tabBarIcon: ({ focused, size }) => (
                   <AntDesign
                     name="user"
-                    color={focused ? theme.primary : theme.secondary}
+                    color={focused ? theme.tabBackground : theme.background}
                     size={focused ? size + 2 : size}
                     style={{ opacity: focused ? 1 : 0.8 }}
                   />
                 ),
                 tabBarLabel: ({ focused }) => (
                   <Text style={{
-                    color: focused ? theme.primary : theme.secondary,
+                    color: focused ? theme.tabBackground : theme.background,
                     fontSize: 12,
                     opacity: focused ? 1 : 0.8
                   }}>
