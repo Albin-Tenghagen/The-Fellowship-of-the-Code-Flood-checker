@@ -169,7 +169,7 @@ const createStyles = (theme) =>
       marginTop: 40,
     },
    label: {
-      color: theme.textPrimary,
+      color: theme.textSecondary,
       fontSize: 28,
       fontWeight: 'bold',
       textAlign: 'center',

@@ -39,7 +39,7 @@ export const darkTheme = {
 
 
     textTertiary: '#FFF7EC',
-    textSecondary: ' #fad9d1', // CHANGE
+    textSecondary: '#fad9d1',
     textPrimary:'#f8c6ba',
     textError:'#e6c41c',
     randomColor:'#dfb2a7',
