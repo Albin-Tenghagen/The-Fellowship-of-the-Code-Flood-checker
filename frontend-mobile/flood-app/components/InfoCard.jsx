@@ -35,7 +35,7 @@ const InfoCard = ({
                 styles.card,
                 { backgroundColor: backgroundColor || theme.card },
                 width ? { width } : {},
-                height ? { height } : { aspectRatio: 1 },
+                height ? { height } : {},
             ]}
         >
             {icon && (
@@ -119,6 +119,8 @@ const createStyles = (theme) =>
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 4,
+        padding: 40,
+        
     },
     text: {
         fontSize: 16,

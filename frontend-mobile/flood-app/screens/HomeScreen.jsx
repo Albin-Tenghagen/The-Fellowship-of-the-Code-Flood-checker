@@ -41,6 +41,7 @@ const HomeScreen = () => {
             timestampColor={theme.textPrimary}
             alertData={alertData}
             text="Vid akut översvämningsrisk – ring 112. För övrig information, använd vår app."
+            
           />
         </View>
 
