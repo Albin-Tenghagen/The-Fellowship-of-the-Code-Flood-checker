@@ -25,6 +25,7 @@ const FlatListLocation = ({
   }
 
   const { theme } = useTheme();
+  const styles = createStyles(theme);
   const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedId, setSelectedId] = useState(null);
@@ -115,7 +116,7 @@ const FlatListLocation = ({
           <MaterialCommunityIcons
             name="map-marker-multiple-outline"
             size={24}
-            color={iconColor || theme.primary}
+            color={iconColor || theme.background}
             style={{ marginRight: 8 }}
           />
           <Text style={[styles.title, { color: titleColor || theme.textPrimary }]}>
@@ -147,7 +148,8 @@ const FlatListLocation = ({
   );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (theme) =>
+  StyleSheet.create({
   card: {
     borderRadius: 8,
     padding: 16,

@@ -43,7 +43,7 @@ const createStyles = (theme) =>
     },
     label: {
       margin: 5,
-      color: theme.textTertiary,
+      color: theme.textPrimary,
       fontSize: 18,
     },
   });
