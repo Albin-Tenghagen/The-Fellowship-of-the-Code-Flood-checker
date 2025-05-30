@@ -257,63 +257,63 @@ const WorkerStatus = ({ route }) => {
   return (
     <View style={[styles.container, { backgroundColor: theme.card }]}>
       <View style={styles.header}>
-        <Text style={[styles.title, { color: theme.inputBackground }]}>Arbetsstatus</Text>
+        <Text style={[styles.title, { color: theme.background }]}>Arbetsstatus</Text>
         
-        <Text style={[styles.subtitle, { color: theme.textTertiary }]}>
+        <Text style={[styles.subtitle, { color: theme.background }]}>
           {displayLocationName}
         </Text>
 
         {/* Only display location details if location data exists */}
         {currentLocationData && (
           <View style={styles.locationDetails}>
-            <Text style={[styles.locationDescription, { color: theme.textSecondary }]}>
+            <Text style={[styles.locationDescription, { color: theme.textPrimary }]}>
               {currentLocationData.description}
             </Text>
-            <Text style={[styles.locationWaterLevel, { color: getStatusColor() }]}>
+            <Text style={[styles.locationWaterLevel, { color: theme.textPrimary }]}>
               Vattennivå: {currentLocationData.waterlevel} cm
             </Text>
             
             {/* Show available info based on data structure */}
             {currentLocationData.lastUpdate && (
-              <Text style={[styles.locationInfo, { color: theme.textTertiary }]}>
+              <Text style={[styles.locationInfo, { color: theme.textPrimary }]}>
                 Senast uppdaterad: {currentLocationData.lastUpdate}
               </Text>
             )}
             {currentLocationData.batteryLevel && (
-              <Text style={[styles.locationInfo, { color: theme.textTertiary }]}>
+              <Text style={[styles.locationInfo, { color: theme.textPrimary }]}>
                 Batterinivå: {currentLocationData.batteryLevel}%
               </Text>
             )}
             {currentLocationData.sensors && (
-              <Text style={[styles.locationInfo, { color: theme.textTertiary }]}>
+              <Text style={[styles.locationInfo, { color: theme.textPrimary }]}>
                 Sensorer: {currentLocationData.sensors.join(', ')}
               </Text>
             )}
             {currentLocationData.coordinates && (
-              <Text style={[styles.locationInfo, { color: theme.textTertiary }]}>
+              <Text style={[styles.locationInfo, { color: theme.textPrimary }]}>
                 {currentLocationData.coordinates}
               </Text>
             )}
             {currentLocationData.timestamp && (
-              <Text style={[styles.locationInfo, { color: theme.textTertiary }]}>
+              <Text style={[styles.locationInfo, { color: theme.textPrimary }]}>
                 Tidpunkt: {currentLocationData.timestamp}
               </Text>
             )}
             {currentLocationData.proactiveActions && (
               <View style={styles.proactiveActions}>
-                <Text style={[styles.proactiveTitle, { color: theme.textColor }]}>Förebyggande åtgärder:</Text>
+                <Text style={[styles.proactiveTitle, { color: theme.background }]}>Förebyggande åtgärder:</Text>
                 {currentLocationData.proactiveActions.basementProtection && (
-                  <Text style={[styles.locationInfo, { color: theme.textTertiary }]}>
+                  <Text style={[styles.locationInfo, { color: theme.textPrimary }]}>
                     • Källarskydd: {currentLocationData.proactiveActions.basementProtection}
                   </Text>
                 )}
                 {currentLocationData.proactiveActions.trenchDigging && (
-                  <Text style={[styles.locationInfo, { color: theme.textTertiary }]}>
+                  <Text style={[styles.locationInfo, { color: theme.textPrimary }]}>
                     • Grävning: {currentLocationData.proactiveActions.trenchDigging}
                   </Text>
                 )}
                 {currentLocationData.proactiveActions.electricHazards && (
-                  <Text style={[styles.locationInfo, { color: theme.textTertiary }]}>
+                  <Text style={[styles.locationInfo, { color: theme.textPrimary }]}>
                     • Elrisker: {currentLocationData.proactiveActions.electricHazards}
                   </Text>
                 )}
@@ -325,7 +325,7 @@ const WorkerStatus = ({ route }) => {
         {/* Show message when no location is selected */}
         {!currentLocationData && (
           <View style={styles.locationDetails}>
-            <Text style={[styles.locationDescription, { color: theme.textSecondary }]}>
+            <Text style={[styles.locationDescription, { color: theme.textPrimary }]}>
               Ingen plats vald. Välj en plats först.
             </Text>
           </View>
@@ -390,6 +390,7 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
     fontWeight: '500',
+    textAlign: 'center',
   },
   locationDetails: {
     marginTop: 12,

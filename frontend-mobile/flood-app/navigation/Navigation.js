@@ -212,7 +212,7 @@ const Navigation = () => {
               options={{
                 tabBarButton: () => null,
                 tabBarItemStyle: { display: 'none' },
-                headerTitle: "Arbetsstatus",
+                headerTitle: "",
               }}
             />
             {/* <Tab.Screen
