@@ -141,7 +141,7 @@ const HomeScreen = () => {
                 style={styles.navigationIcon}
               />
               <View style={styles.navigationTextContainer}>
-                <Text style={[styles.navigationTitle, { color: theme.textPrimary }]}>
+                <Text style={[styles.navigationTitle, { color: theme.background }]}>
                   Skicka tips ifall du ser en risk för översvämning
                 </Text>
                 <Text style={[styles.navigationSubtitle, { color: theme.textPrimary }]}>
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
   navigationTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 4,
+    marginBottom: 15,
   },
   navigationSubtitle: {
     fontSize: 14,

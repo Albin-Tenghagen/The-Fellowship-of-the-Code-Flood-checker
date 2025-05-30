@@ -153,11 +153,11 @@ const WaterLevelCard = ({
                     <MaterialCommunityIcons
                         name={getParameterIcon()}
                         size={24}
-                        color={titleColor || theme.textPrimary}
+                        color={titleColor || theme.background}
                         style={{ marginBottom: 8 }}
                     />
                 )}
-                <Text style={[styles.title, { color: titleColor || theme.textPrimary }]}>
+                <Text style={[styles.title, { color: titleColor || theme.background }]}>
                     {title}
                 </Text>
             </View>

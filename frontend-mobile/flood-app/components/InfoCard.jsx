@@ -55,7 +55,7 @@ const InfoCard = ({
                 />
             )}
 
-            <Text style={[styles.title, { color: textColor || theme.textPrimary }]}>
+            <Text style={[styles.title, { color: textColor || theme.background }]}>
                 {title}
             </Text>
 
@@ -136,5 +136,6 @@ const createStyles = (theme) =>
         marginBottom: 4,
         paddingLeft: 8,
         paddingRight: 8,
+        marginBottom: 15,
     },
 });

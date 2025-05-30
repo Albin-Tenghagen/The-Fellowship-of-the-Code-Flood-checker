@@ -125,9 +125,9 @@ useEffect(() => {
           name="alert-box-outline"
           size={24}
           color={theme.background}
-          style={{ marginRight: 8 }}
+          style={{ marginRight: 8, marginBottom: 15 }}
         />
-        <Text style={[styles.title, { color: titleColor || theme.textPrimary }]}>
+        <Text style={[styles.title, { color: titleColor || theme.background }]}>
           {title}
         </Text>
       </View>
@@ -211,6 +211,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: 'bold',
+    marginBottom: 15,
   },
   loader: {
     marginVertical: 20,
