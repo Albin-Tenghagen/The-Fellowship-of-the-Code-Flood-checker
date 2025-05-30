@@ -64,8 +64,8 @@ const InfoCard = ({
             </Text>
 
             {alertData && (
-                <View style={{ marginTop: 10 }}>
-                    <Text style={[styles.text, { color: textColor || theme.textPrimary }]}>
+                <View style={{ marginTop: 20 }}>
+                    <Text style={[styles.text, { color: textColor || theme.background }]}>
                         Plats: {alertData.location}
                     </Text>
                     <Text style={[styles.text, { color: textColor || theme.textPrimary }]}>
@@ -79,7 +79,11 @@ const InfoCard = ({
                     </Text>
 
                     {alertData.proactiveActions && (
-                        <View style={{ marginTop: 6 }}>
+                        <View style={{ marginTop: 20 }}>
+                           <Text style={[styles.text, { color: textColor || theme.background }]}>
+                                Åtgärder:
+                            </Text> 
+
                             {alertData.proactiveActions.basementProtection && (
                                 <Text style={[styles.text, { color: textColor || theme.textPrimary }]}>
                                     • Källarskydd: {alertData.proactiveActions.basementProtection}
