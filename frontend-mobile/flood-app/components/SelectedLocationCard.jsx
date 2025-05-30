@@ -38,12 +38,12 @@ const SelectedLocationCard = ({
         <MaterialCommunityIcons
           name="map-marker-check-outline"
           size={24}
-          color={iconColor || theme.primary}
+          color={iconColor || theme.background}
           style={{ marginRight: 8 }}
         />
         <Text style={[
           styles.title, 
-          { color: titleColor || theme.textPrimary }
+          { color: titleColor || theme.background }
         ]}>
           Vald plats
         </Text>
@@ -57,7 +57,7 @@ const SelectedLocationCard = ({
         ]}>
           <Text style={[
             styles.label, 
-            { color: textColor || theme.textPrimary }
+            { color: textColor || theme.background }
           ]}>
             Plats
           </Text>
@@ -75,7 +75,7 @@ const SelectedLocationCard = ({
         ]}>
           <Text style={[
             styles.label, 
-            { color: textColor || theme.textPrimary }
+            { color: textColor || theme.background }
           ]}>
             Vattennivå
           </Text>
@@ -93,13 +93,13 @@ const SelectedLocationCard = ({
         ]}>
           <Text style={[
             styles.label, 
-            { color: textColor || theme.textPrimary }
+            { color: textColor || theme.background }
           ]}>
             Tidpunkt
           </Text>
           <Text style={[
             styles.value, 
-            { color: secondaryTextColor || theme.textSecondary }
+            { color: secondaryTextColor || theme.textPrimary }
           ]}>
             {location.timestamp}
           </Text>
@@ -111,7 +111,7 @@ const SelectedLocationCard = ({
         ]}>
           <Text style={[
             styles.label, 
-            { color: textColor || theme.textPrimary }
+            { color: textColor || theme.background }
           ]}>
             Beskrivning
           </Text>
@@ -130,12 +130,12 @@ const SelectedLocationCard = ({
               <MaterialCommunityIcons
                 name="shield-check-outline"
                 size={20}
-                color={iconColor || theme.primary}
+                color={iconColor || theme.background}
                 style={{ marginRight: 6 }}
               />
               <Text style={[
                 styles.subheading, 
-                { color: textColor || theme.textPrimary }
+                { color: textColor || theme.background }
               ]}>
                 Förebyggande åtgärder
               </Text>
@@ -146,7 +146,7 @@ const SelectedLocationCard = ({
                 <MaterialCommunityIcons
                   name="home-outline"
                   size={16}
-                  color={secondaryTextColor || theme.textSecondary}
+                  color={secondaryTextColor || theme.background}
                   style={{ marginRight: 6, marginTop: 2 }}
                 />
                 <Text style={[
@@ -163,7 +163,7 @@ const SelectedLocationCard = ({
                 <MaterialCommunityIcons
                   name="shovel"
                   size={16}
-                  color={secondaryTextColor || theme.textSecondary}
+                  color={secondaryTextColor || theme.background}
                   style={{ marginRight: 6, marginTop: 2 }}
                 />
                 <Text style={[
@@ -180,7 +180,7 @@ const SelectedLocationCard = ({
                 <MaterialCommunityIcons
                   name="flash-outline"
                   size={16}
-                  color={secondaryTextColor || theme.textSecondary}
+                  color={secondaryTextColor || theme.background}
                   style={{ marginRight: 6, marginTop: 2 }}
                 />
                 <Text style={[
