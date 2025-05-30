@@ -391,6 +391,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     textAlign: 'center',
+    marginBottom: 15,
   },
   locationDetails: {
     marginTop: 12,
@@ -409,9 +410,9 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   locationInfo: {
-    fontSize: 12,
+    fontSize: 13,
     opacity: 0.8,
-    marginBottom: 2,
+    marginBottom: 8,
     textAlign: 'center',
   },
   proactiveActions: {
@@ -419,7 +420,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   proactiveTitle: {
-    fontSize: 13,
+    fontSize: 20,
     fontWeight: '600',
     marginBottom: 4,
   },
