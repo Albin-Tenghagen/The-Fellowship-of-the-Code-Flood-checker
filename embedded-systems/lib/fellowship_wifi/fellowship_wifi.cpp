@@ -124,3 +124,40 @@ bool fellowshipWiFi::recieveData(String &buffer)
 
     return true;
 }
+
+
+// bool fellowshipWiFi::sendLoginRequest(const char *host, uint32_t port, String endpoint)
+// {
+//     if (credentials.size() == 0)
+//     {
+//         credentials["name"] = BACKEND_USERNAME;
+//         credentials["password"] = BACKEND_PASSWORD;
+//         credentials["email"] = BACKEND_EMAIL;
+//     }
+
+//     String msg;
+
+//     serializeJson(credentials, msg);
+//     sendRequest(host, port, endpoint, msg);
+
+//     recieveData(msg);
+
+//     Serial.println(msg);
+// }
+
+bool fellowshipWiFi::sendLoginRequest(IPAddress host, uint32_t port, String endpoint, String username, String password, String email, String &result)
+{
+    String data = "{ \"name\": \"" + username + "\", \"password\": \"" + password + "\", \"email\": \"" + email + "\" }";
+    
+    sendRequest(host, port, endpoint, data);
+
+    if (recieveData(data)) Serial.println("Data recieved!");
+
+    result = data;
+
+
+    return true;
+}
+
+
+    
