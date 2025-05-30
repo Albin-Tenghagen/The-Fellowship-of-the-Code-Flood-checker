@@ -28,7 +28,7 @@ const PickLocation = () => {
       <View style={[styles.instructionContainer, { backgroundColor: theme.backgroundTertiary }]}>
         <View style={styles.instructionContent}>
           <MaterialIcons name="info-outline" size={20} color={theme.primary} />
-          <Text style={[styles.instructionText, { color: theme.textPrimary }]}>
+          <Text style={[styles.instructionText, { color: theme.card }]}>
             Tryck på en plats för att läsa om situationen på plats
           </Text>
         </View>
