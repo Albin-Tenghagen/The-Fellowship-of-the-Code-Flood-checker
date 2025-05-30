@@ -106,7 +106,7 @@ const Navigation = () => {
           options={{
             tabBarButton: () => null,
             tabBarItemStyle: { display: 'none' },
-            headerTitle: "Tips för översvämningsskydd",
+           
           }}
         />
         <Tab.Screen

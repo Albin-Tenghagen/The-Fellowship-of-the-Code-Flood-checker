@@ -58,6 +58,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginVertical: 6,
         textAlign: 'center',
+        marginTop: 50,
+        marginBottom: 30,
     },
     button: {
         flex: 1,
