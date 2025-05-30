@@ -201,14 +201,14 @@ const SelectedLocationCard = ({
           style={[
             styles.button, 
             styles.primaryButton,
-            { backgroundColor: primaryButtonColor || theme.primary }
+            { backgroundColor: primaryButtonColor || theme.randomColor}
           ]} 
           onPress={handleConfirm}
         >
           <MaterialCommunityIcons
             name="check-circle-outline"
             size={18}
-            color="#fff"
+            color="#191919"
             style={{ marginRight: 6 }}
           />
           <Text style={styles.buttonText}>Välj denna plats</Text>
@@ -260,7 +260,7 @@ const SelectedLocationCard = ({
             color="#fff"
             style={{ marginRight: 6 }}
           />
-          <Text style={styles.buttonText}>Skicka notis</Text>
+          <Text style={styles.pushButtonText}>Skicka notis</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -352,16 +352,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 1,
   },
-  primaryButton: {
-    // Primary button specific styles
-  },
-  secondaryButton: {
-    // Secondary button specific styles
-  },
-  alertButton: {
-    // Alert button specific styles
-  },
   buttonText: {
+    fontWeight: '600',
+    fontSize: 14,
+    color: '#191919',
+  },
+    pushButtonText: {
     fontWeight: '600',
     fontSize: 14,
     color: '#fff',
