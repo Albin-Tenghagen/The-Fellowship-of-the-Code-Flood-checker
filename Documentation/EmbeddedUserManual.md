@@ -9,65 +9,107 @@ Two Heltec LoRa 32 V3 boards compatible with the libraries used.
 
 ### Required equipment:
 
-Soil moisture sensor (YL-69)  
-Ultrasonic distance sensor (HC-SR04)  
-Temperature and humidity sensor (DHT11)  
-Water pressure sensor TL-136  
-GERUI DC-DC Step Up Boost Converter 
-Breadboards   
-Different types of Resistors  
-Wires  
+- Soil moisture sensor (YL-69)  
+- Ultrasonic distance sensor (HC-SR04)  
+- Temperature and humidity sensor (DHT11)  
+- Water pressure sensor TL-136  
+- GERUI DC-DC Step Up Boost Converter 
+- Breadboards   
+- Different types of Resistors  
+- Wires  
 
 ### Required software:
+
 VS Code installed on your computer  
 PlatformIO installed on your computer  
 
 ## Setup Process
-Step 1:  
-Hardware Connections  
+
+### Step 1:  
+
+#### **Hardware Connections**  
+
 Connect the Sensors according to the circuit diagram:  
-MCU nr. 1:  
-Soil Moisture Sensor: Connect analog A0 sensorpin to pin 4 on Heltec and VCC sensorpin to pin 5 on Heltec. Connect GND on sensor to GND on Heltec. We don’t need to plug in the D0 pin because we don’t use that functionality. Because of this we don’t need to adjust the potentiometer either.   
-Alternatively don’t use the module with the potentiometer and wire the sensor as follow: plug one of the wires of the sensor to GND on the Heltec. The other wire from the sensor is plugged through a 10K ohms resistor to pin 5(digital pin that we use as VCC for this sensor) on the Heltec. The pin that reads the analog value is connected between the resistor and the VCC/pin 5 wire. The wire goes to pin 4 on the Heltec.    
-Ultrasonic Distance Sensor (HC-SR04): Connect the trigger pin on the sensor to pin 6 on Heltec and the echo pin on the sensor to pin 7 on Heltec. Connect VCC on sensor to VCC 5V on Heltec. Connect GND on sensor to GND on Heltec. 
+##### MCU nr. 1:  
+
+**Soil Moisture Sensor:** Connect analog A0 sensorpin to pin 4 on Heltec and VCC sensorpin to pin 5 on Heltec. Connect GND on sensor to GND on Heltec. We don’t need to plug in the D0 pin because we don’t use that functionality. Because of this we don’t need to adjust the potentiometer either.   
+
+Alternatively don’t use the module with the potentiometer and wire the sensor as follow: plug one of the wires of the sensor to GND on the Heltec. The other wire from the sensor is plugged through a 10K ohms resistor to pin 5 (digital pin that we use as VCC for this sensor) on the Heltec. The pin that reads the analog value is connected between the resistor and the VCC/pin 5 wire. The wire goes to pin 4 on the Heltec.    
+
+**Ultrasonic Distance Sensor (HC-SR04):** Connect the trigger pin on the sensor to pin 6 on Heltec and the echo pin on the sensor to pin 7 on Heltec. Connect VCC on sensor to VCC 5V on Heltec. Connect GND on sensor to GND on Heltec. 
 DHT Sensor: Connect data on sensor to pin 8 on Heltec. Connect VCC on sensor to VCC 5V or VCC 3,3V on Heltec. Connect GND on sensor to GND on Heltec.  
-MCU nr. 2:  
-Water pressure sensor: Connect the red wire to Vout+ on the boost converter and blue wire to 110 Ohms of resistors. Connect those resistors to Vout- on the boost converter. Connect pin Vin+ to VCC 3.3V and Vin- to ground, then adjust the potentiometer until the converter outputs 24V. Connect a signal wire to a point between the 110 Ohms and the TL-136, then connect that wire to pin 7 on the Heltec.
-Power the Heltec:  
+
+##### MCU nr. 2:
+
+**Water pressure sensor:** Connect the red wire to Vout+ on the boost converter and blue wire to 110 Ohms of resistors. Connect those resistors to Vout- on the boost converter. Connect pin Vin+ to VCC 3.3V and Vin- to ground, then adjust the potentiometer until the converter outputs 24V. Connect a signal wire to a point between the 110 Ohms and the TL-136, then connect that wire to pin 7 on the Heltec.
+
+Power on the Heltec board:  
 Ensure the Heltec is powered through USB or an external power source.  
 
-Step 2:  
-Software Installation  
+### Step 2:  
+
+#### Software Installation  
+
 Install PlatformIO if you don't already have it installed:  
 Download and install the PlatformIO extension in VS Code.  
 
-Step 3:  
-Configure the Repo  
-Download the repo: The-Fellowship-of-the-code-Flood-Checker  
-Open the repo in PlatformIO.  
-Modify WiFi Credentials:  
+### Step 3:  
+
+
+- Download the repo: The-Fellowship-of-the-code-Flood-Checker  
+
+- Enter the repository and open the `embedded-systems` folder in PlatformIO.  
+
+#### Modify WiFi Credentials: 
+
 Ensure that the WiFi credentials (SSID and password) are defined in a separate secrets.h file, which should not be included in version control.  
-Adjust Sensor Pins (if necessary):  
+
+#### Adjust Sensor Pins (if necessary): 
+
 If you are using different pins for the sensors, update the pin numbers in the setup() function and/or constructors accordingly.
-Calibrating the TL-136:  
+
+#### Calibrating the TL-136  
+
 If the depth readings are off, start by recording the raw values, given in the Serial monitor, above the surface, and 2 m down, accordingly, then enter those end values into the map() function! After that, try again! If the reading are still off, remove the correction factor (1.2), and measure at a known depth, for example 1 m, then divide the actual depth (in cm) with the depth given in the monitor, and finally, enter the result of that division in place of 1.2!  
 
 Calibrate Soil moisture sensor (YL-69) if necessary to get accurate readings, different soil types gives different values. Start by prepare soil samples from the location where the sensor is supposed to be, where one is  completely dried and one is maximum saturated with moisture. See appendix on how to accomplish this. Put the soil sensor in the completely dried sample first, read the value from the sensor and put it as the second value in the map(soil_reading_value, 1800, 4095, 100, 0) which you finds in the void turnSoilMoistureToPrecentage() function. When you have entered the value, put the sensor in the saturated sample and read the value from the sensor. Put the value in as the first value in map(soil_reading_value, 1800, 4095, 100, 0). Save the changes and upload the code.   
-Step 4:  
-Upload the Code:  
+
+### Step 4:  
+
+#### Upload the Code:  
+
 Click on the upload button (right arrow icon) in the PlatformIO to compile and upload the code to the Arduino board.  
-Step 5:  
-Monitor Serial Output  
-Open Serial Monitor:  
+
+### Step 5:  
+
+#### Monitor Serial Output  
+
+##### Open Serial Monitor (using VS-Code):
+
 After uploading the code, open the Serial Monitor in the PlatformIO by clicking the icon that looks like a plug in the right upper corner.  
+
 Set the baud rate to 9600.  
-Check for Initialization:  
-The Serial Monitor will display messages indicating the initialization of sensors and the reading of values.  
-Step 6:   
-Data Transmission  
-Data Sending:  
+
+##### Open Serial Monitor (using PlatformIO terminal interface):
+
+After uploading the code, open the Serial Monitor in the PlatformIO by clicking the icon that looks like a plug in the right upper corner.  
+
+Set the correct baudrate by pressing `Ctrl+T`, `Ctrl+B`, and then entering the desired baudrate of 9600.  
+
+##### Validate sensor states:  
+
+The Serial Monitor will display messages indicating the status of sensors and will display sensor values upon transmission.
+
+### Step 6:   
+
+**Data Transmission**
+
+**Data Sending:**
+
 The application will read values from the sensors and send the data as a JSON string to the specified endpoint (/admins/authenticated/monitoring/postmonitoring) over WiFi.  
-Monitor Data:  
+
+**Monitor Data:**  
+
 You can monitor the transmitted data in the Serial Monitor, which will display the JSON string sent to the server.  
 
 ## Troubleshooting  
