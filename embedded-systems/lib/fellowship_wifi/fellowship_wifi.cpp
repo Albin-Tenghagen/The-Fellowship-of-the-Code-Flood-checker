@@ -66,18 +66,14 @@ bool fellowshipWiFi::sendRequest(IPAddress host, uint32_t port, String endpoint,
     int status = client.connect(host, port);
     if (!status) 
     {
-        Serial.print("Unable to connect to client at ");
-        Serial.println(host);
         return false;
     }
 
     for (size_t i = 0; i < headers.size(); i++)
     {
-        Serial.println(headers.at(i));
         client.println(headers.at(i));
     }
 
-    Serial.println("Data sent to server");
     return true;
 }
 
@@ -99,18 +95,14 @@ bool fellowshipWiFi::sendRequest(const char *host, uint32_t port, String endpoin
     int status = client.connect(host, port);
     if (!status) 
     {
-        Serial.print("Unable to connect to client at ");
-        Serial.println(host);
         return false;
     }
 
     for (size_t i = 0; i < headers.size(); i++)
     {
-        Serial.println(headers.at(i));
         client.println(headers.at(i));
     }
 
-    Serial.println("Data sent to server");
     return true;
 }
 
@@ -158,8 +150,7 @@ bool fellowshipWiFi::sendLoginRequest(IPAddress host, uint32_t port, String endp
     token.validUntil = millis() + 36000;
     sendRequest(host, port, endpoint, data);
 
-    
-    if (recieveData(data)) Serial.println("Data recieved!");
+    if (!recieveData(data)) return false;
     
     std::vector<String> headerArr(9);
 
@@ -180,35 +171,17 @@ bool fellowshipWiFi::sendLoginRequest(IPAddress host, uint32_t port, String endp
 
     data = data.substring(data.indexOf("\r\n\r\n") + 4);
 
-    // if (recv.substring(recv.indexOf(' '), recv.indexOf('\n')) != "200 OK")
-    // {
-    //     Serial.println("An error occurred");
-    //     return false;
-    // }
-
-
     JsonDocument json;
     deserializeJson(json, data);
 
-    JsonObject root = json.as<JsonObject>();
-
-    Serial.println("This is data variable: ");
-    Serial.println(data);
-
-    String d;
-    serializeJsonPretty(root, d);
-
-    Serial.println(d);
-
-    if (!root["token"].is<const char *>())
+    if (!json["token"].is<const char *>())
     {
         Serial.println("Token was not found!");
         return false;
     }
 
-    token.token = root["token"].as<const char *>();
+    token.token = json["token"].as<const char *>();
     token.token.trim();
-    Serial.println(token.token);
 
     return true;
 }
