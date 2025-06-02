@@ -25,22 +25,22 @@ PlatformIO installed on your computer
 
 - [User Manual](#user-manual)
   - [Requirements](#requirements)
-    - [Required equipment:](#required-equipment)
-    - [Required software:](#required-software)
+    - [Required equipment](#required-equipment)
+    - [Required software](#required-software)
   - [Setup Process](#setup-process)
     - [Step 1: Setting up the hardware](#step-1-setting-up-the-hardware)
       - [Hardware Connections](#hardware-connections)
-        - [MCU nr. 1:](#mcu-nr-1)
+        - [MCU nr. 1](#mcu-nr-1)
           - [Soil Moisture Sensor](#soil-moisture-sensor)
           - [Ultrasonic Distance Sensor (HC-SR04)](#ultrasonic-distance-sensor-hc-sr04)
           - [DHT11 Sensor](#dht11-sensor)
-        - [MCU nr. 2:](#mcu-nr-2)
+        - [MCU nr. 2](#mcu-nr-2)
           - [Water pressure sensor](#water-pressure-sensor)
     - [Step 2: Installation of required tools](#step-2-installation-of-required-tools)
       - [Software Installation](#software-installation)
     - [Step 3: Cloning the repository](#step-3-cloning-the-repository)
-      - [Modify WiFi Credentials:](#modify-wifi-credentials)
-      - [Adjust Sensor Pins (if necessary):](#adjust-sensor-pins-if-necessary)
+      - [Modify WiFi Credentials](#modify-wifi-credentials)
+      - [Adjust Sensor Pins (if necessary)](#adjust-sensor-pins-if-necessary)
       - [Calibrating the TL-136](#calibrating-the-tl-136)
       - [Calibrating Soil moisture sensor (YL-69)](#calibrating-soil-moisture-sensor-yl-69)
     - [Step 4:](#step-4)
@@ -62,7 +62,8 @@ PlatformIO installed on your computer
 #### Hardware Connections  
 
 Connect the Sensors according to the circuit diagram:  
-##### MCU nr. 1:  
+
+##### MCU nr. 1 
 
 ###### Soil Moisture Sensor
 
@@ -79,7 +80,7 @@ DHT Sensor: Connect data on sensor to pin 8 on Heltec. Connect VCC on sensor to 
 
 Connect data on sensor to pin 8 on Heltec. Connect VCC on sensor to VCC 5V or VCC 3,3V on Heltec. Connect GND on sensor to GND on Heltec.  
 
-##### MCU nr. 2:
+##### MCU nr. 2
 
 ###### Water pressure sensor
 
@@ -111,7 +112,7 @@ git clone https://github.com/Albin-Tenghagen/The-Fellowship-of-the-Code-Flood-ch
 cd The-Fellowship-of-the-Code-Flood-checker/embedded-systems
 ```
 
-#### Modify WiFi Credentials: 
+#### Modify WiFi Credentials
 
 For the project to be able to build you must create a secrets.h file, preferably in `embedded-systems/lib/fellowship_wifi` and define the file will look like the following:
 
@@ -133,7 +134,7 @@ For the project to be able to build you must create a secrets.h file, preferably
 
 Ensure that the WiFi credentials (SSID and password) are defined in secrets.h, which should not be included in version control. Otherwise it could lead to your information being compromised.
 
-#### Adjust Sensor Pins (if necessary): 
+#### Adjust Sensor Pins (if necessary)
 
 To change which pins are being used by which sensor the pin numbers can be updated in [`embedded-systems/lib/fellowship/fellowship_config.h`](/embedded-systems/lib/fellowship/fellowship_config.h).
 
