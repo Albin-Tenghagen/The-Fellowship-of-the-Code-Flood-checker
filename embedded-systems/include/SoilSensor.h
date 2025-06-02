@@ -2,6 +2,8 @@
 #define SoilSensor_h
 #include <Arduino.h>
 
+#include <config.h>
+
 namespace Soil 
 {
   uint16_t soil_sensor_pin = 7;
@@ -60,7 +62,7 @@ namespace Soil
 
   void turnSoilMoistureToPrecentage()
   {
-    soil_reading_value_in_precentage = map(soil_reading_value, 1800, 4095, 100, 0);
+    soil_reading_value_in_precentage = map(soil_reading_value, SOIL_SENSOR_VALUE_WET, SOIL_SENSOR_VALUE_DRY, 100, 0);
   }
 }
 #endif

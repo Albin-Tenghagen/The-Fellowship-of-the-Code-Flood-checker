@@ -1,4 +1,4 @@
-// #define __SERVER__
+#define __SERVER__
 #ifdef __SERVER__
 
 #include <Arduino.h>
@@ -10,6 +10,9 @@
 #include "SoilSensor.h"
 #include "hcsr04.h"
 #include "DHTSensor.h"
+
+#include <secrets.h>
+#include "fellowship_config.h"
 
 int16_t water_level_cm = 0;
 
@@ -24,9 +27,9 @@ void setup()
     fellowshipLoRa::init();
 
     // Initialize all sensors
-    Soil::initiateSoilSensor(4, 5);
-    hcsr04::begin(6, 7);
-    DHTSensor::initDHTSensor(8);
+    Soil::initiateSoilSensor(SOIL_SENSOR_PIN, SOIL_SENSOR_POWER_PIN);
+    hcsr04::begin(HCSR04_SENSOR_TRIGGER_PIN, HCSR04_SENSOR_ECHO_PIN);
+    DHTSensor::initDHTSensor(DHT11_SENSOR_PIN);
 
     fellowshipWiFi::connectWiFi();
 
@@ -34,6 +37,7 @@ void setup()
     hcsr04::setMockMode(false);
     hcsr04::setMockDuration(hcsr04::simulateEchoDurationFromCM(10));
     
+    fellowshipWiFi::sendLoginRequest({192, 168, 8, 169}, 5001, "/admins/login", BACKEND_USERNAME, BACKEND_PASSWORD, BACKEND_EMAIL);
 
 
     // int16_t status = fellowshipLoRa::init();
@@ -51,7 +55,7 @@ void loop()
     // Read values
     String str;
 
-    fellowshipLoRa::readUntilValueRecv(str);
+    // fellowshipLoRa::readUntilValueRecv(str);
 
     if (str.length() == 2)
         water_level_cm = fellowshipLoRa::convertToInt16(str[0], str[1]);
@@ -80,11 +84,14 @@ void loop()
 
     Serial.println(jsonStr);
 
-    fellowshipWiFi::sendRequest("12345", 5001, "/admins/authenticated/monitoring/postmonitoring", jsonStr);
+    fellowshipWiFi::sendRequest({192, 168, 8, 169}, 5001, "/admins/authenticated/monitoring/postmonitoring", jsonStr, false);
+    fellowshipWiFi::recieveData(str);
+
+    Serial.println(str);
     // WaterPressure::readWaterLevel(water_pressure_sensor);
     // fellowshipLoRa::write(water_pressure_sensor.depth_cm);
     
-    // delay(1000);
+    delay(10000);
 }
 
 #else
@@ -99,7 +106,7 @@ uint64_t first_millis = 0;
 uint64_t second_millis = 0;
 const uint64_t DELAY_TIME = 1800000;
 
-WaterPressure::WaterPressureSensor sensor { 7 };
+WaterPressure::WaterPressureSensor sensor { WATER_SENSOR_PIN };
 
 void setup()
 {
