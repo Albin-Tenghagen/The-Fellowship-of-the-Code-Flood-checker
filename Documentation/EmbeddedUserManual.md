@@ -29,12 +29,13 @@ PlatformIO installed on your computer
     - [Required software:](#required-software)
   - [Setup Process](#setup-process)
     - [Step 1: Setting up the hardware](#step-1-setting-up-the-hardware)
-      - [**Hardware Connections**](#hardware-connections)
+      - [Hardware Connections](#hardware-connections)
         - [MCU nr. 1:](#mcu-nr-1)
           - [Soil Moisture Sensor](#soil-moisture-sensor)
           - [Ultrasonic Distance Sensor (HC-SR04)](#ultrasonic-distance-sensor-hc-sr04)
           - [DHT11 Sensor](#dht11-sensor)
         - [MCU nr. 2:](#mcu-nr-2)
+          - [Water Pressure Sensor](#water-pressure-sensor)
     - [Step 2: Installation of required tools](#step-2-installation-of-required-tools)
       - [Software Installation](#software-installation)
     - [Step 3: Cloning the repository](#step-3-cloning-the-repository)
@@ -58,7 +59,7 @@ PlatformIO installed on your computer
 
 ### Step 1: Setting up the hardware  
 
-#### **Hardware Connections**  
+#### Hardware Connections  
 
 Connect the Sensors according to the circuit diagram:  
 ##### MCU nr. 1:  
@@ -80,7 +81,9 @@ Connect data on sensor to pin 8 on Heltec. Connect VCC on sensor to VCC 5V or VC
 
 ##### MCU nr. 2:
 
-**Water pressure sensor:** Connect the red wire to Vout+ on the boost converter and blue wire to 110 Ohms of resistors. Connect those resistors to Vout- on the boost converter. Connect pin Vin+ to VCC 3.3V and Vin- to ground, then adjust the potentiometer until the converter outputs 24V. Connect a signal wire to a point between the 110 Ohms and the TL-136, then connect that wire to pin 7 on the Heltec.
+###### Water pressure sensor
+
+Connect the red wire to Vout+ on the boost converter and blue wire to 110 Ohms of resistors. Connect those resistors to Vout- on the boost converter. Connect pin Vin+ to VCC 3.3V and Vin- to ground, then adjust the potentiometer until the converter outputs 24V. Connect a signal wire to a point between the 110 Ohms and the TL-136, then connect that wire to pin 7 on the Heltec.
 
 Power on the Heltec board:  
 Ensure the Heltec is powered through USB or an external power source.  
