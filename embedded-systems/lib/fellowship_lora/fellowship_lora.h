@@ -12,7 +12,7 @@
 #ifndef WIZARD_LORA
 #define WIZARD_LORA
 
-#include <RadioLib.h>
+#include <modules/SX126x/SX1262.h>
 
 #include "fellowship_lora_config.h"
 
