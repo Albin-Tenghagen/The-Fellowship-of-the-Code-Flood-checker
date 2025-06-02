@@ -25,7 +25,7 @@ PlatformIO installed on your computer
 
 ## Setup Process
 
-### Step 1:  
+### Step 1: Setting up the hardware  
 
 #### **Hardware Connections**  
 
@@ -50,33 +50,64 @@ Connect data on sensor to pin 8 on Heltec. Connect VCC on sensor to VCC 5V or VC
 Power on the Heltec board:  
 Ensure the Heltec is powered through USB or an external power source.  
 
-### Step 2:  
+### Step 2: Installation of required tools
 
 #### Software Installation  
 
 Install PlatformIO if you don't already have it installed:  
-Download and install the PlatformIO extension in VS Code.  
+Download and install the PlatformIO extension in VS Code.
 
-### Step 3:  
+To install PlatformIO IDE (Visual Studio Code extension) please refer to this [website](https://platformio.org/install).
 
+### Step 3: Cloning the repository
 
-- Download the repo: The-Fellowship-of-the-code-Flood-Checker  
+**Clone the repository:** [The-Fellowship-of-the-code-Flood-Checker](https://github.com/Albin-Tenghagen/The-Fellowship-of-the-Code-Flood-checker/)  
 
-- Enter the repository and open the `embedded-systems` folder in PlatformIO.  
+```bash
+git clone https://github.com/Albin-Tenghagen/The-Fellowship-of-the-Code-Flood-checker/
+```
+
+- Enter the repository and open the `embedded-systems` folder in VS-Code.  
+
+```bash
+cd The-Fellowship-of-the-Code-Flood-checker/embedded-systems
+```
 
 #### Modify WiFi Credentials: 
 
-Ensure that the WiFi credentials (SSID and password) are defined in a separate secrets.h file, which should not be included in version control.  
+For the project to be able to build you must create a secrets.h file, preferably in `embedded-systems/lib` and define the file will look like the following:
+
+```cpp
+#ifndef SECRETS_H
+#define SECRETS_H
+
+// Your WiFi credentials
+#define SSID                    "wifi_ssid"
+#define PASSPHRASE              "wifi_password"
+
+// These is used for logging into your server.
+#define BACKEND_EMAIL           "youremail@domain.topdomain"
+#define BACKEND_USERNAME        "backend_username"
+#define BACKEND_PASSWORD        "backend_password" 
+
+#endif
+```
+
+Ensure that the WiFi credentials (SSID and password) are defined in secrets.h, which should not be included in version control. Otherwise it could lead to your information being compromised.
 
 #### Adjust Sensor Pins (if necessary): 
 
-If you are using different pins for the sensors, update the pin numbers in the setup() function and/or constructors accordingly.
+To change which pins are being used by which sensor the pin numbers can be updated in [`embedded-systems/include/config.h`](/embedded-systems/include/config.h).
 
 #### Calibrating the TL-136  
 
-If the depth readings are off, start by recording the raw values, given in the Serial monitor, above the surface, and 2 m down, accordingly, then enter those end values into the map() function! After that, try again! If the reading are still off, remove the correction factor (1.2), and measure at a known depth, for example 1 m, then divide the actual depth (in cm) with the depth given in the monitor, and finally, enter the result of that division in place of 1.2!  
+If the depth readings are off, start by recording the raw values, given in the Serial monitor, above the surface, and 2 m down, accordingly, then enter those end values into the [config.h](/embedded-systems/include/config.h) file (`WATER_SENSOR_VALUE_AT_2m` and `WATER_SENSOR_VALUE_AT_0m`) and then try to measure depth again. If the reading are still off, set the correction factor to one (`WATER_SENSOR_CORRECTION_VALUE`, in the [config.h](/embedded-systems/include/config.h) file), and measure at a known depth, for example 1 m, then divide the actual depth (in cm) with the depth given in the monitor, and finally, set `WATER_SENSOR_CORRECTION_VALUE` to the result of your calculation.
 
-Calibrate Soil moisture sensor (YL-69) if necessary to get accurate readings, different soil types gives different values. Start by prepare soil samples from the location where the sensor is supposed to be, where one is  completely dried and one is maximum saturated with moisture. See appendix on how to accomplish this. Put the soil sensor in the completely dried sample first, read the value from the sensor and put it as the second value in the map(soil_reading_value, 1800, 4095, 100, 0) which you finds in the void turnSoilMoistureToPrecentage() function. When you have entered the value, put the sensor in the saturated sample and read the value from the sensor. Put the value in as the first value in map(soil_reading_value, 1800, 4095, 100, 0). Save the changes and upload the code.   
+#### Calibrating Soil moisture sensor (YL-69)
+
+If necessary to get accurate readings, different soil types gives different values. Start by prepare soil samples from the location where the sensor is to be placed, where one sample is completely dry and another which is saturated to the maximum with moisture. See appendix on how to accomplish this. 
+
+Put the soil sensor in the completely dried sample first, read the value from the sensor and set `SOIL_SENSOR_VALUE_DRY` in the config file. When this step is completed, put the sensor in the saturated sample and read the value and set `SOIL_SENSOR_VALUE_WET` to the result.   
 
 ### Step 4:  
 
