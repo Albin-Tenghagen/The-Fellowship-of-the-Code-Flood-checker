@@ -62,7 +62,7 @@ namespace Soil
 
   void turnSoilMoistureToPrecentage()
   {
-    soil_reading_value_in_precentage = map(soil_reading_value, SOIL_SENSOR_VALUE_DRY, SOIL_SENSOR_VALUE_WET, 100, 0);
+    soil_reading_value_in_precentage = map(soil_reading_value, SOIL_SENSOR_VALUE_WET, SOIL_SENSOR_VALUE_DRY, 100, 0);
   }
 }
 #endif
