@@ -47,7 +47,7 @@ bool fellowshipWiFi::disconnectWiFi()
 }
 
 
-bool fellowshipWiFi::sendRequest(IPAddress host, uint32_t port, String endpoint, String data)
+bool fellowshipWiFi::sendRequest(IPAddress host, uint32_t port, String endpoint, String data, bool isLogin = true)
 {
     std::vector<String> headers;
 
@@ -55,9 +55,11 @@ bool fellowshipWiFi::sendRequest(IPAddress host, uint32_t port, String endpoint,
     headers.push_back(String("POST ") + endpoint + String(" HTTP/1.1"));
     headers.push_back(String("Host: ") + host.toString());
     headers.push_back(String("User-Agent: Heltec-Board"));
-    headers.push_back(String("Connection: close"));
+    if (!isLogin) 
+        headers.push_back(String("Authorization: Bearer ") + token.token);
     headers.push_back(String("Content-Type: application/json"));
     headers.push_back(String("Content-Length: ") + String(data.length()));
+    headers.push_back(String("Connection: close"));
     headers.push_back("");
     headers.push_back(data);
 
@@ -79,16 +81,18 @@ bool fellowshipWiFi::sendRequest(IPAddress host, uint32_t port, String endpoint,
     return true;
 }
 
-bool fellowshipWiFi::sendRequest(const char *host, uint32_t port, String endpoint, String data)
+bool fellowshipWiFi::sendRequest(const char *host, uint32_t port, String endpoint, String data, bool isLogin = true)
 {
     std::vector<String> headers;
     
     headers.push_back(String("POST ") + endpoint + String(" HTTP/1.1"));
     headers.push_back(String("Host: ") + String(host));
     headers.push_back(String("User-Agent: Heltec-Board"));
-    headers.push_back(String("Connection: close"));
+    if (!isLogin) 
+        headers.push_back(String("Authorization: Bearer ") + token.token);
     headers.push_back(String("Content-Type: application/json"));
     headers.push_back(String("Content-Length: ") + String(data.length()));
+    headers.push_back(String("Connection: close"));
     headers.push_back("");
     headers.push_back(data);
 
@@ -114,6 +118,7 @@ bool fellowshipWiFi::recieveData(String &buffer)
 {
     if (!client.connected() && !client.available()) return false;
     
+    buffer = "";
     while (client.connected() || client.available())
     {
         if (client.available())
@@ -124,6 +129,7 @@ bool fellowshipWiFi::recieveData(String &buffer)
 
     return true;
 }
+
 
 
 // bool fellowshipWiFi::sendLoginRequest(const char *host, uint32_t port, String endpoint)
@@ -145,16 +151,64 @@ bool fellowshipWiFi::recieveData(String &buffer)
 //     Serial.println(msg);
 // }
 
-bool fellowshipWiFi::sendLoginRequest(IPAddress host, uint32_t port, String endpoint, String username, String password, String email, String &result)
+bool fellowshipWiFi::sendLoginRequest(IPAddress host, uint32_t port, String endpoint, String username, String password, String email)
 {
     String data = "{ \"name\": \"" + username + "\", \"password\": \"" + password + "\", \"email\": \"" + email + "\" }";
     
+    token.validUntil = millis() + 36000;
     sendRequest(host, port, endpoint, data);
 
+    
     if (recieveData(data)) Serial.println("Data recieved!");
+    
+    std::vector<String> headerArr(9);
 
-    result = data;
+    {
+        String headers = data.substring(0, data.indexOf("\r\n\r\n"));
+    
+        while (headers.length() > 0)
+        {
+            int nextPosition = headers.indexOf("\r\n");
+            Serial.printf("Header: %s\n", headers.substring(0, nextPosition).c_str());
+            headerArr.push_back(headers.substring(0, nextPosition));
 
+            if (nextPosition == -1) 
+                headers = "";
+            headers.remove(0, nextPosition + 2);
+        }
+    }
+
+    data = data.substring(data.indexOf("\r\n\r\n") + 4);
+
+    // if (recv.substring(recv.indexOf(' '), recv.indexOf('\n')) != "200 OK")
+    // {
+    //     Serial.println("An error occurred");
+    //     return false;
+    // }
+
+
+    JsonDocument json;
+    deserializeJson(json, data);
+
+    JsonObject root = json.as<JsonObject>();
+
+    Serial.println("This is data variable: ");
+    Serial.println(data);
+
+    String d;
+    serializeJsonPretty(root, d);
+
+    Serial.println(d);
+
+    if (!root["token"].is<const char *>())
+    {
+        Serial.println("Token was not found!");
+        return false;
+    }
+
+    token.token = root["token"].as<const char *>();
+    token.token.trim();
+    Serial.println(token.token);
 
     return true;
 }
