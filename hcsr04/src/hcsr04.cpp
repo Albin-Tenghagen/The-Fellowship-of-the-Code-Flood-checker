@@ -82,7 +82,7 @@ namespace hcsr04
             return 0.0;
 
         float current = readDistance();
-        return current - baseline_cm;
+        return baseline_cm - current;
     }
 
     void setBaseline(float cm)

@@ -3,13 +3,13 @@
 
 // ---- Unit 1 ----
 
-#define SOIL_SENSOR_PIN                 4
-#define SOIL_SENSOR_POWER_PIN           5
+#define SOIL_SENSOR_PIN                 7
+#define SOIL_SENSOR_POWER_PIN           6
 
-#define DHT11_SENSOR_PIN                8
+#define DHT11_SENSOR_PIN                5
 
-#define HCSR04_SENSOR_TRIGGER_PIN       6
-#define HCSR04_SENSOR_ECHO_PIN          7
+#define HCSR04_SENSOR_TRIGGER_PIN       20
+#define HCSR04_SENSOR_ECHO_PIN          19
 
 // ---- Unit 2 ----
 

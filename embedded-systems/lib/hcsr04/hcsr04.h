@@ -19,6 +19,9 @@ namespace hcsr04
     void setMockDuration(unsigned long duration_us);
     float readDistance(); // returns distance in cm
     void calibrateZero(float known_level_cm);
+    void setBaselineFromCurrentReading();
+    float readRelativeToBaseline();
+    void setBaseline(float cm);
     unsigned long simulateEchoDurationFromCM(float cm); // used only in mock mode
 }
 

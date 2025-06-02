@@ -8,7 +8,7 @@
 #include <fellowship_lora.h>
 #include <fellowship_wifi.h>
 #include "SoilSensor.h"
-#include "hcsr04.h"
+#include <hcsr04.h>
 #include "DHTSensor.h"
 
 #include <secrets.h>
@@ -55,7 +55,7 @@ void loop()
     // Read values
     String str;
 
-    // fellowshipLoRa::readUntilValueRecv(str);
+    fellowshipLoRa::readUntilValueRecv(str);
 
     if (str.length() == 2)
         water_level_cm = fellowshipLoRa::convertToInt16(str[0], str[1]);
@@ -98,13 +98,14 @@ void loop()
 
 #include <Arduino.h>
 #include <RTOS.h>
+#include <fellowship_config.h>
 
 #include <fellowship_lora.h>
 #include "WaterPressure.h"
 
 uint64_t first_millis = 0;
 uint64_t second_millis = 0;
-const uint64_t DELAY_TIME = 1800000;
+const uint64_t DELAY_TIME = 20000; // Set to every 20th second instead of 30th minute for demo
 
 WaterPressure::WaterPressureSensor sensor { WATER_SENSOR_PIN };
 
