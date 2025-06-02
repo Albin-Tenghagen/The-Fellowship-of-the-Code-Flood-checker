@@ -39,6 +39,10 @@ Alternatively don’t use the module with the potentiometer and wire the sensor 
 **Ultrasonic Distance Sensor (HC-SR04):** Connect the trigger pin on the sensor to pin 6 on Heltec and the echo pin on the sensor to pin 7 on Heltec. Connect VCC on sensor to VCC 5V on Heltec. Connect GND on sensor to GND on Heltec. 
 DHT Sensor: Connect data on sensor to pin 8 on Heltec. Connect VCC on sensor to VCC 5V or VCC 3,3V on Heltec. Connect GND on sensor to GND on Heltec.  
 
+**DHT11 Sensor:**  
+
+Connect data on sensor to pin 8 on Heltec. Connect VCC on sensor to VCC 5V or VCC 3,3V on Heltec. Connect GND on sensor to GND on Heltec.  
+
 ##### MCU nr. 2:
 
 **Water pressure sensor:** Connect the red wire to Vout+ on the boost converter and blue wire to 110 Ohms of resistors. Connect those resistors to Vout- on the boost converter. Connect pin Vin+ to VCC 3.3V and Vin- to ground, then adjust the potentiometer until the converter outputs 24V. Connect a signal wire to a point between the 110 Ohms and the TL-136, then connect that wire to pin 7 on the Heltec.
