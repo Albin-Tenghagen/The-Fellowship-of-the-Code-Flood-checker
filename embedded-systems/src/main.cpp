@@ -12,7 +12,7 @@
 #include "DHTSensor.h"
 
 #include <secrets.h>
-#include <config.h>
+#include "fellowship_config.h"
 
 int16_t water_level_cm = 0;
 

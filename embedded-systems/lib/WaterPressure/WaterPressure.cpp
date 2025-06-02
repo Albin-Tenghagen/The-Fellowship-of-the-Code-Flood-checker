@@ -1,6 +1,6 @@
 #include "WaterPressure.h"
 
-#include <config.h>
+#include "fellowship_config.h"
 
 WaterPressure::WaterPressureSensor::WaterPressureSensor(uint8_t _SENSOR_PIN)
 :

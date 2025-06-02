@@ -16,6 +16,8 @@
 #include <ArduinoJson.h>
 #include <WiFi.h>
 
+#include "fellowship_config.h"
+
 namespace fellowshipWiFi
 {
     static WiFiClient client{};
