@@ -27,10 +27,32 @@ void WaterPressure::readWaterLevel(WaterPressureSensor& sensor_object)
     sensor_object.sensor_average_value = (float)sensor_object.sensor_value_sum / (float)sensor_object.MEASURING_POINTS;
     sensor_object.sensor_value_sum = 0;
     
-    sensor_object.depth_cm = (float(map(sensor_object.sensor_average_value, WATER_SENSOR_VALUE_AT_0m, WATER_SENSOR_VALUE_AT_2m, 0, 2000)) * WATER_SENSOR_CORRECTION_VALUE) / 10.0f;
-  
+    sensor_object.depth_cm = (float(map(sensor_object.sensor_average_value, WATER_SENSOR_VALUE_AT_0m, WATER_SENSOR_VALUE_AT_2m, 0, 2000)) * WATER_SENSOR_CORRECTION_VALUE) / 10.0f - sensor_object.baseline_cm;
+
     Serial.print("Sensor value: ");
-    Serial.print(sensor_object.sensor_value);
+    Serial.print(sensor_object.sensor_average_value);
     Serial.print(", Depth in cm: ");
     Serial.println(sensor_object.depth_cm);
+}
+
+void WaterPressure::createBaseline(WaterPressureSensor& sensor_object)
+{
+    for (uint8_t i = 0; i < sensor_object.MEASURING_POINTS; i++)
+    {
+        sensor_object.sensor_value_sum += analogRead(sensor_object.SENSOR_PIN);
+
+        delay(100);
+    }
+
+
+    uint16_t temp = (float)sensor_object.sensor_value_sum / (float)sensor_object.MEASURING_POINTS;
+    
+    sensor_object.baseline_cm = (float(map(temp, 600, 3840, 0, 2000)) * 1.20f) / 10.0f;
+
+    sensor_object.sensor_value_sum = 0;
+  
+    Serial.print("Sensor value: ");
+    Serial.print(temp);
+    Serial.print(", Baseline: ");
+    Serial.println(sensor_object.baseline_cm);
 }
