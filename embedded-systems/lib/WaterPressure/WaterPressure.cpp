@@ -1,5 +1,7 @@
 #include "WaterPressure.h"
 
+#include <config.h>
+
 WaterPressure::WaterPressureSensor::WaterPressureSensor(uint8_t _SENSOR_PIN)
 :
 SENSOR_PIN(_SENSOR_PIN), MEASURING_POINTS(50), sensor_value_sum(0)
@@ -24,7 +26,7 @@ void WaterPressure::readWaterLevel(WaterPressureSensor& sensor_object)
     sensor_object.sensor_average_value = (float)sensor_object.sensor_value_sum / (float)sensor_object.MEASURING_POINTS;
     sensor_object.sensor_value_sum = 0;
     
-    sensor_object.depth_cm = (float(map(sensor_object.sensor_average_value, 600, 3840, 0, 2000)) * 1.20f) / 10.0f;
+    sensor_object.depth_cm = (float(map(sensor_object.sensor_average_value, WATER_SENSOR_VALUE_AT_0m, WATER_SENSOR_VALUE_AT_2m, 0, 2000)) * WATER_SENSOR_CORRECTION_VALUE) / 10.0f;
   
     Serial.print("Sensor value: ");
     Serial.print(sensor_object.sensor_value);
