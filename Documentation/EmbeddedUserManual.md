@@ -23,6 +23,37 @@ Two Heltec LoRa 32 V3 boards compatible with the libraries used.
 VS Code installed on your computer  
 PlatformIO installed on your computer  
 
+- [User Manual](#user-manual)
+  - [Requirements](#requirements)
+    - [Required equipment:](#required-equipment)
+    - [Required software:](#required-software)
+  - [Setup Process](#setup-process)
+    - [Step 1: Setting up the hardware](#step-1-setting-up-the-hardware)
+      - [**Hardware Connections**](#hardware-connections)
+        - [MCU nr. 1:](#mcu-nr-1)
+          - [Soil Moisture Sensor](#soil-moisture-sensor)
+          - [Ultrasonic Distance Sensor (HC-SR04)](#ultrasonic-distance-sensor-hc-sr04)
+          - [DHT11 Sensor](#dht11-sensor)
+        - [MCU nr. 2:](#mcu-nr-2)
+    - [Step 2: Installation of required tools](#step-2-installation-of-required-tools)
+      - [Software Installation](#software-installation)
+    - [Step 3: Cloning the repository](#step-3-cloning-the-repository)
+      - [Modify WiFi Credentials:](#modify-wifi-credentials)
+      - [Adjust Sensor Pins (if necessary):](#adjust-sensor-pins-if-necessary)
+      - [Calibrating the TL-136](#calibrating-the-tl-136)
+      - [Calibrating Soil moisture sensor (YL-69)](#calibrating-soil-moisture-sensor-yl-69)
+    - [Step 4:](#step-4)
+      - [Upload the Code:](#upload-the-code)
+    - [Step 5:](#step-5)
+      - [Monitor Serial Output](#monitor-serial-output)
+        - [Open Serial Monitor (using VS-Code):](#open-serial-monitor-using-vs-code)
+        - [Open Serial Monitor (using PlatformIO terminal interface):](#open-serial-monitor-using-platformio-terminal-interface)
+        - [Validate sensor states:](#validate-sensor-states)
+    - [Step 6:](#step-6)
+  - [Troubleshooting](#troubleshooting)
+  - [Appendix:](#appendix)
+
+
 ## Setup Process
 
 ### Step 1: Setting up the hardware  
@@ -32,14 +63,18 @@ PlatformIO installed on your computer
 Connect the Sensors according to the circuit diagram:  
 ##### MCU nr. 1:  
 
-**Soil Moisture Sensor:** Connect analog A0 sensorpin to pin 4 on Heltec and VCC sensorpin to pin 5 on Heltec. Connect GND on sensor to GND on Heltec. We don’t need to plug in the D0 pin because we don’t use that functionality. Because of this we don’t need to adjust the potentiometer either.   
+###### Soil Moisture Sensor
+
+Connect analog A0 sensorpin to pin 4 on Heltec and VCC sensorpin to pin 5 on Heltec. Connect GND on sensor to GND on Heltec. We don’t need to plug in the D0 pin because we don’t use that functionality. Because of this we don’t need to adjust the potentiometer either.   
 
 Alternatively don’t use the module with the potentiometer and wire the sensor as follow: plug one of the wires of the sensor to GND on the Heltec. The other wire from the sensor is plugged through a 10K ohms resistor to pin 5 (digital pin that we use as VCC for this sensor) on the Heltec. The pin that reads the analog value is connected between the resistor and the VCC/pin 5 wire. The wire goes to pin 4 on the Heltec.    
 
-**Ultrasonic Distance Sensor (HC-SR04):** Connect the trigger pin on the sensor to pin 6 on Heltec and the echo pin on the sensor to pin 7 on Heltec. Connect VCC on sensor to VCC 5V on Heltec. Connect GND on sensor to GND on Heltec. 
+###### Ultrasonic Distance Sensor (HC-SR04)
+
+Connect the trigger pin on the sensor to pin 6 on Heltec and the echo pin on the sensor to pin 7 on Heltec. Connect VCC on sensor to VCC 5V on Heltec. Connect GND on sensor to GND on Heltec. 
 DHT Sensor: Connect data on sensor to pin 8 on Heltec. Connect VCC on sensor to VCC 5V or VCC 3,3V on Heltec. Connect GND on sensor to GND on Heltec.  
 
-**DHT11 Sensor:**  
+###### DHT11 Sensor  
 
 Connect data on sensor to pin 8 on Heltec. Connect VCC on sensor to VCC 5V or VCC 3,3V on Heltec. Connect GND on sensor to GND on Heltec.  
 
