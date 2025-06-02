@@ -25,28 +25,18 @@ void setup()
 
 void loop()
 {
-    float distance = hcsr04::readDistance();
     float delta = hcsr04::readRelativeToBaseline();
-    float meter = distance / 100.0;
 
-    if (distance >= 380.0)
+    if (hcsr04::readDistance() >= 380.0)
     {
         Serial.println("Out of range");
     }
     else
     {
-        Serial.print("Distance: ");
-        Serial.print(distance, 1);
-        Serial.print(" cm\t");
-
-        Serial.print(meter, 2);
-        Serial.print(" m\t");
-
-        Serial.print("Delta: ");
         if (delta >= 0)
             Serial.print("+");
-        Serial.print(delta, 1);
-        Serial.println(" cm from baseline");
+        Serial.print(delta, 2);
+        Serial.println();
     }
 
     delay(1000);
