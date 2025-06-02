@@ -62,10 +62,10 @@ void loop()
     else
         water_level_cm = str[0];
 
-    Serial.print("water_level_mm: ");
+    /* Serial.print("water_level_mm: ");
     Serial.println(water_level_cm);
 
-    Serial.printf("String water_level: %s\n", str);
+    Serial.printf("String water_level: %s\n", str); */
 
     Soil::updateSoilSensorValue();
     DHTSensor::readDHTSensor();
@@ -84,10 +84,10 @@ void loop()
 
     Serial.println(jsonStr);
 
-    fellowshipWiFi::sendRequest({192, 168, 8, 169}, 5001, "/admins/authenticated/monitoring/postmonitoring", jsonStr, false);
+    fellowshipWiFi::sendRequest({192, 168, 10, 84}, 5001, "/admins/authenticated/monitoring/postmonitoring", jsonStr, false);
     fellowshipWiFi::recieveData(str);
 
-    Serial.println(str);
+    // Serial.println(str);
     // WaterPressure::readWaterLevel(water_pressure_sensor);
     // fellowshipLoRa::write(water_pressure_sensor.depth_cm);
     
