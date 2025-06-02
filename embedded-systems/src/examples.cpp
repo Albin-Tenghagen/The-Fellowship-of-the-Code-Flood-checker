@@ -10,7 +10,7 @@ void WiFiExample()
     fellowshipWiFi::connectWiFi({192, 168, 8, 201}, {192, 168, 8, 1});
 
     // This will throw an error since JSON is empty
-    fellowshipWiFi::sendRequest({192, 168, 8, 169}, 5001, "/admins/authenticated/monitoring/postmonitoring/", "{}");
+    fellowshipWiFi::sendRequest({192, 168, 8, 169}, 5001, "/admins/authenticated/monitoring/postmonitoring/", "{}", false);
 
     String buffer;
     fellowshipWiFi::recieveData(buffer);
