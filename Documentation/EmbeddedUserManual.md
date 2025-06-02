@@ -38,20 +38,21 @@ PlatformIO installed on your computer
           - [Water pressure sensor](#water-pressure-sensor)
     - [Step 2: Installation of required tools](#step-2-installation-of-required-tools)
       - [Software Installation](#software-installation)
-    - [Step 3: Cloning the repository](#step-3-cloning-the-repository)
+    - [Step 3: Cloning and changing settings](#step-3-cloning-the-repository)
       - [Modify WiFi Credentials](#modify-wifi-credentials)
       - [Adjust Sensor Pins (if necessary)](#adjust-sensor-pins-if-necessary)
       - [Calibrating the TL-136](#calibrating-the-tl-136)
       - [Calibrating Soil moisture sensor (YL-69)](#calibrating-soil-moisture-sensor-yl-69)
-    - [Step 4:](#step-4)
+    - [Step 4](#step-4)
       - [Upload the Code:](#upload-the-code)
-    - [Step 5:](#step-5)
+    - [Step 5](#step-5)
       - [Monitor Serial Output](#monitor-serial-output)
         - [Open Serial Monitor (using VS-Code):](#open-serial-monitor-using-vs-code)
         - [Open Serial Monitor (using PlatformIO terminal interface):](#open-serial-monitor-using-platformio-terminal-interface)
         - [Validate sensor states:](#validate-sensor-states)
-    - [Step 6:](#step-6)
+    - [Step 6](#step-6)
   - [Troubleshooting](#troubleshooting)
+    - []
   - [Appendix:](#appendix)
 
 
@@ -98,7 +99,7 @@ Download and install the PlatformIO extension in VS Code.
 
 To install PlatformIO IDE (Visual Studio Code extension) please refer to this [website](https://platformio.org/install).
 
-### Step 3: Cloning the repository
+### Step 3: Cloning and changing settings
 
 **Clone the repository:** [The-Fellowship-of-the-code-Flood-Checker](https://github.com/Albin-Tenghagen/The-Fellowship-of-the-Code-Flood-checker/)  
 
@@ -187,15 +188,22 @@ The application will read values from the sensors and send the data as a JSON st
 You can monitor the transmitted data in the Serial Monitor, which will display the JSON string sent to the server.  
 
 ## Troubleshooting  
-No Data Received:
+
+### No Data Received
+
 Ensure that the WiFi connection is established successfully.
 Ensure that the correct WiFi credentials are entered in the file secrets.h
 Check the endpoint URL and port number for correctness.
-Sensor Readings are Incorrect:
+
+### Sensor Readings are Incorrect
+
 Verify the connections of the sensors.
+
 Ensure that the sensors are functioning properly.
-Compilation Errors:
-Make sure all required libraries are installed and included correctly.
+
+### Compilation Errors
+
+Make sure all required libraries are installed and included correctly. One possible solution could be to remove the `.pio` directory and try to build again
 
 
 ## Appendix:
