@@ -37,7 +37,7 @@ void setup()
     hcsr04::setMockMode(false);
     hcsr04::setMockDuration(hcsr04::simulateEchoDurationFromCM(10));
     
-    //fellowshipWiFi::sendLoginRequest({192, 168, 8, 169}, 5001, "/admins/login", BACKEND_USERNAME, BACKEND_PASSWORD, BACKEND_EMAIL);
+    fellowshipWiFi::sendLoginRequest({192, 168, 10, 84}, 5001, "/admins/login", BACKEND_USERNAME, BACKEND_PASSWORD, BACKEND_EMAIL);
 
 
     // int16_t status = fellowshipLoRa::init();
