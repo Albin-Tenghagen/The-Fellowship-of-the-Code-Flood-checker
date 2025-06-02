@@ -7,7 +7,7 @@ This application is designed to monitor environmental parameters using various s
 Before setting up the server side application, ensure you have the following:  
 Two Heltec LoRa 32 V3 boards compatible with the libraries used.  
 
-### Required equipment:
+### Required equipment
 
 - Soil moisture sensor (YL-69)  
 - Ultrasonic distance sensor (HC-SR04)  
@@ -18,7 +18,7 @@ Two Heltec LoRa 32 V3 boards compatible with the libraries used.
 - Different types of Resistors  
 - Wires  
 
-### Required software:
+### Required software
 
 VS Code installed on your computer  
 PlatformIO installed on your computer  
@@ -38,22 +38,24 @@ PlatformIO installed on your computer
           - [Water pressure sensor](#water-pressure-sensor)
     - [Step 2: Installation of required tools](#step-2-installation-of-required-tools)
       - [Software Installation](#software-installation)
-    - [Step 3: Cloning and changing settings](#step-3-cloning-the-repository)
+    - [Step 3: Cloning and changing settings](#step-3-cloning-and-changing-settings)
       - [Modify WiFi Credentials](#modify-wifi-credentials)
       - [Adjust Sensor Pins (if necessary)](#adjust-sensor-pins-if-necessary)
       - [Calibrating the TL-136](#calibrating-the-tl-136)
       - [Calibrating Soil moisture sensor (YL-69)](#calibrating-soil-moisture-sensor-yl-69)
-    - [Step 4](#step-4)
+    - [Step 4:  Uploading the code](#step-4--uploading-the-code)
       - [Upload the Code:](#upload-the-code)
-    - [Step 5](#step-5)
+    - [Step 5: Monitoring the system](#step-5-monitoring-the-system)
       - [Monitor Serial Output](#monitor-serial-output)
         - [Open Serial Monitor (using VS-Code):](#open-serial-monitor-using-vs-code)
         - [Open Serial Monitor (using PlatformIO terminal interface):](#open-serial-monitor-using-platformio-terminal-interface)
         - [Validate sensor states:](#validate-sensor-states)
-    - [Step 6](#step-6)
+      - [LoRa, WiFi and monitoring](#lora-wifi-and-monitoring)
   - [Troubleshooting](#troubleshooting)
-    - []
-  - [Appendix:](#appendix)
+    - [No Data Received](#no-data-received)
+    - [Sensor Readings are Incorrect](#sensor-readings-are-incorrect)
+    - [Compilation Errors](#compilation-errors)
+  - [Appendix](#appendix)
 
 
 ## Setup Process
@@ -149,13 +151,13 @@ If necessary to get accurate readings, different soil types gives different valu
 
 Put the soil sensor in the completely dried sample first, read the value from the sensor and set `SOIL_SENSOR_VALUE_DRY` in the config file. When this step is completed, put the sensor in the saturated sample and read the value and set `SOIL_SENSOR_VALUE_WET` to the result.   
 
-### Step 4:  
+### Step 4:  Uploading the code
 
 #### Upload the Code:  
 
 Click on the upload button (right arrow icon) in the PlatformIO to compile and upload the code to the Arduino board.  
 
-### Step 5:  
+### Step 5: Monitoring the system
 
 #### Monitor Serial Output  
 
@@ -175,7 +177,7 @@ Set the correct baudrate by pressing `Ctrl+T`, `Ctrl+B`, and then entering the d
 
 The Serial Monitor will display messages indicating the status of sensors and will display sensor values upon transmission.
 
-### Step 6:   
+#### LoRa, WiFi and monitoring
 
 **Data Transmission**
 
@@ -206,7 +208,7 @@ Ensure that the sensors are functioning properly.
 Make sure all required libraries are installed and included correctly. One possible solution could be to remove the `.pio` directory and try to build again
 
 
-## Appendix:
+## Appendix
 Source: https://helptheengineer.com/method-for-preparation-of-dry-soil-samples-for-various-tests/ 
 How to Dry and Saturate soil samples. 
 
