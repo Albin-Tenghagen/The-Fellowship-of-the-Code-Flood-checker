@@ -24,7 +24,7 @@
 
 // -- Soil sensor
 
-#define SOIL_SENSOR_VALUE_DRY				    1800
-#define SOIL_SENSOR_VALUE_WET				    4095
+#define SOIL_SENSOR_VALUE_DRY				    4095
+#define SOIL_SENSOR_VALUE_WET				    1800
 
 #endif
