@@ -12,6 +12,7 @@
 #include "DHTSensor.h"
 
 #include <secrets.h>
+#include <config.h>
 
 int16_t water_level_cm = 0;
 
@@ -26,9 +27,9 @@ void setup()
     fellowshipLoRa::init();
 
     // Initialize all sensors
-    Soil::initiateSoilSensor(4, 5);
-    hcsr04::begin(6, 7);
-    DHTSensor::initDHTSensor(8);
+    Soil::initiateSoilSensor(SOIL_SENSOR_PIN, SOIL_SENSOR_POWER_PIN);
+    hcsr04::begin(HCSR04_SENSOR_TRIGGER_PIN, HCSR04_SENSOR_ECHO_PIN);
+    DHTSensor::initDHTSensor(DHT11_SENSOR_PIN);
 
     fellowshipWiFi::connectWiFi();
 
@@ -105,7 +106,7 @@ uint64_t first_millis = 0;
 uint64_t second_millis = 0;
 const uint64_t DELAY_TIME = 1800000;
 
-WaterPressure::WaterPressureSensor sensor { 7 };
+WaterPressure::WaterPressureSensor sensor { WATER_SENSOR_PIN };
 
 void setup()
 {
