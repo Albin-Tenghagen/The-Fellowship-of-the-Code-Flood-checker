@@ -77,7 +77,7 @@ bool fellowshipWiFi::sendRequest(IPAddress host, uint32_t port, String endpoint,
     return true;
 }
 
-bool fellowshipWiFi::sendRequest(const char *host, uint32_t port, String endpoint, String data)
+bool fellowshipWiFi::sendRequest(const char *host, uint32_t port, String endpoint, String data, bool isLogin = true)
 {
     std::vector<String> headers;
     
