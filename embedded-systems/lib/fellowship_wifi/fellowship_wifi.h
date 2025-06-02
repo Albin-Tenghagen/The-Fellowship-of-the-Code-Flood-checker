@@ -13,12 +13,19 @@
 #define FELLOWSHIP_WIFI_H
 
 #include <WString.h>
+#include <ArduinoJson.h>
 #include <WiFi.h>
 
 namespace fellowshipWiFi
 {
     static WiFiClient client{};
-    
+
+    struct LoginCredentials {
+        const char *username;
+        const char *password;
+        const char *email;
+    };
+
     /**
      * @brief Connects the device to the internet. Uses SSID and PASSPHRASE from secrets.h which is not included by git.
      * 
@@ -73,6 +80,20 @@ namespace fellowshipWiFi
      * @returns true if succeeded 
      */
     bool recieveData(String &buffer);
+
+    /**
+     * @brief Sends a request to the backend for loggin in.
+     * 
+     * @param host The host to send the request to
+     * @param port The port to send the request to
+     * @param endpoint The server endpoint used for authentication / login
+     * @returns true if login succeeded
+     * @returns false if login failed
+     */
+    // bool sendLoginRequest(const char *host, uint32_t port, String endpoint);
+
+    
+    bool sendLoginRequest(IPAddress host, uint32_t port, String endpoint, String username, String password, String email, String &result);
 } 
 
 
