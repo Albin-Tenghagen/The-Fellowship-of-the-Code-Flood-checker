@@ -35,7 +35,7 @@ PlatformIO installed on your computer
           - [Ultrasonic Distance Sensor (HC-SR04)](#ultrasonic-distance-sensor-hc-sr04)
           - [DHT11 Sensor](#dht11-sensor)
         - [MCU nr. 2:](#mcu-nr-2)
-          - [Water Pressure Sensor](#water-pressure-sensor)
+          - [Water pressure sensor](#water-pressure-sensor)
     - [Step 2: Installation of required tools](#step-2-installation-of-required-tools)
       - [Software Installation](#software-installation)
     - [Step 3: Cloning the repository](#step-3-cloning-the-repository)
@@ -113,7 +113,7 @@ cd The-Fellowship-of-the-Code-Flood-checker/embedded-systems
 
 #### Modify WiFi Credentials: 
 
-For the project to be able to build you must create a secrets.h file, preferably in `embedded-systems/lib` and define the file will look like the following:
+For the project to be able to build you must create a secrets.h file, preferably in `embedded-systems/lib/fellowship_wifi` and define the file will look like the following:
 
 ```cpp
 #ifndef SECRETS_H
@@ -135,11 +135,11 @@ Ensure that the WiFi credentials (SSID and password) are defined in secrets.h, w
 
 #### Adjust Sensor Pins (if necessary): 
 
-To change which pins are being used by which sensor the pin numbers can be updated in [`embedded-systems/include/config.h`](/embedded-systems/include/config.h).
+To change which pins are being used by which sensor the pin numbers can be updated in [`embedded-systems/lib/fellowship/fellowship_config.h`](/embedded-systems/lib/fellowship/fellowship_config.h).
 
 #### Calibrating the TL-136  
 
-If the depth readings are off, start by recording the raw values, given in the Serial monitor, above the surface, and 2 m down, accordingly, then enter those end values into the [config.h](/embedded-systems/include/config.h) file (`WATER_SENSOR_VALUE_AT_2m` and `WATER_SENSOR_VALUE_AT_0m`) and then try to measure depth again. If the reading are still off, set the correction factor to one (`WATER_SENSOR_CORRECTION_VALUE`, in the [config.h](/embedded-systems/include/config.h) file), and measure at a known depth, for example 1 m, then divide the actual depth (in cm) with the depth given in the monitor, and finally, set `WATER_SENSOR_CORRECTION_VALUE` to the result of your calculation.
+If the depth readings are off, start by recording the raw values, given in the Serial monitor, above the surface, and 2 m down, accordingly, then enter those end values into the [config.h](/embedded-systems/lib/fellowship/fellowship_config.h) file (`WATER_SENSOR_VALUE_AT_2m` and `WATER_SENSOR_VALUE_AT_0m`) and then try to measure depth again. If the reading are still off, set the correction factor to one (`WATER_SENSOR_CORRECTION_VALUE`, in the [config.h](/embedded-systems/lib/fellowship/fellowship_config.h) file), and measure at a known depth, for example 1 m, then divide the actual depth (in cm) with the depth given in the monitor, and finally, set `WATER_SENSOR_CORRECTION_VALUE` to the result of your calculation.
 
 #### Calibrating Soil moisture sensor (YL-69)
 
