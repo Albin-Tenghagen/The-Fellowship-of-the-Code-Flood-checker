@@ -17,9 +17,14 @@
 
 // -- Water sensor --
 
-#define WATER_SENSOR_CORRECTION_VALUE       1.2
+#define WATER_SENSOR_CORRECTION_VALUE		1.2
 
 #define WATER_SENSOR_VALUE_AT_0m			600
 #define WATER_SENSOR_VALUE_AT_2m			3840
+
+// -- Soil sensor
+
+#define SOIL_SENSOR_VALUE_DRY				1800
+#define SOIL_SENSOR_VALUE_WET				4095
 
 #endif
