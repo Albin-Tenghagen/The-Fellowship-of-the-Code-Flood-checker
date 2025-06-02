@@ -19,6 +19,7 @@ namespace hcsr04
         config.echo_pin = echo_pin;
         pinMode(trig_pin, OUTPUT);
         pinMode(echo_pin, INPUT);
+        setBaselineFromCurrentReading();
     }
 
     void setMockMode(bool enable)
@@ -76,7 +77,7 @@ namespace hcsr04
         baseline_set = true;
     }
 
-    float readRelativeToBaseline()
+    int16_t readRelativeToBaseline()
     {
         if (!baseline_set)
             return 0.0;

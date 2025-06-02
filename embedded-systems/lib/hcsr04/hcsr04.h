@@ -20,7 +20,7 @@ namespace hcsr04
     float readDistance(); // returns distance in cm
     void calibrateZero(float known_level_cm);
     void setBaselineFromCurrentReading();
-    float readRelativeToBaseline();
+    int16_t readRelativeToBaseline();
     void setBaseline(float cm);
     unsigned long simulateEchoDurationFromCM(float cm); // used only in mock mode
 }
