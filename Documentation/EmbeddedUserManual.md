@@ -29,8 +29,8 @@ Connect the Sensors according to the circuit diagram:
 MCU nr. 1:  
 Soil Moisture Sensor: Connect analog A0 sensorpin to pin 4 on Heltec and VCC sensorpin to pin 5 on Heltec. Connect GND on sensor to GND on Heltec. We don’t need to plug in the D0 pin because we don’t use that functionality. Because of this we don’t need to adjust the potentiometer either.   
 Alternatively don’t use the module with the potentiometer and wire the sensor as follow: plug one of the wires of the sensor to GND on the Heltec. The other wire from the sensor is plugged through a 10K ohms resistor to pin 5(digital pin that we use as VCC for this sensor) on the Heltec. The pin that reads the analog value is connected between the resistor and the VCC/pin 5 wire. The wire goes to pin 4 on the Heltec.    
-Ultrasonic Distance Sensor (HC-SR04): Connect the trigger pin on the sensor to pin 6 on Heltec and the echo pin on the sensor to pin 7 on Heltec. Connect VCC on sensor to VCC 5V on Heltec. Connect GND on sensor to GND on Heltec. 
-DHT Sensor: Connect data on sensor to pin 8 on Heltec. Connect VCC on sensor to VCC 5V or VCC 3,3V on Heltec. Connect GND on sensor to GND on Heltec.  
+Ultrasonic Distance Sensor (HC-SR04): Connect the trigger pin on the sensor to pin 6 on Heltec and the echo pin on the sensor to pin 7 on Heltec. Connect VCC on sensor to VCC 5V on Heltec. Connect GND on sensor to GND on Heltec.  
+DHT11 Sensor: Connect data on sensor to pin 8 on Heltec. Connect VCC on sensor to VCC 5V or VCC 3,3V on Heltec. Connect GND on sensor to GND on Heltec.  
 MCU nr. 2:  
 Water pressure sensor: Connect the red wire to Vout+ on the boost converter and blue wire to 110 Ohms of resistors. Connect those resistors to Vout- on the boost converter. Connect pin Vin+ to VCC 3.3V and Vin- to ground, then adjust the potentiometer until the converter outputs 24V. Connect a signal wire to a point between the 110 Ohms and the TL-136, then connect that wire to pin 7 on the Heltec.
 Power the Heltec:  
