@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Animated, ScrollView } from 'react-native';
 import { AntDesign, MaterialIcons, Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTheme } from '../themes/ThemeContext';
 import StatusCard from './StatusCard';
@@ -255,7 +255,7 @@ const WorkerStatus = ({ route }) => {
   const currentLocationData = selectedLocation;
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.card }]}>
+    <ScrollView style={[styles.container, { backgroundColor: theme.card }]}>
       <View style={styles.header}>
         <Text style={[styles.title, { color: theme.background }]}>Arbetsstatus</Text>
         
@@ -360,7 +360,7 @@ const WorkerStatus = ({ route }) => {
         status={status}
         getElapsedTime={getElapsedTime}
       />
-    </View>
+    </ScrollView>
   );
 };
 
