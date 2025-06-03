@@ -76,8 +76,7 @@ Alternatively don’t use the module with the potentiometer and wire the sensor 
 
 ###### Ultrasonic Distance Sensor (HC-SR04)
 
-Connect the trigger pin on the sensor to pin 20 on Heltec and the echo pin on the sensor to pin 19 on Heltec. Connect VCC on sensor to VCC 5V on Heltec. Connect GND on sensor to GND on Heltec. 
-DHT Sensor: Connect data on sensor to pin 8 on Heltec. Connect VCC on sensor to VCC 5V or VCC 3,3V on Heltec. Connect GND on sensor to GND on Heltec.  
+Connect the trigger pin on the sensor to pin 20 on Heltec and the echo pin on the sensor to pin 19 on Heltec. Connect VCC on sensor to VCC 5V on Heltec. Connect GND on sensor to GND on Heltec.   
 
 ###### DHT11 Sensor  
 
@@ -147,7 +146,7 @@ If the depth readings are off, start by recording the raw values, given in the S
 
 #### Calibrating Soil moisture sensor (YL-69)
 
-If necessary to get accurate readings, different soil types gives different values. Start by prepare soil samples from the location where the sensor is to be placed, where one sample is completely dry and another which is saturated to the maximum with moisture. See appendix on how to accomplish this. 
+To get accurate readings calibration is necessary, different soil types gives different values. Start by prepare soil samples from the location where the sensor will be placed, where one sample is completely dry and another which is saturated to the maximum with moisture. See appendix on how to accomplish this. 
 
 Put the soil sensor in the completely dried sample first, read the value from the sensor and set `SOIL_SENSOR_VALUE_DRY` in the config file. When this step is completed, put the sensor in the saturated sample and read the value and set `SOIL_SENSOR_VALUE_WET` to the result.   
 
