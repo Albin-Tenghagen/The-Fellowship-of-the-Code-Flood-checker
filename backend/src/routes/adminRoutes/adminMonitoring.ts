@@ -106,14 +106,14 @@ authMonitoringRouter.post(
     };
 
     if (
-      !newEntry.timestamp ||
-      !newEntry.station_id ||
-      !newEntry.soil_moisture_percent ||
-      !newEntry.temperature_c ||
-      !newEntry.humidity_percent ||
-      !newEntry.water_level_pressure_cm ||
-      !newEntry.water_level_ultrasound_cm ||
-      !newEntry.water_level_average_cm
+      newEntry.timestamp === undefined ||
+      newEntry.station_id === undefined ||
+      newEntry.soil_moisture_percent === undefined ||
+      newEntry.temperature_c === undefined ||
+      newEntry.humidity_percent === undefined ||
+      newEntry.water_level_pressure_cm === undefined ||
+      newEntry.water_level_ultrasound_cm === undefined ||
+      newEntry.water_level_average_cm === undefined
     ) {
       res.status(400).json({
         error: "One or more required fields are missing. Please try again.",
