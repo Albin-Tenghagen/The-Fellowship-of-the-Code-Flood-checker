@@ -15,18 +15,21 @@
 #include <WString.h>
 #include <ArduinoJson.h>
 #include <WiFi.h>
+#include <WiFiClientSecure.h>
 
 #include "fellowship_config.h"
 
 namespace fellowshipWiFi
 {
-    static WiFiClient client{};
+    static WiFiClientSecure client{};
+
+    static const char *sslCert = SSL_CERTIFICATE;
 
     static struct Token {
         String token;
         uint64_t validUntil;
     } token;
-
+    
     /**
      * @brief Connects the device to the internet. Uses SSID and PASSPHRASE from secrets.h which is not included by git.
      * 
@@ -77,10 +80,19 @@ namespace fellowshipWiFi
     /**
      * @brief Wait for data to be recieved.
      * 
-     * @param buffer 
+     * @param data Request body
+     * @param headers Request headers 
      * @returns true if succeeded 
      */
-    bool recieveData(String &buffer);
+    bool recieveData(String *data, String *headers);
+
+    /**
+     * @brief Wait for data to be recieved.
+     * 
+     * @param data Request body
+     * @returns true if succeeded 
+     */
+    bool recieveData(String *data);
 
     /**
      * @brief Sends a request to the backend for loggin in.
@@ -91,9 +103,17 @@ namespace fellowshipWiFi
      * @returns true if login succeeded
      * @returns false if login failed
      */
-    // bool sendLoginRequest(const char *host, uint32_t port, String endpoint);
-
+    bool sendLoginRequest(const char *host, uint32_t port, String endpoint, String username, String password, String email);
     
+    /**
+     * @brief Sends a request to the backend for loggin in.
+     * 
+     * @param host The host to send the request to
+     * @param port The port to send the request to
+     * @param endpoint The server endpoint used for authentication / login
+     * @returns true if login succeeded
+     * @returns false if login failed
+     */
     bool sendLoginRequest(IPAddress host, uint32_t port, String endpoint, String username, String password, String email);
 } 
 

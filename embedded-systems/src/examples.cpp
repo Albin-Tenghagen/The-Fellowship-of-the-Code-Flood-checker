@@ -13,7 +13,7 @@ void WiFiExample()
     fellowshipWiFi::sendRequest({192, 168, 8, 169}, 5001, "/admins/authenticated/monitoring/postmonitoring/", "{}", false);
 
     String buffer;
-    fellowshipWiFi::recieveData(buffer);
+    fellowshipWiFi::recieveData(&buffer);
 
     Serial.println(buffer);
 }

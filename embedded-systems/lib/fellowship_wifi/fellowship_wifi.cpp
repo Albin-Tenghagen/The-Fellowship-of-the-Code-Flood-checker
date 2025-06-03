@@ -52,7 +52,7 @@ bool fellowshipWiFi::sendRequest(IPAddress host, uint32_t port, String endpoint,
     std::vector<String> headers;
 
     
-    headers.push_back(String("POST ") + endpoint + String(" HTTP/1.1"));
+    headers.push_back(String("POST https://") + host + endpoint + String(" HTTP/1.1"));
     headers.push_back(String("Host: ") + host.toString());
     headers.push_back(String("User-Agent: Heltec-Board"));
     if (!isLogin) 
@@ -63,6 +63,8 @@ bool fellowshipWiFi::sendRequest(IPAddress host, uint32_t port, String endpoint,
     headers.push_back("");
     headers.push_back(data);
 
+    client.setCACert(sslCert);
+    
     int status = client.connect(host, port);
     if (!status) 
     {
@@ -81,7 +83,7 @@ bool fellowshipWiFi::sendRequest(const char *host, uint32_t port, String endpoin
 {
     std::vector<String> headers;
     
-    headers.push_back(String("POST ") + endpoint + String(" HTTP/1.1"));
+    headers.push_back(String("POST https://") + String(host) + endpoint + String(" HTTP/1.1"));
     headers.push_back(String("Host: ") + String(host));
     headers.push_back(String("User-Agent: Heltec-Board"));
     if (!isLogin) 
@@ -92,6 +94,8 @@ bool fellowshipWiFi::sendRequest(const char *host, uint32_t port, String endpoin
     headers.push_back("");
     headers.push_back(data);
 
+    client.setCACert(sslCert);
+    
     int status = client.connect(host, port);
     if (!status) 
     {
@@ -99,77 +103,87 @@ bool fellowshipWiFi::sendRequest(const char *host, uint32_t port, String endpoin
     }
 
     for (size_t i = 0; i < headers.size(); i++)
-    {
-        client.println(headers.at(i));
+    {   
+        Serial.println(headers.at(i));
+        if (headers.at(i).length() > 1) client.println(headers.at(i).c_str());
+        else client.println();
     }
 
     return true;
 }
 
-bool fellowshipWiFi::recieveData(String &buffer)
+bool fellowshipWiFi::recieveData(String *data, String *headers)
 {
-    if (!client.connected() && !client.available()) return false;
+    if (!client.connected() && !client.available() && data != nullptr) return false;
     
-    buffer = "";
-    while (client.connected() || client.available())
-    {
-        if (client.available())
-        {
-            buffer += client.readString();
+    if (headers != nullptr) 
+        *headers = "";
+    *data = "";
+    
+    while (client.connected()) {
+        String line = client.readStringUntil('\n');
+        if (line == "\r") {
+            break;
         }
+        
+        if (headers != nullptr)
+            *headers += line;
     }
+
+    while (client.available()) {
+        *data = client.readString();
+    }
+
+    client.stop();
 
     return true;
 }
 
+bool fellowshipWiFi::recieveData(String *data)
+{
+    return recieveData(data, nullptr);
+}
 
+bool fellowshipWiFi::sendLoginRequest(const char *host, uint32_t port, String endpoint, String username, String password, String email)
+{
+    String data = "{ \"name\": \"" + username + "\", \"password\": \"" + password + "\", \"email\": \"" + email + "\" }";
+    String headers;
 
-// bool fellowshipWiFi::sendLoginRequest(const char *host, uint32_t port, String endpoint)
-// {
-//     if (credentials.size() == 0)
-//     {
-//         credentials["name"] = BACKEND_USERNAME;
-//         credentials["password"] = BACKEND_PASSWORD;
-//         credentials["email"] = BACKEND_EMAIL;
-//     }
+    token.validUntil = millis() + 36000;
+    sendRequest(host, port, endpoint, data);
 
-//     String msg;
+    if (!recieveData(&data, &headers)) return false;
+    
+    std::vector<String> headerArr(9);
 
-//     serializeJson(credentials, msg);
-//     sendRequest(host, port, endpoint, msg);
+    JsonDocument json;
+    deserializeJson(json, data);
 
-//     recieveData(msg);
+    String token = json["token"].as<String>();
+    Serial.printf("Token: %s\n", token.c_str());
 
-//     Serial.println(msg);
-// }
+    if (!json["token"].is<String>())
+    {
+        Serial.println("Token was not found!");
+        return false;
+    }
+
+    fellowshipWiFi::token.token = token;
+
+    Serial.println(fellowshipWiFi::token.token);
+
+    return true;
+}
 
 bool fellowshipWiFi::sendLoginRequest(IPAddress host, uint32_t port, String endpoint, String username, String password, String email)
 {
     String data = "{ \"name\": \"" + username + "\", \"password\": \"" + password + "\", \"email\": \"" + email + "\" }";
+    String headers;
     
     token.validUntil = millis() + 36000;
     sendRequest(host, port, endpoint, data);
 
-    if (!recieveData(data)) return false;
-    
-    std::vector<String> headerArr(9);
-
-    {
-        String headers = data.substring(0, data.indexOf("\r\n\r\n"));
-    
-        while (headers.length() > 0)
-        {
-            int nextPosition = headers.indexOf("\r\n");
-            Serial.printf("Header: %s\n", headers.substring(0, nextPosition).c_str());
-            headerArr.push_back(headers.substring(0, nextPosition));
-
-            if (nextPosition == -1) 
-                headers = "";
-            headers.remove(0, nextPosition + 2);
-        }
-    }
-
-    data = data.substring(data.indexOf("\r\n\r\n") + 4);
+    if (!recieveData(&data, &headers)) return false;
 
     JsonDocument json;
     deserializeJson(json, data);
@@ -181,7 +195,6 @@ bool fellowshipWiFi::sendLoginRequest(IPAddress host, uint32_t port, String endp
     }
 
     token.token = json["token"].as<const char *>();
-    token.token.trim();
 
     return true;
 }
