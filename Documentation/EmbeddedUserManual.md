@@ -70,27 +70,27 @@ Connect the Sensors according to the circuit diagram:
 
 ###### Soil Moisture Sensor
 
-Connect analog A0 sensorpin to pin 4 on Heltec and VCC sensorpin to pin 5 on Heltec. Connect GND on sensor to GND on Heltec. We don’t need to plug in the D0 pin because we don’t use that functionality. Because of this we don’t need to adjust the potentiometer either.   
+Connect analog A0 sensor pin to pin 7 on Heltec and VCC sensor pin to pin 6 on Heltec. Connect GND on the sensor to GND on the Heltec. We don’t need to plug in the D0 pin because we don’t use that functionality. Because of this we don’t need to adjust the potentiometer either.   
 
-Alternatively don’t use the module with the potentiometer and wire the sensor as follow: plug one of the wires of the sensor to GND on the Heltec. The other wire from the sensor is plugged through a 10K ohms resistor to pin 5 (digital pin that we use as VCC for this sensor) on the Heltec. The pin that reads the analog value is connected between the resistor and the VCC/pin 5 wire. The wire goes to pin 4 on the Heltec.    
+Alternatively don’t use the module with the potentiometer and wire the sensor as follow: plug one of the wires of the sensor to GND on the Heltec. The other wire from the sensor is plugged through a 10K ohms resistor to pin 6 (digital pin that we use as VCC for this sensor) on the Heltec. The pin that reads the analog value is connected between the sensor and the resistor. The wire goes to pin 7 on the Heltec.    
 
 ###### Ultrasonic Distance Sensor (HC-SR04)
 
-Connect the trigger pin on the sensor to pin 6 on Heltec and the echo pin on the sensor to pin 7 on Heltec. Connect VCC on sensor to VCC 5V on Heltec. Connect GND on sensor to GND on Heltec. 
+Connect the trigger pin on the sensor to pin 20 on Heltec and the echo pin on the sensor to pin 19 on Heltec. Connect VCC on sensor to VCC 5V on Heltec. Connect GND on sensor to GND on Heltec. 
 DHT Sensor: Connect data on sensor to pin 8 on Heltec. Connect VCC on sensor to VCC 5V or VCC 3,3V on Heltec. Connect GND on sensor to GND on Heltec.  
 
 ###### DHT11 Sensor  
 
-Connect data on sensor to pin 8 on Heltec. Connect VCC on sensor to VCC 5V or VCC 3,3V on Heltec. Connect GND on sensor to GND on Heltec.  
+Connect data on sensor to pin 5 on Heltec. Connect VCC on sensor to VCC 5V or VCC 3,3V on Heltec. Connect GND on sensor to GND on the Heltec.  
 
 ##### MCU nr. 2
 
 ###### Water pressure sensor
 
-Connect the red wire to Vout+ on the boost converter and blue wire to 110 Ohms of resistors. Connect those resistors to Vout- on the boost converter. Connect pin Vin+ to VCC 3.3V and Vin- to ground, then adjust the potentiometer until the converter outputs 24V. Connect a signal wire to a point between the 110 Ohms and the TL-136, then connect that wire to pin 7 on the Heltec.
+Connect a red wire to Vout+ on the boost converter and a blue/black wire to Vout- on the converter. Connect the other end of the blue/black wire to 110 Ohms of resistors. Connect the other end of those resistors to the black wire of the TL-136. Connect the red wire from the TL-136 to Vout+ on the converter. Next, connect Vin+ to VCC 3.3V on the Heltec and Vin- to ground on the Heltec, then adjust the potentiometer on the converter until the converter outputs 24V. Connect a signal wire to a point between the 110 Ohms and the black wire of the TL-136, then connect that wire to pin 7 on the Heltec.
 
-Power on the Heltec board:  
-Ensure the Heltec is powered through USB or an external power source.  
+#### Power on the Heltec boards:  
+Ensure the Heltecs are powered through USB or an external power source.  
 
 ### Step 2: Installation of required tools
 
