@@ -64,7 +64,10 @@ PlatformIO installed on your computer
 
 #### Hardware Connections  
 
-Connect the Sensors according to the circuit diagram:  
+Connect the Sensors according to the circuit diagram:
+###### MCU nr. 1
+![image](https://github.com/user-attachments/assets/454c8aae-1a2a-43ae-b95e-89819a7008e2)
+
 
 ##### MCU nr. 1 
 
