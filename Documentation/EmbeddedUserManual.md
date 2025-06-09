@@ -66,6 +66,7 @@ PlatformIO installed on your computer
 
 Connect the Sensors according to the circuit diagram:
 ##### MCU nr. 1
+![image](https://github.com/Albin-Tenghagen/The-Fellowship-of-the-Code-Flood-checker/blob/dev/Documentation/Images/MCU1.jpg)
 ![image](https://github.com/user-attachments/assets/454c8aae-1a2a-43ae-b95e-89819a7008e2)
  
 
@@ -84,6 +85,8 @@ Connect the trigger pin on the sensor to pin 20 on Heltec and the echo pin on th
 Connect data on sensor to pin 5 on Heltec. Connect VCC on sensor to VCC 5V or VCC 3,3V on Heltec. Connect GND on sensor to GND on the Heltec.  
 
 ##### MCU nr. 2
+![MCU,2,1/2](https://github.com/Albin-Tenghagen/The-Fellowship-of-the-Code-Flood-checker/blob/dev/Documentation/Images/Waterpressuresensor.jpg)
+![MCU,2,2/2](https://github.com/Albin-Tenghagen/The-Fellowship-of-the-Code-Flood-checker/blob/dev/Documentation/Images/Waterpressuresensor1.jpg)
 ![image](https://github.com/user-attachments/assets/94af34c0-d504-4040-8cf0-69bb97c1b007)
 
 ###### Water pressure sensor
