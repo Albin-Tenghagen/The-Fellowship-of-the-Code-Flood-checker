@@ -12,25 +12,19 @@ The target audience of the product is municipalities which have an interest in m
 
 The product is intended to be partially placed on the rim of a lake such that the pressuresensor is under water and the ultrasound sensor above the surface of the lake. The product will then send data to a backend server which will then serve it to a website.  
 
-### 1.4 Definitions and Abbreviations
 
-### 1.5 Table of Contents
+### 1.4 Table of Contents
 
 - [Requirement specification](#requirement-specification)
   - [1. Introduction](#1-introduction)
     - [1.1 Product Scope](#11-product-scope)
     - [1.2 Target Audience](#12-target-audience)
     - [1.3 Intended Use](#13-intended-use)
-    - [1.4 Definitions and Abbreviations](#14-definitions-and-abbreviations)
-    - [1.5 Table of Contents](#15-table-of-contents)
+    - [1.4 Table of Contents](#15-table-of-contents)
   - [2. System Requirements](#2-system-requirements)
     - [2.1 Functional Requirements](#21-functional-requirements)
     - [2.2 Non-Functional Requirements](#22-non-functional-requirements)
-    - [2.3 Hardware Requirements](#23-hardware-requirements)
-  - [3. External Interface Requirements](#3-external-interface-requirements)
-    - [3.1 User Interface](#31-user-interface)
-    - [3.2 Hardware Interface](#32-hardware-interface)
-    - [3.3 Software Interface](#33-software-interface)
+    
 
 ## 2. System Requirements
 
@@ -63,9 +57,9 @@ The system shall:
 
 - One unit shall communicate with the router while the other router sends data to the first unit.
 
-- If one unit goes down the data shall be sent from the sensor which is still alive.
+- If one of the water level sensors goes down, the other one still sends data. 
 
-- The units shall use the 433.05 MHz band to communicate.
+- The units shall use the 434.00 MHz band to communicate.
 
 ### 2.2 Non-Functional Requirements
 
@@ -73,18 +67,8 @@ The system shall:
 
 -  Use secure, encrypted, communication protocols when communicating to the database
 
-- Use encrypted communication between units.
-
 - be modular (make libraries)
  
-- measure values from sensors every 100 millisecond under 5 seconds, and then pause for 30 minutes and then measure again. 
+- measure values from sensors every 30 minutes.
 
-### 2.3 Hardware Requirements
-
-## 3. External Interface Requirements
-
-### 3.1 User Interface
-
-### 3.2 Hardware Interface
-
-### 3.3 Software Interface
+- measure the values from the water pressure sensor 50 times with 100 milliseconds in between the measuringpoints and then calculates a average value.  
