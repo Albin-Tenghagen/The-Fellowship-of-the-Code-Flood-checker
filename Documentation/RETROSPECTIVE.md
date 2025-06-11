@@ -58,7 +58,7 @@ Vi har använt PlatformIO för programmeringen av hårdvaran och det har fungera
 
 ## Tekniska problem
 
-## Docker fungerade inte alls för en del teammedlemmar, Docker är något som vi inte har fått undervisning vilket ledde till förvirringar kring dess implementering . Dessutom fanns bristande eller obefintlig dokumentation för delar av hårdvaran vilket ställde till det. 
+ Docker fungerade inte alls för en del teammedlemmar, Docker är något som vi inte har fått undervisning vilket ledde till förvirringar kring dess implementering . Dessutom fanns bristande eller obefintlig dokumentation för delar av hårdvaran vilket ställde till det. 
 
 ## Kommunikationsbrister
 
@@ -73,8 +73,7 @@ Eftersom projektet endast var 10 veckor långt, och hårdvaran kom 4 veckor efte
 
 ## Missade eller otydliga krav
 
-Förslag: Kraven på dokumentation under projektet var lite otydliga, det har varit svårt att tyda vad som ska dokumenteras vart.  
-Det skapade en del stressmoment, då det var svårt att veta vad som förväntades av oss som individer men också som helhet(?)
+Kraven på dokumentation under projektet var lite otydliga, det har varit svårt att tyda vad som ska dokumenteras vart. Det skapade en del stressmoment, då det var svårt att veta vad som förväntades av oss som individer men också som helhet
 
 # 4\.  Vad lärde vi oss?
 
