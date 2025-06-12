@@ -29,14 +29,15 @@ This project is a HydroGuard app that helps businesses and organizations monitor
 
 ## 🛠️ Tech Stack
 
-- **Frontend:** React Native, Expo
-- **Backend:** Node.js
-- **Navigation:** Expo Router
-- **Maps:** Google Maps API / Mapbox
-- **Weather Data:** OpenWeatherMap API
-- **Push Notifications:** Firebase Cloud Messaging
+- **Frontend**: React Native, Expo
+- **Navigation**: React Navigation (Stack, Bottom Tabs, Native Stack)
+- **Storage**: AsyncStorage, Expo Secure Store
+- **Maps**: React Native Maps
+- **Location**: Expo Location
+- **Database**: Firebase
+- **UI Components**: React Native Bouncy Checkbox
+- **Updates**: Expo Updates (OTA)
 
-## 📱 Download & Install
 
 ## 🚀 Development Setup
 
@@ -44,6 +45,7 @@ This project is a HydroGuard app that helps businesses and organizations monitor
 
 - Node.js (v16 or higher)
 - Expo CLI
+- Expo Go app (for testing on device)
 - Android Studio (for Android development)
 - Xcode (for iOS development)
 
@@ -74,7 +76,7 @@ npx expo start
 ```
 mobile-app/flood-app/
 |- src/
-│  |- components/          # Reusable UI components
+│  |- components/         # Reusable UI components
 │  |- screens/            # App screens/pages
 │  |- services/           # API calls and external services
 │  |- utils/              # Helper functions
@@ -89,6 +91,7 @@ mobile-app/flood-app/
 
 - Improve the map function adding info to API to fetch/post info
 - Improve arbetsstatus to be able to send info to homescreen where private users can see how the status is going
+- Add proper API with proper right data and not mockdata from firebase
 
 ## 👥 Contributors
 
@@ -98,14 +101,14 @@ mobile-app/flood-app/
       <a href="https://github.com/atfedmis">
         <img src="https://github.com/atfedmis.png" width="100px;" alt="atfedmis"/>
         <br />
-        <sub><b>Albin Tenghagen</b></sub>
+        <sub><b>Federica Misirocchi</b></sub>
       </a>
     </td>
     <td align="center">
       <a href="https://github.com/SandraWeronica">
         <img src="https://github.com/SandraWeronica.png" width="100px;" alt="SandraWeronica"/>
         <br />
-        <sub><b>SandraWeronica</b></sub>
+        <sub><b>Sandra Hellvard</b></sub>
       </a>
     </td>
   </tr>
