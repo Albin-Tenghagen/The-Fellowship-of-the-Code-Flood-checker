@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1001,
+    "timestamp": "18/4-25",
+    "warning": "Det kan förekomma översvämmningar i veckan i detta området, drunkna inte :(",
+    "waterLevel": 124,
+    "RiskAssessment": "lär dig simmma"
+  },
+  {
+    "id": 1002,
+    "timestamp": "19/4-25",
+    "warning": "ingen fara, det är torrt som fasen",
+    "waterLevel": 23,
+    "RiskAssessment": "torka inte ut är du snäll"
+  },
+  {
+    "id": 1003,
+    "timestamp": "20/4-25",
+    "warning": "lite regnigt ba",
+    "waterLevel": 60,
+    "RiskAssessment": "para(ply)"
+  }
+]

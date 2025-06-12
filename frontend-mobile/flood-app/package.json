@@ -1,0 +1,42 @@
+{
+  "name": "flood-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@expo/metro-runtime": "~5.0.4",
+    "@react-native-async-storage/async-storage": "^2.1.2",
+    "@react-navigation/bottom-tabs": "^7.3.10",
+    "@react-navigation/native": "^7.1.6",
+    "@react-navigation/native-stack": "^7.3.12",
+    "@react-navigation/stack": "^7.3.2",
+    "cors": "^2.8.5",
+    "date-fn": "^0.0.2",
+    "date-fns": "^4.1.0",
+    "expo": "^53.0.9",
+    "expo-font": "~13.3.1",
+    "expo-location": "~18.1.5",
+    "expo-secure-store": "~14.2.3",
+    "expo-status-bar": "~2.2.3",
+    "expo-updates": "~0.28.13",
+    "firebase": "^11.8.1",
+    "fs-extra": "^11.3.0",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "react-native": "^0.79.2",
+    "react-native-bouncy-checkbox": "^4.1.2",
+    "react-native-maps": "1.20.1",
+    "react-native-safe-area-context": "5.4.0",
+    "react-native-screens": "~4.10.0",
+    "react-native-web": "^0.20.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.0"
+  },
+  "private": true
+}

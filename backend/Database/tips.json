@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1001,
+    "timestamp": "21:53 11/4-25",
+    "location": "Mätare 1, (Kordinator)",
+    "description": "Det är mycke van ei åen!",
+    "user": "SuperUser"
+  },
+  {
+    "id": 1002,
+    "timestamp": "15:23 21/4-25",
+    "location": "Mätare 2, (Kordinator)",
+    "description": "Det finns inget van ei åen :(",
+    "user": "SuperDuperUser"
+  },
+  {
+    "id": 1003,
+    "timestamp": "13:45 10/4-25",
+    "location": "Mätare 2, (Kordinator)",
+    "description": "Det är BAOTAMÖCKE van ei åen!",
+    "user": "SuperProducer"
+  },
+  {
+    "id": 1004,
+    "timestamp": "09:15 5/3-25",
+    "location": "Mätare 1, (Kordinator)",
+    "description": "Det är mycke van ei SJÖEN!",
+    "user": "SuperHumanUser"
+  }
+]

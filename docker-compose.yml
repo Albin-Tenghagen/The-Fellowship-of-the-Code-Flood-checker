@@ -1,0 +1,37 @@
+version: '3.9'
+services:
+  postgres_db:
+    image: postgres:latest
+    container_name: PostgresCont
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres123
+      - POSTGRES_DB=ccdb
+    ports:
+      - "5433:5432"  # host 5433 → container 5432
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-net
+
+  backend_api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: BackendAPI
+    ports:
+      - "5001:5001"  # expose backend API on 5001
+    environment:
+      - DB_HOST=postgres_db
+      - DB_PORT=5432  # keep this 5432 — because INSIDE docker, Postgres is on 5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres123
+      - DB_NAME=ccdb
+    depends_on:
+      - postgres_db
+    networks:
+      - app-net
+
+networks:
+  app-net:
