@@ -151,7 +151,8 @@ const TipInputCard = ({
         disabled={loading || isSubmitDisabled}
       >
         {loading ? (
-          <ActivityIndicator size="small" color="#fff" />
+          <ActivityIndicator size="small" color="#fff" testID="ActivityIndicator" />
+
         ) : (
           <Text style={styles.submitButtonText}>Skicka in</Text>
         )}
@@ -190,7 +191,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: 6,
     fontWeight: '500',
-  
+
   },
   input: {
     padding: 10,
@@ -198,7 +199,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ddd',
     marginVertical: 10,
-    
+
   },
   textArea: {
     padding: 10,

@@ -17,3 +17,4 @@ describe('TipInputCard', () => {
     expect(getByText('Skicka in')).toBeTruthy();
   });
 });
+
