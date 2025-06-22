@@ -16,6 +16,7 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("janne@kommunhuset.se");
   const [password, setPassword] = useState("janne57");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
 
   const handleSubmit = async () => {
     if (!email || !password) {
@@ -32,7 +33,8 @@ const LoginScreen = ({ navigation }) => {
       }
       await login(result.access_token);
       // navigation.navigate("HomeScreen")
-      navigation.navigate("Home");
+      navigation.navigate("User");
+      setSuccess(true);
       // setError("Något gick fel vid inloggningen");
     } catch (error) {
       console.error("Login error", error);
@@ -65,6 +67,7 @@ const LoginScreen = ({ navigation }) => {
             <View style={styles.wrapper}>
             <Text style={styles.label} accessibilityLabel='header'>Inlogg Admin</Text>
             <TextInput
+              testID='email-input'
               value={email}
               onChangeText={(text) => {
                 setEmail(text);
@@ -78,6 +81,7 @@ const LoginScreen = ({ navigation }) => {
               returnKeyType='done'
             />
             <TextInput
+              testID='password-input'
               value={password}
               onChangeText={(text) => {
                 setPassword(text);
@@ -95,6 +99,7 @@ const LoginScreen = ({ navigation }) => {
             {error ? <Text>{error}</Text> : null}
 
             <AnimatedButton
+              testID='login-button'
               onPress={handleSubmit}
               style={({ pressed }) => [styles.button, pressed && styles.pressed]}
               title="Logga in"
@@ -102,6 +107,9 @@ const LoginScreen = ({ navigation }) => {
               accessibilityLabel='Logga in knapp'
               accessibilityHint='Tryck här för att logga in med deangivna uppgifterna'
             />
+            {success && (
+              <Text>Inloggningen lyckades</Text>
+            )}
             </View>
           </View>
         </View>
